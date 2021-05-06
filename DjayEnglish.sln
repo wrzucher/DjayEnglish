@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.App", "DjayEnglish.App\DjayEnglish.App.csproj", "{C86CABF3-E511-41C6-9E12-141143B8CB76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.App", "DjayEnglish.App\DjayEnglish.App.csproj", "{C86CABF3-E511-41C6-9E12-141143B8CB76}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550-DFCA-4886-A291-E71956DB4858}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550
 		Shared.props = Shared.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Core", "DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Core", "DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Integration.Telegram", "Integration\DjayEnglish.Integration.Telegram\DjayEnglish.Integration.Telegram.csproj", "{9DAB645B-F1E0-4672-AD86-098E20E1CF93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Integration.TelegramApi", "Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj", "{59420068-9CED-4F44-A893-A7573E2AAD96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,10 @@ Global
 		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DAB645B-F1E0-4672-AD86-098E20E1CF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DAB645B-F1E0-4672-AD86-098E20E1CF93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DAB645B-F1E0-4672-AD86-098E20E1CF93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DAB645B-F1E0-4672-AD86-098E20E1CF93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59420068-9CED-4F44-A893-A7573E2AAD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59420068-9CED-4F44-A893-A7573E2AAD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59420068-9CED-4F44-A893-A7573E2AAD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59420068-9CED-4F44-A893-A7573E2AAD96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

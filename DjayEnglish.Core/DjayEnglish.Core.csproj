@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandart2.0</TargetFramework>
+    <TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
   </PropertyGroup>
 
 </Project>

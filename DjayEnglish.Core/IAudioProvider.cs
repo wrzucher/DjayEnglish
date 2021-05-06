@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.App
+namespace DjayEnglish.Core
 {
     using System.IO;
     using System.Threading.Tasks;

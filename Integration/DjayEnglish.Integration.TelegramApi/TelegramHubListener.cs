@@ -4,15 +4,16 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Integration.Telegram
+namespace DjayEnglish.Integration.TelegramApi
 {
     using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using DjayEnglish.Integration.Telegram.ObjectModels;
+    using DjayEnglish.Integration.TelegramApi.ObjectModels;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+    using Telegram.Bot;
     using Telegram.Bot.Exceptions;
     using Telegram.Bot.Extensions.Polling;
     using Telegram.Bot.Types;

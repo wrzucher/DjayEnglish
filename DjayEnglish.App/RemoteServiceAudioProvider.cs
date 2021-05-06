@@ -10,6 +10,7 @@ namespace DjayEnglish.App
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using DjayEnglish.Core;
 
     /// <summary>
     /// Audio provider which used remote service to provide audio information.

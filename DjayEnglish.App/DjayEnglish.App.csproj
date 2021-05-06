@@ -9,4 +9,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DjayEnglish.Core\DjayEnglish.Core.csproj" />
+    <ProjectReference Include="..\Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj" />
+  </ItemGroup>
+
 </Project>

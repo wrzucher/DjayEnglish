@@ -7,6 +7,7 @@
 namespace DjayEnglish.App
 {
     using DjayEnglish.Core;
+    using DjayEnglish.Integration.TelegramApi;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -40,10 +41,14 @@ namespace DjayEnglish.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<TelegramHubListener>();
-            services.AddSingleton<IAudioProvider, RemoteServiceAudioProvider>();
-            services.AddSingleton<QuizeManager>();
+            services.AddSingleton<QuizeManagerEvents>();
+            services.AddScoped<TelegramHubSender>();
+            services.AddScoped<IAudioProvider, RemoteServiceAudioProvider>();
+            services.AddScoped<QuizeManager>();
 
+            services.AddHostedService<CommandQueueService>();
             services.AddHostedService<TelegramHubInitializerService>();
+            services.AddHostedService<CommandProcessingService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
