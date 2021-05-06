@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+
+	<AspNetCoreVervion>5.0.0</AspNetCoreVervion>
+    <PrimaryTargetFramework>net5.0</PrimaryTargetFramework>
+    <TypeScriptToolsPackageVersion>4.1</TypeScriptToolsPackageVersion>
+    
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+  </PropertyGroup>
+</Project>

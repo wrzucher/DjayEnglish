@@ -1,0 +1,31 @@
+<Project>
+  <Import Project="./Shared.props" />
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <VersionPrefix>1.0</VersionPrefix>
+    <VersionSuffix>dev</VersionSuffix>
+	  <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CA2000;CA1062;CA1031</NoWarn>
+    <AnalysisMode>AllDisabledByDefault</AnalysisMode>
+    
+    <CodeAnalysisRuleSet>DjayEnglish.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>$(CodeAnalysisRuleSetDirectories);$(SolutionDir);..;..\..;..\..\..</CodeAnalysisRuleSetDirectories>
+    <RestoreAdditionalProjectSources>
+      https://dotnetfeed.blob.core.windows.net/aspnet-aspnetcore/index.json;
+      $(RestoreAdditionalProjectSources);
+    </RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

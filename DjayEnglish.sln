@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.App", "DjayEnglish.App\DjayEnglish.App.csproj", "{C86CABF3-E511-41C6-9E12-141143B8CB76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550-DFCA-4886-A291-E71956DB4858}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		Readme.md = Readme.md
+		Shared.props = Shared.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Core", "DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BAA1A21-B50A-4235-8BC8-AF40785C4704}
+	EndGlobalSection
+EndGlobal
