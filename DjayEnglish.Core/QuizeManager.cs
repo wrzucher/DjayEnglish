@@ -15,6 +15,18 @@ namespace DjayEnglish.Core
     /// </summary>
     public class QuizeManager
     {
+        private readonly QuizeManagerEvents quizeManagerEvents;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuizeManager"/> class.
+        /// </summary>
+        /// <param name="quizeManagerEvents">Global class with quize manager events.</param>
+        public QuizeManager(
+            QuizeManagerEvents quizeManagerEvents)
+        {
+            this.quizeManagerEvents = quizeManagerEvents ?? throw new ArgumentNullException(nameof(quizeManagerEvents));
+        }
+
         /// <summary>
         /// Start new quize for user.
         /// </summary>
@@ -22,7 +34,9 @@ namespace DjayEnglish.Core
         /// <returns>New quize for user.</returns>
         public Quize StartQuize(long chatId)
         {
-            return this.GetQuize(1) ?? throw new InvalidOperationException();
+            var startedQuize = this.GetQuize(1) ?? throw new InvalidOperationException();
+            this.quizeManagerEvents.NotifyQuizeStarted(chatId, startedQuize);
+            return startedQuize;
         }
 
         /// <summary>
@@ -30,12 +44,11 @@ namespace DjayEnglish.Core
         /// </summary>
         /// <param name="chatId">Chat Id.</param>
         /// <param name="userAnswerkey">User answer key.</param>
-        /// <returns>Information about response on user answer.</returns>
-        public RegisterUserAnswerResponse RegisterUserAnswer(long chatId, string userAnswerkey)
+        public void RegisterUserAnswer(long chatId, string userAnswerkey)
         {
             var quize = this.GetQuize(1) ?? throw new InvalidOperationException();
             var isRightAnswer = quize.IsRightAnswer(userAnswerkey);
-            return new RegisterUserAnswerResponse(isRightAnswer);
+            this.quizeManagerEvents.NotifyUserAnswerResultRecived(chatId, isRightAnswer);
         }
 
         /// <summary>

@@ -1,10 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="TelegramBotInitializerService.cs" company="DjayEnglish">
+// <copyright file="TelegramHubInitializerService.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.App
+namespace DjayEnglish.Integration.Telegram
 {
     using System;
     using System.Threading;
@@ -14,21 +14,21 @@ namespace DjayEnglish.App
     using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// Service class for telegram bot initializing.
+    /// Service class for telegram hub initializing.
     /// </summary>
-    public class TelegramBotInitializerService : IHostedService
+    public class TelegramHubInitializerService : IHostedService
     {
         private readonly IServiceScopeFactory scopeFactory;
-        private readonly ILogger<TelegramBotInitializerService> logger;
+        private readonly ILogger<TelegramHubInitializerService> logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TelegramBotInitializerService"/> class.
+        /// Initializes a new instance of the <see cref="TelegramHubInitializerService"/> class.
         /// </summary>
         /// <param name="scopeFactory">Scope factory for creation of services.</param>
         /// <param name="logger">Logger for use.</param>
-        public TelegramBotInitializerService(
+        public TelegramHubInitializerService(
             IServiceScopeFactory scopeFactory,
-            ILogger<TelegramBotInitializerService> logger)
+            ILogger<TelegramHubInitializerService> logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
@@ -42,7 +42,7 @@ namespace DjayEnglish.App
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             using var scope = this.scopeFactory.CreateScope();
-            var telegramBot = scope.ServiceProvider.GetRequiredService<TelegramBot>();
+            var telegramBot = scope.ServiceProvider.GetRequiredService<TelegramHubListener>();
             await telegramBot.InitializeAsync().ConfigureAwait(false);
         }
 
@@ -54,7 +54,7 @@ namespace DjayEnglish.App
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             using var scope = this.scopeFactory.CreateScope();
-            var telegramBot = scope.ServiceProvider.GetRequiredService<TelegramBot>();
+            var telegramBot = scope.ServiceProvider.GetRequiredService<TelegramHubListener>();
             await telegramBot.StopAsync().ConfigureAwait(false);
         }
     }

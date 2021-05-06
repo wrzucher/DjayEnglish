@@ -39,11 +39,11 @@ namespace DjayEnglish.App
         /// <param name="services">Service collection to use.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<TelegramBot>();
+            services.AddSingleton<TelegramHubListener>();
             services.AddSingleton<IAudioProvider, RemoteServiceAudioProvider>();
             services.AddSingleton<QuizeManager>();
 
-            services.AddHostedService<TelegramBotInitializerService>();
+            services.AddHostedService<TelegramHubInitializerService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

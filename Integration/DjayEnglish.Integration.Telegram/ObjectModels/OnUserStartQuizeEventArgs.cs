@@ -1,0 +1,29 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="OnUserStartQuizeEventArgs.cs" company="DjayEnglish">
+// Copyright (c) DjayEnglish. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace DjayEnglish.Integration.Telegram.ObjectModels
+{
+    /// <summary>
+    /// Event args which contain information quize start.
+    /// </summary>
+    public class OnUserStartQuizeEventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OnUserStartQuizeEventArgs"/> class.
+        /// </summary>
+        /// <param name="chatId">Id of the chat where quize should be started.</param>
+        public OnUserStartQuizeEventArgs(
+            long chatId)
+        {
+            this.ChatId = chatId;
+        }
+
+        /// <summary>
+        /// Gets id of the chat where quize should be started.
+        /// </summary>
+        public long ChatId { get; }
+    }
+}
