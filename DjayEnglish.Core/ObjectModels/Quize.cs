@@ -73,7 +73,7 @@ namespace DjayEnglish.Core.ObjectModels
             var result = string.Empty;
             foreach (var answerOption in this.AnswerOptions)
             {
-                result += $"{answerOption.Key}: {answerOption.Value} \r\n";
+                result += $"{answerOption.Key}: {answerOption.Value.Answer} \r\n";
             }
 
             return result;

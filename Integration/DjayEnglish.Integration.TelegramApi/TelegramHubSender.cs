@@ -82,7 +82,6 @@ namespace DjayEnglish.Integration.TelegramApi
             await this.SendAudioFileAsync(chatId, question, "Question").ConfigureAwait(false);
             await this.SendAudioFileAsync(chatId, examples, "Examples").ConfigureAwait(false);
             await this.SendAudioFileAsync(chatId, answerOptions, "Answer options").ConfigureAwait(false);
-
             await this.SendReplyKeyboard(chatId, showedAnswerOptions).ConfigureAwait(false);
         }
 
@@ -121,7 +120,7 @@ namespace DjayEnglish.Integration.TelegramApi
 
             await this.bot.SendTextMessageAsync(
                 chatId: chatId,
-                text: "Choose",
+                text: "choose the correct answer:",
                 replyMarkup: replyKeyboardMarkup);
         }
     }
