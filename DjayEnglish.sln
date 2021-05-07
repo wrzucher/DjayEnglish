@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Core", "DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Integration.TelegramApi", "Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj", "{59420068-9CED-4F44-A893-A7573E2AAD96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Integration.TelegramApi", "Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj", "{59420068-9CED-4F44-A893-A7573E2AAD96}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DjayEnglish.Database", "Database\DjayEnglish.Database\DjayEnglish.Database.sqlproj", "{A4847981-BAB2-4FDC-982B-A181D6A5952D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,12 @@ Global
 		{59420068-9CED-4F44-A893-A7573E2AAD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59420068-9CED-4F44-A893-A7573E2AAD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59420068-9CED-4F44-A893-A7573E2AAD96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
