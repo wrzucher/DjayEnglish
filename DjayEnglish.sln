@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.App", "Application\DjayEnglish.App\DjayEnglish.App.csproj", "{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.EntityFramework", "QuizeServer\DjayEnglish.EntityFramework\DjayEnglish.EntityFramework.csproj", "{9F39DDA0-1788-443C-BCDA-6E86082C2533}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{59420068-9CED-4F44-A893-A7573E2AAD96} = {188A73E8-F6B8-4996-A55C-B532B02D04C3}
 		{A4847981-BAB2-4FDC-982B-A181D6A5952D} = {D63E727C-79FD-4C3B-A83C-A3CB211AD2D1}
 		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4} = {41FC5023-1CB2-4893-838C-25E517912F33}
+		{9F39DDA0-1788-443C-BCDA-6E86082C2533} = {49479D79-BED1-44F2-8FFF-E37A6BFB31AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BAA1A21-B50A-4235-8BC8-AF40785C4704}
