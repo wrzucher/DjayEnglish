@@ -6,8 +6,8 @@
 
 namespace DjayEnglish.App
 {
-    using DjayEnglish.Core;
     using DjayEnglish.Integration.TelegramApi;
+    using DjayEnglish.Server.Core;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;

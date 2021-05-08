@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Core.ObjectModels
+namespace DjayEnglish.Server.ObjectModels
 {
     /// <summary>
     /// Event args which contain information about started quize.

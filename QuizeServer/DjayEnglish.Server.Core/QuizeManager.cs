@@ -4,11 +4,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Core
+namespace DjayEnglish.Server.Core
 {
     using System;
     using System.Collections.Generic;
-    using DjayEnglish.Core.ObjectModels;
+    using DjayEnglish.Server.ObjectModels;
 
     /// <summary>
     /// Manager which work with quize.

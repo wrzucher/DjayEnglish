@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Core.ObjectModels
+namespace DjayEnglish.Server.ObjectModels
 {
     using System;
     using System.Collections.Generic;

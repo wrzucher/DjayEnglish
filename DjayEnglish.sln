@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550
 		Shared.props = Shared.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Core", "QuizeServer\DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Server.Core", "QuizeServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Integration.TelegramApi", "Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj", "{59420068-9CED-4F44-A893-A7573E2AAD96}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.App", "Application\DjayEnglish.App\DjayEnglish.App.csproj", "{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.EntityFramework", "QuizeServer\DjayEnglish.EntityFramework\DjayEnglish.EntityFramework.csproj", "{9F39DDA0-1788-443C-BCDA-6E86082C2533}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Server.ObjectModels", "QuizeServer\DjayEnglish.Server.ObjectModels\DjayEnglish.Server.ObjectModels.csproj", "{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F39DDA0-1788-443C-BCDA-6E86082C2533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{A4847981-BAB2-4FDC-982B-A181D6A5952D} = {D63E727C-79FD-4C3B-A83C-A3CB211AD2D1}
 		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4} = {41FC5023-1CB2-4893-838C-25E517912F33}
 		{9F39DDA0-1788-443C-BCDA-6E86082C2533} = {49479D79-BED1-44F2-8FFF-E37A6BFB31AC}
+		{96365E5B-66D7-4928-87F3-4B9F8ECC57AC} = {49479D79-BED1-44F2-8FFF-E37A6BFB31AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BAA1A21-B50A-4235-8BC8-AF40785C4704}

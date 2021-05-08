@@ -9,8 +9,8 @@ namespace DjayEnglish.Integration.TelegramApi
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using DjayEnglish.Core;
-    using DjayEnglish.Core.ObjectModels;
+    using DjayEnglish.Server.Core;
+    using DjayEnglish.Server.ObjectModels;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Telegram.Bot;

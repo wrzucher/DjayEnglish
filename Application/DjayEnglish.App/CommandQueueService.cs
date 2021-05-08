@@ -10,10 +10,10 @@ namespace DjayEnglish.App
     using System.Collections.Concurrent;
     using System.Threading;
     using System.Threading.Tasks;
-    using DjayEnglish.Core;
-    using DjayEnglish.Core.ObjectModels;
     using DjayEnglish.Integration.TelegramApi;
     using DjayEnglish.Integration.TelegramApi.ObjectModels;
+    using DjayEnglish.Server.Core;
+    using DjayEnglish.Server.ObjectModels;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
