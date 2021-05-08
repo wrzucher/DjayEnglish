@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.App", "DjayEnglish.App\DjayEnglish.App.csproj", "{C86CABF3-E511-41C6-9E12-141143B8CB76}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550-DFCA-4886-A291-E71956DB4858}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
@@ -13,11 +11,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550
 		Shared.props = Shared.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Core", "DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Core", "QuizeServer\DjayEnglish.Core\DjayEnglish.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Integration.TelegramApi", "Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj", "{59420068-9CED-4F44-A893-A7573E2AAD96}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DjayEnglish.Database", "Database\DjayEnglish.Database\DjayEnglish.Database.sqlproj", "{A4847981-BAB2-4FDC-982B-A181D6A5952D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizeServer", "QuizeServer", "{49479D79-BED1-44F2-8FFF-E37A6BFB31AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{D63E727C-79FD-4C3B-A83C-A3CB211AD2D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{41FC5023-1CB2-4893-838C-25E517912F33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{188A73E8-F6B8-4996-A55C-B532B02D04C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.App", "Application\DjayEnglish.App\DjayEnglish.App.csproj", "{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C86CABF3-E511-41C6-9E12-141143B8CB76}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,9 +47,19 @@ Global
 		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4847981-BAB2-4FDC-982B-A181D6A5952D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8} = {49479D79-BED1-44F2-8FFF-E37A6BFB31AC}
+		{59420068-9CED-4F44-A893-A7573E2AAD96} = {188A73E8-F6B8-4996-A55C-B532B02D04C3}
+		{A4847981-BAB2-4FDC-982B-A181D6A5952D} = {D63E727C-79FD-4C3B-A83C-A3CB211AD2D1}
+		{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4} = {41FC5023-1CB2-4893-838C-25E517912F33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BAA1A21-B50A-4235-8BC8-AF40785C4704}
