@@ -9,8 +9,7 @@
     <ProjectGuid>{a4847981-bab2-4fdc-982b-a181d6a5952d}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
-    <RootPath>
-    </RootPath>
+    <RootPath />
     <RootNamespace>DjayEnglish.Database</RootNamespace>
     <AssemblyName>DjayEnglish.Database</AssemblyName>
     <ModelCollation>1033,CI</ModelCollation>
@@ -50,7 +49,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
@@ -70,6 +68,8 @@
     <Build Include="dbo\Tables\Quizzes.sql" />
     <Build Include="dbo\Tables\QuizeExamples.sql" />
     <Build Include="dbo\Tables\QuizeAnswerOptions.sql" />
+    <Build Include="dbo\Tables\ChatQuizzes.sql" />
+    <Build Include="dbo\Tables\Chats.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />

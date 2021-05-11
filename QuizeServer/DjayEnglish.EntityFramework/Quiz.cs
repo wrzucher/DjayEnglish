@@ -9,6 +9,7 @@ namespace DjayEnglish.EntityFramework
     {
         public Quiz()
         {
+            ChatQuizzes = new HashSet<ChatQuiz>();
             QuizeAnswerOptions = new HashSet<QuizeAnswerOption>();
             QuizeExamples = new HashSet<QuizeExample>();
         }
@@ -21,6 +22,7 @@ namespace DjayEnglish.EntityFramework
         public DateTimeOffset? Closed { get; set; }
 
         public virtual WordDefinition WordDefinition { get; set; }
+        public virtual ICollection<ChatQuiz> ChatQuizzes { get; set; }
         public virtual ICollection<QuizeAnswerOption> QuizeAnswerOptions { get; set; }
         public virtual ICollection<QuizeExample> QuizeExamples { get; set; }
     }

@@ -17,6 +17,8 @@ namespace DjayEnglish.EntityFramework
         {
         }
 
+        public virtual DbSet<Chat> Chats { get; set; }
+        public virtual DbSet<ChatQuiz> ChatQuizzes { get; set; }
         public virtual DbSet<Quiz> Quizzes { get; set; }
         public virtual DbSet<QuizeAnswerOption> QuizeAnswerOptions { get; set; }
         public virtual DbSet<QuizeExample> QuizeExamples { get; set; }
@@ -26,8 +28,39 @@ namespace DjayEnglish.EntityFramework
         public virtual DbSet<WordExample> WordExamples { get; set; }
         public virtual DbSet<WordSynonym> WordSynonyms { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=DjayEnglishDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<Chat>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
+
+            modelBuilder.Entity<ChatQuiz>(entity =>
+            {
+                entity.HasOne(d => d.Chat)
+                    .WithMany(p => p.ChatQuizzes)
+                    .HasForeignKey(d => d.ChatId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ChatQuizzesChatId_ToChats");
+
+                entity.HasOne(d => d.Quize)
+                    .WithMany(p => p.ChatQuizzes)
+                    .HasForeignKey(d => d.QuizeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ChatQuizzesQuizeId_ToQuizes");
+            });
+
             modelBuilder.Entity<Quiz>(entity =>
             {
                 entity.Property(e => e.Question)
