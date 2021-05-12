@@ -4,7 +4,7 @@
     [ChatId]        BIGINT          NOT NULL,
     [Created]       DATETIMEOFFSET  NOT NULL,
     [Closed]        DATETIMEOFFSET  NULL,
-    [QuizeState]    TINYINT         NOT NULL,
+    [State]    TINYINT         NOT NULL,
     CONSTRAINT [FK_ChatQuizzesQuizeId_ToQuizes] FOREIGN KEY (QuizeId) REFERENCES [dbo].Quizzes ([Id]),
     CONSTRAINT [FK_ChatQuizzesChatId_ToChats]   FOREIGN KEY (ChatId)  REFERENCES [dbo].Chats ([Id])
 );
