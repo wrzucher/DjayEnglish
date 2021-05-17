@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DjayEnglish.Server.Core.EntityFrameworkCore\DjayEnglish.Server.Core.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\DjayEnglish.EntityFramework\DjayEnglish.EntityFramework.csproj" />
     <ProjectReference Include="..\DjayEnglish.Server.ObjectModels\DjayEnglish.Server.ObjectModels.csproj" />
   </ItemGroup>
 

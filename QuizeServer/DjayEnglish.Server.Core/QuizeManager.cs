@@ -8,6 +8,7 @@ namespace DjayEnglish.Server.Core
 {
     using System;
     using System.Collections.Generic;
+    using DjayEnglish.Server.Core.EntityFrameworkCore;
     using DjayEnglish.Server.ObjectModels;
 
     /// <summary>
@@ -16,15 +17,19 @@ namespace DjayEnglish.Server.Core
     public class QuizeManager
     {
         private readonly QuizeManagerEvents quizeManagerEvents;
+        private readonly DbQuizePersistence dbQuizePersistence;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QuizeManager"/> class.
         /// </summary>
         /// <param name="quizeManagerEvents">Global class with quize manager events.</param>
+        /// <param name="dbQuizePersistence">Database context for quizzes representation.</param>
         public QuizeManager(
-            QuizeManagerEvents quizeManagerEvents)
+            QuizeManagerEvents quizeManagerEvents,
+            DbQuizePersistence dbQuizePersistence)
         {
             this.quizeManagerEvents = quizeManagerEvents ?? throw new ArgumentNullException(nameof(quizeManagerEvents));
+            this.dbQuizePersistence = dbQuizePersistence ?? throw new ArgumentNullException(nameof(dbQuizePersistence));
         }
 
         /// <summary>
@@ -54,24 +59,11 @@ namespace DjayEnglish.Server.Core
         /// <summary>
         /// Get quize by id.
         /// </summary>
-        /// <param name="quizeId">Id of the quize.</param>
-        /// <returns>Quize if it found.</returns>
+        /// <param name="quizeId">Id of the requested quize.</param>
+        /// <returns>Quize model if it found.</returns>
         public Quize? GetQuize(int quizeId)
         {
-            var quiestion = "What does 'admire' mean?";
-            var exemples = new string[]
-            {
-                "I want a guy I can look up to and admire.",
-                "Most of all, they will admire.",
-                "I cannot help but admire her dignity.",
-            };
-            var answerOptions = new Dictionary<string, AnswerOption>();
-            answerOptions.Add("1", new AnswerOption("To find someone or something attractive and pleasant to look at.", true));
-            answerOptions.Add("2", new AnswerOption("To dislike someone or something very much.", false));
-            answerOptions.Add("3", new AnswerOption("With little or no light.", false));
-            answerOptions.Add("4", new AnswerOption("Nearer to black than white in colour.", false));
-
-            return new Quize(quizeId, quiestion, exemples, answerOptions);
+            return this.dbQuizePersistence.GetQuize(quizeId);
         }
     }
 }

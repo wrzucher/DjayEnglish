@@ -58,9 +58,11 @@ namespace DjayEnglish.Integration.TelegramApi
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task InitializeAsync()
         {
+            var allowedTypes = new UpdateType[] { UpdateType.CallbackQuery, UpdateType.Message };
+
             // StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.
             this.bot.StartReceiving(
-                new DefaultUpdateHandler(this.HandleUpdateAsync, this.HandleErrorAsync));
+                new DefaultUpdateHandler(this.HandleUpdateAsync, this.HandleErrorAsync, allowedTypes));
             return Task.CompletedTask;
         }
 

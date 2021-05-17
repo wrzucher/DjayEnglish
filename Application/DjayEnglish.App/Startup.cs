@@ -6,10 +6,13 @@
 
 namespace DjayEnglish.App
 {
+    using DjayEnglish.EntityFramework;
     using DjayEnglish.Integration.TelegramApi;
     using DjayEnglish.Server.Core;
+    using DjayEnglish.Server.Core.EntityFrameworkCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -40,8 +43,13 @@ namespace DjayEnglish.App
         /// <param name="services">Service collection to use.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = this.Configuration.GetConnectionString("DjayEnglishDb");
+            services.AddDbContext<DjayEnglishDBContext>(
+                options => options.UseSqlServer(connectionString));
+
             services.AddSingleton<TelegramHubListener>();
             services.AddSingleton<QuizeManagerEvents>();
+            services.AddScoped<DbQuizePersistence>();
             services.AddScoped<TelegramHubSender>();
             services.AddScoped<IAudioProvider, RemoteServiceAudioProvider>();
             services.AddScoped<QuizeManager>();
