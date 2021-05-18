@@ -36,9 +36,15 @@ namespace DjayEnglish.Server.Core
         /// Start new quize for user.
         /// </summary>
         /// <param name="chatId">Id of the chat.</param>
+        /// <param name="startedAt">Time when new quize started.</param>
         /// <returns>New quize for user.</returns>
-        public Quize StartQuize(long chatId)
+        public Quize StartQuize(long chatId, DateTimeOffset startedAt)
         {
+            if (this.dbQuizePersistence.IsChatExist(chatId))
+            {
+                this.dbQuizePersistence.RegisterNewChat(chatId);
+            }
+
             var startedQuize = this.GetQuize(1) ?? throw new InvalidOperationException();
             this.quizeManagerEvents.NotifyQuizeStarted(chatId, startedQuize);
             return startedQuize;
