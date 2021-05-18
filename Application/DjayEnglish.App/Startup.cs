@@ -63,6 +63,11 @@ namespace DjayEnglish.App
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DjayEnglish.App", Version = "v1" });
             });
+
+            var builder = services.AddMvc();
+#if DEBUG
+            builder.AddRazorRuntimeCompilation();
+#endif
         }
 
         /// <summary>
@@ -85,6 +90,10 @@ namespace DjayEnglish.App
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

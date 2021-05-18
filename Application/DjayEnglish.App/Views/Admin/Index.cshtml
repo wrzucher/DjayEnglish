@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-4 col mt-3">
+        <div class="card h-100 shadow p-3 mb-2 bg-white rounded">
+            <h4>Аккаунты</h4>
+            <div>
+                <a asp-action="Index" asp-controller="Accounts">Все</a>
+            </div>
+            <div>
+                <a asp-action="Index" asp-controller="Accounts" asp-route-usersRole="Admin">Администраторы</a>
+            </div>
+            <div>
+                <a asp-action="Index" asp-controller="Accounts" asp-route-usersRole="Operator">Операторы</a>
+            </div>
+            <div>
+                <a asp-action="Index" asp-controller="Accounts" asp-route-usersRole="Player">Игроки</a>
+            </div>
+            <div>
+                <a asp-action="Index" asp-controller="Accounts" asp-route-usersRole="Cashier">Кассиры</a>
+            </div>
+            <div>
+                <a asp-action="OnlineClient" asp-controller="Accounts">Онлайн пользователи</a>
+            </div>
+            <div>
+                <a asp-action="Create" asp-controller="Accounts">Создать нового пользователя</a>
+            </div>
+        </div>
+    </div>
+</div>

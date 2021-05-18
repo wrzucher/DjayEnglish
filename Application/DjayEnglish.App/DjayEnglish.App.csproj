@@ -7,11 +7,17 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj" />
     <ProjectReference Include="..\..\QuizeServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\DisplayTemplates\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
 
 </Project>
