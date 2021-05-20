@@ -7,18 +7,15 @@
 namespace LiveSoccer.Administration.Pages
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     /// <summary>
-    /// Game page model.
+    /// Quizzes page model.
     /// </summary>
-    [Authorize("AdminsOnly")]
     internal partial class QuizzesModel : PageModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QuizzesModel"/> class.
-        /// Home controller.
         /// </summary>
         public QuizzesModel()
         {
