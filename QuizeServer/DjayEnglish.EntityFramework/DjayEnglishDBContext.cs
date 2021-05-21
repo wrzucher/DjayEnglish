@@ -27,7 +27,6 @@ namespace DjayEnglish.EntityFramework
         public virtual DbSet<WordDefinition> WordDefinitions { get; set; }
         public virtual DbSet<WordExample> WordExamples { get; set; }
         public virtual DbSet<WordSynonym> WordSynonyms { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -119,7 +118,12 @@ namespace DjayEnglish.EntityFramework
             {
                 entity.Property(e => e.Definition)
                     .IsRequired()
-                    .HasMaxLength(150);
+                    .HasMaxLength(700);
+
+                entity.Property(e => e.SourceName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasDefaultValueSql("('UNKNOWN 1')");
 
                 entity.HasOne(d => d.Word)
                     .WithMany(p => p.WordDefinitions)
@@ -130,6 +134,10 @@ namespace DjayEnglish.EntityFramework
 
             modelBuilder.Entity<WordExample>(entity =>
             {
+                entity.Property(e => e.Example)
+                    .IsRequired()
+                    .HasMaxLength(700);
+
                 entity.HasOne(d => d.WordDefinition)
                     .WithMany(p => p.WordExamples)
                     .HasForeignKey(d => d.WordDefinitionId)

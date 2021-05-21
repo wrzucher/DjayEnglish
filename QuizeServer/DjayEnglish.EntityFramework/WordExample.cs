@@ -14,7 +14,7 @@ namespace DjayEnglish.EntityFramework
 
         public int Id { get; set; }
         public int WordDefinitionId { get; set; }
-        public int Examle { get; set; }
+        public string Example { get; set; }
         public bool IsActive { get; set; }
 
         public virtual WordDefinition WordDefinition { get; set; }

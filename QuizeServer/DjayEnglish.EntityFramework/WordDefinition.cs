@@ -16,6 +16,9 @@ namespace DjayEnglish.EntityFramework
         public int Id { get; set; }
         public int WordId { get; set; }
         public string Definition { get; set; }
+        public bool IsActive { get; set; }
+        public int SourceId { get; set; }
+        public string SourceName { get; set; }
 
         public virtual Word Word { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
