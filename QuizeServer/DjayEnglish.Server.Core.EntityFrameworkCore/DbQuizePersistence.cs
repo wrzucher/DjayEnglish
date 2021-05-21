@@ -9,8 +9,10 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
     using DjayEnglish.EntityFramework;
     using DjayEnglish.Server.ObjectModels;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// Quize persistence.
@@ -18,15 +20,19 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
     public class DbQuizePersistence
     {
         private readonly DjayEnglishDBContext dbContext;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DbQuizePersistence"/> class.
         /// </summary>
         /// <param name="dbContext">Database context to use.</param>
+        /// <param name="mapper">Map entity models to object models.</param>
         public DbQuizePersistence(
-            DjayEnglishDBContext dbContext)
+            DjayEnglishDBContext dbContext,
+            IMapper mapper)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         /// <summary>
@@ -83,24 +89,17 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <summary>
         /// Get quize by id.
         /// </summary>
-        /// <param name="quizeId">Id of the quize.</param>
-        /// <returns>Quize if it found.</returns>
+        /// <param name="quizeId">Id of the requested quize.</param>
+        /// <returns>Quize model if it found in database.</returns>
         public Quize? GetQuize(int quizeId)
         {
-            var quiestion = "What does 'admire' mean?";
-            var exemples = new string[]
-            {
-                "I want a guy I can look up to and admire.",
-                "Most of all, they will admire.",
-                "I cannot help but admire her dignity.",
-            };
-            var answerOptions = new Dictionary<string, AnswerOption>();
-            answerOptions.Add("1", new AnswerOption("To find someone or something attractive and pleasant to look at.", true));
-            answerOptions.Add("2", new AnswerOption("To dislike someone or something very much.", false));
-            answerOptions.Add("3", new AnswerOption("With little or no light.", false));
-            answerOptions.Add("4", new AnswerOption("Nearer to black than white in colour.", false));
-
-            return new Quize(quizeId, quiestion, exemples, answerOptions);
+            var quizeEntity = this.dbContext.Quizzes
+                .Include(_ => _.QuizeAnswerOptions)
+                .Include(_ => _.QuizeExamples)
+                    .ThenInclude(_ => _.WordExample)
+                .FirstOrDefault(_ => _.Id == quizeId);
+            var quizeModel = this.mapper.Map<Quize?>(quizeEntity);
+            return quizeModel;
         }
     }
 }

@@ -6,6 +6,8 @@
 
 namespace DjayEnglish.App
 {
+    using System.Collections.Generic;
+    using AutoMapper;
     using DjayEnglish.EntityFramework;
     using DjayEnglish.Integration.TelegramApi;
     using DjayEnglish.Server.Core;
@@ -43,6 +45,22 @@ namespace DjayEnglish.App
         /// <param name="services">Service collection to use.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Profile, EntityFrameworkMappingProfile>();
+
+            services.AddSingleton<AutoMapper.IConfigurationProvider>(serviceProvider =>
+            {
+                var profiles = serviceProvider.GetRequiredService<IEnumerable<Profile>>();
+                var mappingConfig = new MapperConfiguration(mc =>
+                {
+                    foreach (var profile in profiles)
+                    {
+                        mc.AddProfile(profile);
+                    }
+                });
+                return mappingConfig;
+            });
+            services.AddScoped<IMapper, Mapper>();
+
             var connectionString = this.Configuration.GetConnectionString("DjayEnglishDb");
             services.AddDbContext<DjayEnglishDBContext>(
                 options => options.UseSqlServer(connectionString));

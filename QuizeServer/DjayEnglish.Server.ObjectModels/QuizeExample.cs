@@ -15,18 +15,23 @@ namespace DjayEnglish.Server.ObjectModels
     public partial class QuizeExample
     {
         /// <summary>
-        /// Gets id of quize example.
+        /// Gets or sets id of quize example.
         /// </summary>
-        public int Id { get; }
+        public int Id { get; set; }
 
         /// <summary>
-        /// Gets id of quize to which example related.
+        /// Gets or sets id of quize to which example related.
         /// </summary>
-        public int QuizeId { get; }
+        public int QuizeId { get; set; }
 
         /// <summary>
-        /// Gets id of word example.
+        /// Gets or sets id of word example.
         /// </summary>
-        public int WordExampleId { get; }
+        public int WordExampleId { get; set; }
+
+        /// <summary>
+        /// Gets or sets model of word usage.
+        /// </summary>
+        public WordUsage WordUsage { get; set; } = null!;
     }
 }

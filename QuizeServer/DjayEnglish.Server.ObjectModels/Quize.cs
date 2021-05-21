@@ -16,43 +16,57 @@ namespace DjayEnglish.Server.ObjectModels
     public class Quize
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Quize"/> class.
+        /// Gets or sets id of quize.
         /// </summary>
-        /// <param name="id">Id of quize.</param>
-        /// <param name="question">Text of question.</param>
-        /// <param name="examples">Examples which will be used in question.</param>
-        /// <param name="answerOptions">Answer options.</param>
-        public Quize(
-            int id,
-            string question,
-            string[] examples,
-            Dictionary<string, AnswerOption> answerOptions)
-        {
-            this.Id = id;
-            this.Question = question;
-            this.Examples = examples;
-            this.AnswerOptions = answerOptions;
-        }
+        public int Id { get; set; }
 
         /// <summary>
-        /// Gets id of quize.
+        /// Gets or sets id of word definition which used in quize.
         /// </summary>
-        public int Id { get; }
+        public int WordDefinitionId { get; set; }
 
         /// <summary>
-        /// Gets text of question.
+        /// Gets or sets a value indicating whether quize is active.
         /// </summary>
-        public string Question { get; }
+        public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets answer options.
+        /// Gets or sets a date when quize was created.
         /// </summary>
-        public string[] Examples { get; }
+        public DateTimeOffset Created { get; set; }
+
+        /// <summary>
+        /// Gets or sets a date when quize was closed.
+        /// </summary>
+        public DateTimeOffset? Closed { get; set; }
+
+        /// <summary>
+        /// Gets or sets text of question.
+        /// </summary>
+        public string Question { get; set; } = null!;
 
         /// <summary>
         /// Gets answer options.
         /// </summary>
-        public Dictionary<string, AnswerOption> AnswerOptions { get; }
+        public string[] Examples => this.QuizeExamples.Select(_ => _.WordUsage.Example).ToArray();
+
+        /// <summary>
+        /// Gets answer options which will be showed for user.
+        /// </summary>
+        public Dictionary<string, AnswerOption> AnswerOptions =>
+            this.QuizeAnswerOptions
+                .Select(_ => (_.ShowedKey, new AnswerOption(_.Text, _.IsRightAnswer)))
+                .ToDictionary(x => x.ShowedKey, y => y.Item2);
+
+        /// <summary>
+        /// Gets or sets answer options for quize.
+        /// </summary>
+        public IEnumerable<QuizeAnswerOption> QuizeAnswerOptions { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets using and examples for quize.
+        /// </summary>
+        public IEnumerable<QuizeExample> QuizeExamples { get; set; } = null!;
 
         /// <summary>
         /// Get full quize text.

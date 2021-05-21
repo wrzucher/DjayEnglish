@@ -15,50 +15,28 @@ namespace DjayEnglish.Server.ObjectModels
     public partial class QuizeAnswerOption
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="QuizeAnswerOption"/> class.
+        /// Gets or sets id of the answer option.
         /// </summary>
-        /// <param name="id">Id of answer option.</param>
-        /// <param name="quizeId">Id of quize to which answer option related.</param>
-        /// <param name="showedKey">Showed to user key.</param>
-        /// <param name="text">Text of answer options.</param>
-        /// <param name="isRightAnswer">Indicate that answer options is right.</param>
-        public QuizeAnswerOption(
-            int id,
-            int quizeId,
-            string showedKey,
-            string text,
-            bool isRightAnswer)
-        {
-            this.Id = id;
-            this.QuizeId = quizeId;
-            this.ShowedKey = showedKey;
-            this.Text = text;
-            this.IsRightAnswer = isRightAnswer;
-        }
+        public int Id { get; set; }
 
         /// <summary>
-        /// Gets id of the answer option.
+        /// Gets or sets id of quize to which answer option related.
         /// </summary>
-        public int Id { get; }
+        public int QuizeId { get; set; }
 
         /// <summary>
-        /// Gets id of quize to which answer option related.
+        /// Gets or sets showed to user key.
         /// </summary>
-        public int QuizeId { get; }
+        public string ShowedKey { get; set; } = null!;
 
         /// <summary>
-        /// Gets showed to user key.
+        /// Gets or sets text of answer option.
         /// </summary>
-        public string ShowedKey { get; }
+        public string Text { get; set; } = null!;
 
         /// <summary>
-        /// Gets text of answer option.
+        /// Gets or sets a value indicating whether answer option is right.
         /// </summary>
-        public string Text { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether answer option is right.
-        /// </summary>
-        public bool IsRightAnswer { get; }
+        public bool IsRightAnswer { get; set; }
     }
 }

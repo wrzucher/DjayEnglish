@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
@@ -7,6 +7,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DjayEnglish.EntityFramework\DjayEnglish.EntityFramework.csproj" />
     <ProjectReference Include="..\DjayEnglish.Server.ObjectModels\DjayEnglish.Server.ObjectModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" />
   </ItemGroup>
 
 </Project>
