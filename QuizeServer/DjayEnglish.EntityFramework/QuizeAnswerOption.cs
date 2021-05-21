@@ -9,7 +9,6 @@ namespace DjayEnglish.EntityFramework
     {
         public int Id { get; set; }
         public int QuizeId { get; set; }
-        public string ShowedKey { get; set; }
         public string Text { get; set; }
         public bool IsRightAnswer { get; set; }
 

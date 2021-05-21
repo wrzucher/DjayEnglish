@@ -68,10 +68,6 @@ namespace DjayEnglish.EntityFramework
 
             modelBuilder.Entity<QuizeAnswerOption>(entity =>
             {
-                entity.Property(e => e.ShowedKey)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.Text)
                     .IsRequired()
                     .HasMaxLength(150);
@@ -91,11 +87,11 @@ namespace DjayEnglish.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuizeExamplesQuizeId_ToQuizes");
 
-                entity.HasOne(d => d.WordUsages)
+                entity.HasOne(d => d.WordUsage)
                     .WithMany(p => p.QuizeExamples)
-                    .HasForeignKey(d => d.WordUsagesId)
+                    .HasForeignKey(d => d.WordUsageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizeExamplesWordUsagesId_ToWordUsages");
+                    .HasConstraintName("FK_QuizeExamplesWordUsageId_ToWordUsages");
             });
 
             modelBuilder.Entity<Word>(entity =>
