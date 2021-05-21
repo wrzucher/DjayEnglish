@@ -64,7 +64,7 @@
     <Build Include="dbo\Tables\Words.sql" />
     <Build Include="dbo\Tables\WordSynonyms.sql" />
     <Build Include="dbo\Tables\WordAntonyms.sql" />
-    <Build Include="dbo\Tables\WordExamples.sql" />
+    <Build Include="dbo\Tables\WordUsages.sql" />
     <Build Include="dbo\Tables\Quizzes.sql" />
     <Build Include="dbo\Tables\QuizeExamples.sql" />
     <Build Include="dbo\Tables\QuizeAnswerOptions.sql" />

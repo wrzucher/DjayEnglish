@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace DjayEnglish.EntityFramework
 {
-    public partial class WordExample
+    public partial class WordUsage
     {
-        public WordExample()
+        public WordUsage()
         {
             QuizeExamples = new HashSet<QuizeExample>();
         }

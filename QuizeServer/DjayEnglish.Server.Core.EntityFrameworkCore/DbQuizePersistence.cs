@@ -96,7 +96,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var quizeEntity = this.dbContext.Quizzes
                 .Include(_ => _.QuizeAnswerOptions)
                 .Include(_ => _.QuizeExamples)
-                    .ThenInclude(_ => _.WordExample)
+                    .ThenInclude(_ => _.WordUsages)
                 .FirstOrDefault(_ => _.Id == quizeId);
             var quizeModel = this.mapper.Map<Quize?>(quizeEntity);
             return quizeModel;

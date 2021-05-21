@@ -9,9 +9,9 @@ namespace DjayEnglish.EntityFramework
     {
         public int Id { get; set; }
         public int QuizeId { get; set; }
-        public int WordExampleId { get; set; }
+        public int WordUsagesId { get; set; }
 
         public virtual Quiz Quize { get; set; }
-        public virtual WordExample WordExample { get; set; }
+        public virtual WordUsage WordUsages { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace DjayEnglish.EntityFramework
         public WordDefinition()
         {
             Quizzes = new HashSet<Quiz>();
-            WordExamples = new HashSet<WordExample>();
+            WordUsages = new HashSet<WordUsage>();
         }
 
         public int Id { get; set; }
@@ -22,6 +22,6 @@ namespace DjayEnglish.EntityFramework
 
         public virtual Word Word { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
-        public virtual ICollection<WordExample> WordExamples { get; set; }
+        public virtual ICollection<WordUsage> WordUsages { get; set; }
     }
 }

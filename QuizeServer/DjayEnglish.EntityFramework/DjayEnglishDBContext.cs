@@ -25,8 +25,9 @@ namespace DjayEnglish.EntityFramework
         public virtual DbSet<Word> Words { get; set; }
         public virtual DbSet<WordAntonym> WordAntonyms { get; set; }
         public virtual DbSet<WordDefinition> WordDefinitions { get; set; }
-        public virtual DbSet<WordExample> WordExamples { get; set; }
         public virtual DbSet<WordSynonym> WordSynonyms { get; set; }
+        public virtual DbSet<WordUsage> WordUsages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -90,11 +91,11 @@ namespace DjayEnglish.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuizeExamplesQuizeId_ToQuizes");
 
-                entity.HasOne(d => d.WordExample)
+                entity.HasOne(d => d.WordUsages)
                     .WithMany(p => p.QuizeExamples)
-                    .HasForeignKey(d => d.WordExampleId)
+                    .HasForeignKey(d => d.WordUsagesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizeExamplesWordExampleId_ToWordExamples");
+                    .HasConstraintName("FK_QuizeExamplesWordUsagesId_ToWordUsages");
             });
 
             modelBuilder.Entity<Word>(entity =>
@@ -132,19 +133,6 @@ namespace DjayEnglish.EntityFramework
                     .HasConstraintName("FK_WordDefinitionsWordId_ToWords");
             });
 
-            modelBuilder.Entity<WordExample>(entity =>
-            {
-                entity.Property(e => e.Example)
-                    .IsRequired()
-                    .HasMaxLength(700);
-
-                entity.HasOne(d => d.WordDefinition)
-                    .WithMany(p => p.WordExamples)
-                    .HasForeignKey(d => d.WordDefinitionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WordExamplesWordDefinitionId_ToWordDefinitions");
-            });
-
             modelBuilder.Entity<WordSynonym>(entity =>
             {
                 entity.HasOne(d => d.SynonymWord)
@@ -158,6 +146,19 @@ namespace DjayEnglish.EntityFramework
                     .HasForeignKey(d => d.WordId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_WordSynonymsWordId_ToWords");
+            });
+
+            modelBuilder.Entity<WordUsage>(entity =>
+            {
+                entity.Property(e => e.Example)
+                    .IsRequired()
+                    .HasMaxLength(700);
+
+                entity.HasOne(d => d.WordDefinition)
+                    .WithMany(p => p.WordUsages)
+                    .HasForeignKey(d => d.WordDefinitionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WordUsagesWordDefinitionId_ToWordDefinitions");
             });
 
             OnModelCreatingPartial(modelBuilder);
