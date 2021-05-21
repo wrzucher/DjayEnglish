@@ -9,7 +9,7 @@ namespace DjayEnglish.EntityFramework
     {
         public WordUsage()
         {
-            QuizeExamples = new HashSet<QuizeExample>();
+            QuizExamples = new HashSet<QuizExample>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace DjayEnglish.EntityFramework
         public bool IsActive { get; set; }
 
         public virtual WordDefinition WordDefinition { get; set; }
-        public virtual ICollection<QuizeExample> QuizeExamples { get; set; }
+        public virtual ICollection<QuizExample> QuizExamples { get; set; }
     }
 }

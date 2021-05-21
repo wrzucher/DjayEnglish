@@ -72,12 +72,12 @@ namespace DjayEnglish.Integration.TelegramApi
         /// <param name="chatId">Id of the user chat.</param>
         /// <param name="quiz">Model with information about quiz.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task SendQuizeAsync(long chatId, Quiz quiz)
+        public async Task SendQuizAsync(long chatId, Quiz quiz)
         {
-            var question = quiz.GetQuizeText();
+            var question = quiz.GetQuizText();
             var examples = quiz.GetExamplesText();
             var answerOptions = quiz.GetAnswerOptionsText();
-            var showedAnswerOptions = quiz.GetShowedQuizeAnswerOptions();
+            var showedAnswerOptions = quiz.GetShowedQuizAnswerOptions();
 
             await this.SendAudioFileAsync(chatId, question, "Question").ConfigureAwait(false);
             await this.SendAudioFileAsync(chatId, examples, "Examples").ConfigureAwait(false);

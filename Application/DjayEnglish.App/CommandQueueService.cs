@@ -37,7 +37,7 @@ namespace DjayEnglish.App
         /// <summary>
         /// Gets queue with start quiz command which need to process.
         /// </summary>
-        public static ConcurrentQueue<OnUserStartQuizeEventArgs> StartQuizeQueue { get; } = new ConcurrentQueue<OnUserStartQuizeEventArgs>();
+        public static ConcurrentQueue<OnUserStartQuizEventArgs> StartQuizQueue { get; } = new ConcurrentQueue<OnUserStartQuizEventArgs>();
 
         /// <summary>
         /// Gets queue with answer which need to process.
@@ -47,7 +47,7 @@ namespace DjayEnglish.App
         /// <summary>
         /// Gets queue with started quiz which need to process.
         /// </summary>
-        public static ConcurrentQueue<OnQuizStartedEventArgs> QuizeStartedQueue { get; } = new ConcurrentQueue<OnQuizStartedEventArgs>();
+        public static ConcurrentQueue<OnQuizStartedEventArgs> QuizStartedQueue { get; } = new ConcurrentQueue<OnQuizStartedEventArgs>();
 
         /// <summary>
         /// Gets queue with answer result which need to process.
@@ -64,9 +64,9 @@ namespace DjayEnglish.App
             using var scope = this.scopeFactory.CreateScope();
             var telegramHubListener = scope.ServiceProvider.GetRequiredService<TelegramHubListener>();
             telegramHubListener.OnAnswerRecived += this.AnswerRecived;
-            telegramHubListener.OnQuizeStart += this.QuizeStart;
+            telegramHubListener.OnQuizStart += this.QuizStart;
             var quizManagerEvents = scope.ServiceProvider.GetRequiredService<QuizManagerEvents>();
-            quizManagerEvents.OnQuizStarted += this.QuizeStarted;
+            quizManagerEvents.OnQuizStarted += this.QuizStarted;
             quizManagerEvents.OnUserAnswerResultRecived += this.AnswerResultRecived;
             return Task.CompletedTask;
         }
@@ -81,9 +81,9 @@ namespace DjayEnglish.App
             return Task.CompletedTask;
         }
 
-        private void QuizeStarted(object? sender, OnQuizStartedEventArgs eventArgs)
+        private void QuizStarted(object? sender, OnQuizStartedEventArgs eventArgs)
         {
-            QuizeStartedQueue.Enqueue(eventArgs);
+            QuizStartedQueue.Enqueue(eventArgs);
         }
 
         private void AnswerResultRecived(object? sender, OnUserAnswerResultEventArgs eventArgs)
@@ -96,9 +96,9 @@ namespace DjayEnglish.App
             AnswerRecivedQueue.Enqueue(eventArgs);
         }
 
-        private void QuizeStart(object? sender, OnUserStartQuizeEventArgs eventArgs)
+        private void QuizStart(object? sender, OnUserStartQuizEventArgs eventArgs)
         {
-            StartQuizeQueue.Enqueue(eventArgs);
+            StartQuizQueue.Enqueue(eventArgs);
         }
     }
 }

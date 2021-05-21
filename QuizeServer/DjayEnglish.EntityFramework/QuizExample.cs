@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace DjayEnglish.EntityFramework
 {
-    public partial class QuizeExample
+    public partial class QuizExample
     {
         public int Id { get; set; }
-        public int QuizeId { get; set; }
+        public int QuizId { get; set; }
         public int WordUsageId { get; set; }
 
-        public virtual Quiz Quize { get; set; }
+        public virtual Quiz Quiz { get; set; }
         public virtual WordUsage WordUsage { get; set; }
     }
 }

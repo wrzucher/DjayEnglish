@@ -20,8 +20,8 @@ namespace DjayEnglish.EntityFramework
         public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<ChatQuiz> ChatQuizzes { get; set; }
         public virtual DbSet<Quiz> Quizzes { get; set; }
-        public virtual DbSet<QuizeAnswerOption> QuizeAnswerOptions { get; set; }
-        public virtual DbSet<QuizeExample> QuizeExamples { get; set; }
+        public virtual DbSet<QuizAnswerOption> QuizAnswerOptions { get; set; }
+        public virtual DbSet<QuizExample> QuizExamples { get; set; }
         public virtual DbSet<Word> Words { get; set; }
         public virtual DbSet<WordAntonym> WordAntonyms { get; set; }
         public virtual DbSet<WordDefinition> WordDefinitions { get; set; }
@@ -45,11 +45,11 @@ namespace DjayEnglish.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ChatQuizzesChatId_ToChats");
 
-                entity.HasOne(d => d.Quize)
+                entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.ChatQuizzes)
-                    .HasForeignKey(d => d.QuizeId)
+                    .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ChatQuizzesQuizeId_ToQuizes");
+                    .HasConstraintName("FK_ChatQuizzesQuizId_ToQuizzes");
             });
 
             modelBuilder.Entity<Quiz>(entity =>
@@ -66,32 +66,32 @@ namespace DjayEnglish.EntityFramework
                     .HasConstraintName("FK_QuizzesWordDefinitionId_ToWordDefinitions");
             });
 
-            modelBuilder.Entity<QuizeAnswerOption>(entity =>
+            modelBuilder.Entity<QuizAnswerOption>(entity =>
             {
                 entity.Property(e => e.Text)
                     .IsRequired()
                     .HasMaxLength(150);
 
-                entity.HasOne(d => d.Quize)
-                    .WithMany(p => p.QuizeAnswerOptions)
-                    .HasForeignKey(d => d.QuizeId)
+                entity.HasOne(d => d.Quiz)
+                    .WithMany(p => p.QuizAnswerOptions)
+                    .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizeAnswerOptionsQuizeId_ToQuizes");
+                    .HasConstraintName("FK_QuizAnswerOptionsQuizId_ToQuizes");
             });
 
-            modelBuilder.Entity<QuizeExample>(entity =>
+            modelBuilder.Entity<QuizExample>(entity =>
             {
-                entity.HasOne(d => d.Quize)
-                    .WithMany(p => p.QuizeExamples)
-                    .HasForeignKey(d => d.QuizeId)
+                entity.HasOne(d => d.Quiz)
+                    .WithMany(p => p.QuizExamples)
+                    .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizeExamplesQuizeId_ToQuizes");
+                    .HasConstraintName("FK_QuizExamplesQuizId_ToQuizes");
 
                 entity.HasOne(d => d.WordUsage)
-                    .WithMany(p => p.QuizeExamples)
+                    .WithMany(p => p.QuizExamples)
                     .HasForeignKey(d => d.WordUsageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizeExamplesWordUsageId_ToWordUsages");
+                    .HasConstraintName("FK_QuizExamplesWordUsageId_ToWordUsages");
             });
 
             modelBuilder.Entity<Word>(entity =>

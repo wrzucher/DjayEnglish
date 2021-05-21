@@ -68,7 +68,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="quizId">Id of the quiz which will be added to chat.</param>
         /// <param name="created">Date when quiz added to chat.</param>
         /// <returns>Model of chat quiz.</returns>
-        public ChatQuiz AddQuizeToChat(
+        public ChatQuiz AddQuizToChat(
             long chatId,
             int quizId,
             DateTimeOffset created)
@@ -76,7 +76,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var newChatQuiz = new ChatQuiz()
             {
                 ChatId = chatId,
-                QuizeId = quizId,
+                QuizId = quizId,
                 State = (byte)ChatQuizState.IsActive,
                 Created = created,
             };
@@ -94,8 +94,8 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         public ObjectModels.Quiz? GetQuiz(int quizId)
         {
             var quizEntity = this.dbContext.Quizzes
-                .Include(_ => _.QuizeAnswerOptions)
-                .Include(_ => _.QuizeExamples)
+                .Include(_ => _.QuizAnswerOptions)
+                .Include(_ => _.QuizExamples)
                     .ThenInclude(_ => _.WordUsage)
                 .FirstOrDefault(_ => _.Id == quizId);
             var quizModel = this.mapper.Map<ObjectModels.Quiz?>(quizEntity);
@@ -115,8 +115,8 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             bool? isActive)
         {
             var quizzesEntity = this.dbContext.Quizzes
-                .Include(_ => _.QuizeAnswerOptions)
-                .Include(_ => _.QuizeExamples)
+                .Include(_ => _.QuizAnswerOptions)
+                .Include(_ => _.QuizExamples)
                     .ThenInclude(_ => _.WordUsage)
                 .Where(_ => _.Created >= fromDate && _.Created <= toDate);
             if (isActive != null)

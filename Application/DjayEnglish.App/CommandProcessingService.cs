@@ -28,7 +28,7 @@ namespace DjayEnglish.App
         /// <summary>
         /// Timer which process start quiz start command.
         /// </summary>
-        private Timer? processStartQuizeQueueTimer;
+        private Timer? processStartQuizQueueTimer;
 
         /// <summary>
         /// Timer which process answer recived command.
@@ -38,7 +38,7 @@ namespace DjayEnglish.App
         /// <summary>
         /// Timer which process quiz started command.
         /// </summary>
-        private Timer? processQuizeStartedQueueTimer;
+        private Timer? processQuizStartedQueueTimer;
 
         /// <summary>
         /// Timer which process answer result command.
@@ -65,8 +65,8 @@ namespace DjayEnglish.App
         /// <returns>A representing the asynchronous operation.</returns>
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            this.processStartQuizeQueueTimer = new Timer(
-                this.ProcessStartQuizeQueue,
+            this.processStartQuizQueueTimer = new Timer(
+                this.ProcessStartQuizQueue,
                 null,
                 TimeSpan.Zero,
                 TimeSpan.FromSeconds(1));
@@ -75,8 +75,8 @@ namespace DjayEnglish.App
                 null,
                 TimeSpan.Zero,
                 TimeSpan.FromSeconds(1));
-            this.processQuizeStartedQueueTimer = new Timer(
-                this.ProcessQuizeStartedQueue,
+            this.processQuizStartedQueueTimer = new Timer(
+                this.ProcessQuizStartedQueue,
                 null,
                 TimeSpan.Zero,
                 TimeSpan.FromSeconds(1));
@@ -95,27 +95,27 @@ namespace DjayEnglish.App
         /// <returns>A representing the asynchronous operation.</returns>
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            this.processStartQuizeQueueTimer?.Change(Timeout.Infinite, 0);
+            this.processStartQuizQueueTimer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
 
-        private async void ProcessStartQuizeQueue(object? state)
+        private async void ProcessStartQuizQueue(object? state)
         {
             try
             {
                 do
                 {
-                    var betPeek = CommandQueueService.StartQuizeQueue.TryDequeue(out var startQuizeEventArgs);
-                    if (betPeek && startQuizeEventArgs != null)
+                    var betPeek = CommandQueueService.StartQuizQueue.TryDequeue(out var startQuizEventArgs);
+                    if (betPeek && startQuizEventArgs != null)
                     {
-                        await this.ProcessStartQuize(startQuizeEventArgs);
+                        await this.ProcessStartQuiz(startQuizEventArgs);
                     }
                 }
-                while (!CommandQueueService.StartQuizeQueue.IsEmpty);
+                while (!CommandQueueService.StartQuizQueue.IsEmpty);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizeQueue)}");
+                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizQueue)}");
             }
         }
 
@@ -135,27 +135,27 @@ namespace DjayEnglish.App
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizeQueue)}");
+                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizQueue)}");
             }
         }
 
-        private async void ProcessQuizeStartedQueue(object? state)
+        private async void ProcessQuizStartedQueue(object? state)
         {
             try
             {
                 do
                 {
-                    var betPeek = CommandQueueService.QuizeStartedQueue.TryDequeue(out var quizStartedEventArgs);
+                    var betPeek = CommandQueueService.QuizStartedQueue.TryDequeue(out var quizStartedEventArgs);
                     if (betPeek && quizStartedEventArgs != null)
                     {
-                        await this.ProcessQuizeStarted(quizStartedEventArgs);
+                        await this.ProcessQuizStarted(quizStartedEventArgs);
                     }
                 }
-                while (!CommandQueueService.QuizeStartedQueue.IsEmpty);
+                while (!CommandQueueService.QuizStartedQueue.IsEmpty);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizeQueue)}");
+                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizQueue)}");
             }
         }
 
@@ -175,11 +175,11 @@ namespace DjayEnglish.App
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizeQueue)}");
+                this.logger.LogError(ex, $"Error occured {nameof(this.ProcessStartQuizQueue)}");
             }
         }
 
-        private Task ProcessStartQuize(OnUserStartQuizeEventArgs eventArgs)
+        private Task ProcessStartQuiz(OnUserStartQuizEventArgs eventArgs)
         {
             using var scope = this.scopeFactory.CreateScope();
             var quizManager = scope.ServiceProvider.GetRequiredService<QuizManager>();
@@ -195,11 +195,11 @@ namespace DjayEnglish.App
             return Task.CompletedTask;
         }
 
-        private async Task ProcessQuizeStarted(OnQuizStartedEventArgs eventArgs)
+        private async Task ProcessQuizStarted(OnQuizStartedEventArgs eventArgs)
         {
             using var scope = this.scopeFactory.CreateScope();
             var telegramHubSender = scope.ServiceProvider.GetRequiredService<TelegramHubSender>();
-            await telegramHubSender.SendQuizeAsync(eventArgs.ChatId, eventArgs.Quiz).ConfigureAwait(false);
+            await telegramHubSender.SendQuizAsync(eventArgs.ChatId, eventArgs.Quiz).ConfigureAwait(false);
         }
 
         private async Task ProcessAnswerResult(OnUserAnswerResultEventArgs eventArgs)

@@ -48,23 +48,23 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Gets answer options.
         /// </summary>
-        public string[] Examples => this.QuizeExamples.Select(_ => _.WordUsage.Example).ToArray();
+        public string[] Examples => this.QuizExamples.Select(_ => _.WordUsage.Example).ToArray();
 
         /// <summary>
         /// Gets or sets answer options for quiz.
         /// </summary>
-        public IEnumerable<QuizAnswerOption> QuizeAnswerOptions { get; set; } = null!;
+        public IEnumerable<QuizAnswerOption> QuizAnswerOptions { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets using and examples for quiz.
         /// </summary>
-        public IEnumerable<QuizExample> QuizeExamples { get; set; } = null!;
+        public IEnumerable<QuizExample> QuizExamples { get; set; } = null!;
 
         /// <summary>
         /// Get full quiz text.
         /// </summary>
         /// <returns>Full quiz text.</returns>
-        public string GetQuizeText()
+        public string GetQuizText()
         {
             var result = $"{this.Question}.";
             return result;
@@ -78,7 +78,7 @@ namespace DjayEnglish.Server.ObjectModels
         {
             var result = string.Empty;
             var index = 1;
-            foreach (var answerOption in this.QuizeAnswerOptions)
+            foreach (var answerOption in this.QuizAnswerOptions)
             {
                 result += $"{index}: {answerOption.Text} \r\n";
                 index++;
@@ -111,9 +111,9 @@ namespace DjayEnglish.Server.ObjectModels
         /// Get showed to user quiz answer options.
         /// </summary>
         /// <returns>Collection of showed answer options.</returns>
-        public string[] GetShowedQuizeAnswerOptions()
+        public string[] GetShowedQuizAnswerOptions()
         {
-            return Enumerable.Range(1, this.QuizeAnswerOptions.Count()).Select(_ => _.ToString()).ToArray();
+            return Enumerable.Range(1, this.QuizAnswerOptions.Count()).Select(_ => _.ToString()).ToArray();
         }
 
         /// <summary>
@@ -128,15 +128,15 @@ namespace DjayEnglish.Server.ObjectModels
                 return false;
             }
 
-            if (answerKey < 1 && answerKey > this.QuizeAnswerOptions.Count())
+            if (answerKey < 1 && answerKey > this.QuizAnswerOptions.Count())
             {
                 return false;
             }
 
-            var answerOption = this.QuizeAnswerOptions.ElementAt(answerKey - 1);
+            var answerOption = this.QuizAnswerOptions.ElementAt(answerKey - 1);
             if (answerOption == null)
             {
-                throw new InvalidOperationException($"Answer option couldn't be null. Quizeid {this.Id}, UserAnswerKey {userAnswerKey}");
+                throw new InvalidOperationException($"Answer option couldn't be null. Quiz id {this.Id}, UserAnswerKey {userAnswerKey}");
             }
 
             return answerOption.IsRightAnswer;

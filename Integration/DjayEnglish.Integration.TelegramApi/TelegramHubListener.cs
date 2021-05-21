@@ -45,7 +45,7 @@ namespace DjayEnglish.Integration.TelegramApi
         /// <summary>
         /// Notify all listeners subscribed that quiz should be started.
         /// </summary>
-        public event EventHandler<OnUserStartQuizeEventArgs>? OnQuizeStart;
+        public event EventHandler<OnUserStartQuizEventArgs>? OnQuizStart;
 
         /// <summary>
         /// Notify all listeners subscribed that user answer recived.
@@ -107,7 +107,7 @@ namespace DjayEnglish.Integration.TelegramApi
             var action = message.Text.Split(' ').First();
             switch (action)
             {
-                case "/quiz": this.OnQuizeStart?.Invoke(this, new OnUserStartQuizeEventArgs(chatId));
+                case "/quiz": this.OnQuizStart?.Invoke(this, new OnUserStartQuizEventArgs(chatId));
                     return;
             }
 
