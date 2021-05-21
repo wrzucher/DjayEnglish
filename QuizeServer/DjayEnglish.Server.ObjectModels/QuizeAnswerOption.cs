@@ -25,11 +25,6 @@ namespace DjayEnglish.Server.ObjectModels
         public int QuizeId { get; set; }
 
         /// <summary>
-        /// Gets or sets showed to user key.
-        /// </summary>
-        public string ShowedKey { get; set; } = null!;
-
-        /// <summary>
         /// Gets or sets text of answer option.
         /// </summary>
         public string Text { get; set; } = null!;

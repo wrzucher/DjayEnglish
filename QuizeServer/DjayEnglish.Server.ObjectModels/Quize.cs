@@ -51,14 +51,6 @@ namespace DjayEnglish.Server.ObjectModels
         public string[] Examples => this.QuizeExamples.Select(_ => _.WordUsage.Example).ToArray();
 
         /// <summary>
-        /// Gets answer options which will be showed for user.
-        /// </summary>
-        public Dictionary<string, AnswerOption> AnswerOptions =>
-            this.QuizeAnswerOptions
-                .Select(_ => (_.ShowedKey, new AnswerOption(_.Text, _.IsRightAnswer)))
-                .ToDictionary(x => x.ShowedKey, y => y.Item2);
-
-        /// <summary>
         /// Gets or sets answer options for quize.
         /// </summary>
         public IEnumerable<QuizeAnswerOption> QuizeAnswerOptions { get; set; } = null!;
@@ -85,9 +77,11 @@ namespace DjayEnglish.Server.ObjectModels
         public string GetAnswerOptionsText()
         {
             var result = string.Empty;
-            foreach (var answerOption in this.AnswerOptions)
+            var index = 1;
+            foreach (var answerOption in this.QuizeAnswerOptions)
             {
-                result += $"{answerOption.Key}: {answerOption.Value.Answer} \r\n";
+                result += $"{index}: {answerOption.Text} \r\n";
+                index++;
             }
 
             return result;
@@ -119,7 +113,7 @@ namespace DjayEnglish.Server.ObjectModels
         /// <returns>Collection of showed answer options.</returns>
         public string[] GetShowedQuizeAnswerOptions()
         {
-            return this.AnswerOptions.Keys.ToArray();
+            return Enumerable.Range(1, this.QuizeAnswerOptions.Count()).Select(_ => _.ToString()).ToArray();
         }
 
         /// <summary>
@@ -129,18 +123,23 @@ namespace DjayEnglish.Server.ObjectModels
         /// <returns>Result of user answer.</returns>
         public bool IsRightAnswer(string userAnswerKey)
         {
-            var answerExist = this.AnswerOptions.TryGetValue(userAnswerKey, out var answerOption);
-            if (!answerExist)
+            if (!int.TryParse(userAnswerKey, out var answerKey))
             {
                 return false;
             }
 
+            if (answerKey < 1 && answerKey > this.QuizeAnswerOptions.Count())
+            {
+                return false;
+            }
+
+            var answerOption = this.QuizeAnswerOptions.ElementAt(answerKey - 1);
             if (answerOption == null)
             {
                 throw new InvalidOperationException($"Answer option couldn't be null. Quizeid {this.Id}, UserAnswerKey {userAnswerKey}");
             }
 
-            return answerOption.IsRight;
+            return answerOption.IsRightAnswer;
         }
     }
 }
