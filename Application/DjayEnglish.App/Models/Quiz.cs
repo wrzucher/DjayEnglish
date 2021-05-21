@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Quize.cs" company="DjayEnglish">
+// <copyright file="Quiz.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,32 +11,32 @@ namespace DjayEnglish.Administration.Models
     using System.Linq;
 
     /// <summary>
-    /// Object model which contain information about quize.
+    /// Object model which contain information about quiz.
     /// </summary>
-    public class Quize
+    public class Quiz
     {
         /// <summary>
-        /// Gets or sets id of quize.
+        /// Gets or sets id of quiz.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets id of word definition which used in quize.
+        /// Gets or sets id of word definition which used in quiz.
         /// </summary>
         public int WordDefinitionId { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether quize is active.
+        /// Gets or sets a value indicating whether quiz is active.
         /// </summary>
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets or sets a date when quize was created.
+        /// Gets or sets a date when quiz was created.
         /// </summary>
         public DateTimeOffset Created { get; set; }
 
         /// <summary>
-        /// Gets or sets a date when quize was closed.
+        /// Gets or sets a date when quiz was closed.
         /// </summary>
         public DateTimeOffset? Closed { get; set; }
 
@@ -46,13 +46,13 @@ namespace DjayEnglish.Administration.Models
         public string Question { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets answer options for quize.
+        /// Gets or sets answer options for quiz.
         /// </summary>
-        public IEnumerable<QuizeAnswerOption> QuizeAnswerOptions { get; set; } = null!;
+        public IEnumerable<QuizAnswerOption> QuizeAnswerOptions { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets using and examples for quize.
+        /// Gets or sets using and examples for quiz.
         /// </summary>
-        public IEnumerable<QuizeExample> QuizeExamples { get; set; } = null!;
+        public IEnumerable<QuizExample> QuizeExamples { get; set; } = null!;
     }
 }

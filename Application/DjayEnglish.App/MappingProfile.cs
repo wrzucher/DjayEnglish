@@ -19,9 +19,9 @@ namespace DjayEnglish.App
         /// </summary>
         public MappingProfile()
         {
-            this.CreateMap<Server.ObjectModels.QuizeAnswerOption, QuizeAnswerOption>();
-            this.CreateMap<Server.ObjectModels.QuizeExample, QuizeExample>();
-            this.CreateMap<Server.ObjectModels.Quize, Quize>();
+            this.CreateMap<Server.ObjectModels.QuizAnswerOption, QuizAnswerOption>();
+            this.CreateMap<Server.ObjectModels.QuizExample, QuizExample>();
+            this.CreateMap<Server.ObjectModels.Quiz, Quiz>();
             this.CreateMap<Server.ObjectModels.WordUsage, WordUsage>();
         }
     }

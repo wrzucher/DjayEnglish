@@ -35,7 +35,7 @@ namespace DjayEnglish.App
         }
 
         /// <summary>
-        /// Gets queue with start quize command which need to process.
+        /// Gets queue with start quiz command which need to process.
         /// </summary>
         public static ConcurrentQueue<OnUserStartQuizeEventArgs> StartQuizeQueue { get; } = new ConcurrentQueue<OnUserStartQuizeEventArgs>();
 
@@ -45,9 +45,9 @@ namespace DjayEnglish.App
         public static ConcurrentQueue<OnUserAnswerRecivedEventArgs> AnswerRecivedQueue { get; } = new ConcurrentQueue<OnUserAnswerRecivedEventArgs>();
 
         /// <summary>
-        /// Gets queue with started quize which need to process.
+        /// Gets queue with started quiz which need to process.
         /// </summary>
-        public static ConcurrentQueue<OnQuizeStartedEventArgs> QuizeStartedQueue { get; } = new ConcurrentQueue<OnQuizeStartedEventArgs>();
+        public static ConcurrentQueue<OnQuizStartedEventArgs> QuizeStartedQueue { get; } = new ConcurrentQueue<OnQuizStartedEventArgs>();
 
         /// <summary>
         /// Gets queue with answer result which need to process.
@@ -65,9 +65,9 @@ namespace DjayEnglish.App
             var telegramHubListener = scope.ServiceProvider.GetRequiredService<TelegramHubListener>();
             telegramHubListener.OnAnswerRecived += this.AnswerRecived;
             telegramHubListener.OnQuizeStart += this.QuizeStart;
-            var quizeManagerEvents = scope.ServiceProvider.GetRequiredService<QuizeManagerEvents>();
-            quizeManagerEvents.OnQuizeStarted += this.QuizeStarted;
-            quizeManagerEvents.OnUserAnswerResultRecived += this.AnswerResultRecived;
+            var quizManagerEvents = scope.ServiceProvider.GetRequiredService<QuizManagerEvents>();
+            quizManagerEvents.OnQuizStarted += this.QuizeStarted;
+            quizManagerEvents.OnUserAnswerResultRecived += this.AnswerResultRecived;
             return Task.CompletedTask;
         }
 
@@ -81,7 +81,7 @@ namespace DjayEnglish.App
             return Task.CompletedTask;
         }
 
-        private void QuizeStarted(object? sender, OnQuizeStartedEventArgs eventArgs)
+        private void QuizeStarted(object? sender, OnQuizStartedEventArgs eventArgs)
         {
             QuizeStartedQueue.Enqueue(eventArgs);
         }

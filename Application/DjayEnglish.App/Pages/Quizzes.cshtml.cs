@@ -20,19 +20,19 @@ namespace DjayEnglish.Administration.Pages
     /// </summary>
     internal partial class QuizzesModel : PageModel
     {
-        private readonly QuizeManager quizeManager;
+        private readonly QuizManager quizManager;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QuizzesModel"/> class.
         /// </summary>
-        /// <param name="quizeManager">Quize manager for use.</param>
+        /// <param name="quizManager">Quiz manager for use.</param>
         /// <param name="mapper">Object mapper for use.</param>
         public QuizzesModel(
-            QuizeManager quizeManager,
+            QuizManager quizManager,
             IMapper mapper)
         {
-            this.quizeManager = quizeManager ?? throw new ArgumentNullException(nameof(quizeManager));
+            this.quizManager = quizManager ?? throw new ArgumentNullException(nameof(quizManager));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -49,9 +49,15 @@ namespace DjayEnglish.Administration.Pages
         public DateTimeOffset? ToDate { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether quiz is active.
+        /// </summary>
+        [BindProperty(SupportsGet = true)]
+        public bool? IsActive { get; set; }
+
+        /// <summary>
         /// Gets quizzes.
         /// </summary>
-        internal IEnumerable<Quize> Quizzes { get; private set; } = Array.Empty<Quize>();
+        internal IEnumerable<Quiz> Quizzes { get; private set; } = Array.Empty<Quiz>();
 
         /// <summary>
         /// Displays list of the games.
@@ -59,9 +65,14 @@ namespace DjayEnglish.Administration.Pages
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task OnGet()
         {
-            var quizzes = this.quizeManager.GetQuizzes();
-            var quizeModels = this.mapper.Map<IEnumerable<Quize>>(quizzes);
-            this.Quizzes = quizeModels;
+            var fromDate = this.FromDate ?? DateTimeOffset.UtcNow.AddDays(-1);
+            var toDate = this.ToDate ?? DateTimeOffset.UtcNow;
+            var quizzes = this.quizManager.GetQuizzes(
+                fromDate,
+                toDate,
+                this.IsActive);
+            var quizModels = this.mapper.Map<IEnumerable<Quiz>>(quizzes);
+            this.Quizzes = quizModels;
             return Task.CompletedTask;
         }
     }

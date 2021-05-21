@@ -67,11 +67,11 @@ namespace DjayEnglish.App
                 options => options.UseSqlServer(connectionString));
 
             services.AddSingleton<TelegramHubListener>();
-            services.AddSingleton<QuizeManagerEvents>();
-            services.AddScoped<DbQuizePersistence>();
+            services.AddSingleton<QuizManagerEvents>();
+            services.AddScoped<DbQuizPersistence>();
             services.AddScoped<TelegramHubSender>();
             services.AddScoped<IAudioProvider, RemoteServiceAudioProvider>();
-            services.AddScoped<QuizeManager>();
+            services.AddScoped<QuizManager>();
 
             services.AddHostedService<CommandQueueService>();
             services.AddHostedService<TelegramHubInitializerService>();

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="DbQuizePersistence.cs" company="DjayEnglish">
+// <copyright file="DbQuizPersistence.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -15,19 +15,19 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// Quize persistence.
+    /// Quiz persistence.
     /// </summary>
-    public class DbQuizePersistence
+    public class DbQuizPersistence
     {
         private readonly DjayEnglishDBContext dbContext;
         private readonly IMapper mapper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DbQuizePersistence"/> class.
+        /// Initializes a new instance of the <see cref="DbQuizPersistence"/> class.
         /// </summary>
         /// <param name="dbContext">Database context to use.</param>
         /// <param name="mapper">Map entity models to object models.</param>
-        public DbQuizePersistence(
+        public DbQuizPersistence(
             DjayEnglishDBContext dbContext,
             IMapper mapper)
         {
@@ -62,22 +62,22 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
-        /// Add new quize to user chat.
+        /// Add new quiz to user chat.
         /// </summary>
-        /// <param name="chatId">Id of the chat for which quize added.</param>
-        /// <param name="quizeId">Id of the quize which will be added to chat.</param>
-        /// <param name="created">Date when quize added to chat.</param>
-        /// <returns>Model of chat quize.</returns>
+        /// <param name="chatId">Id of the chat for which quiz added.</param>
+        /// <param name="quizId">Id of the quiz which will be added to chat.</param>
+        /// <param name="created">Date when quiz added to chat.</param>
+        /// <returns>Model of chat quiz.</returns>
         public ChatQuiz AddQuizeToChat(
             long chatId,
-            int quizeId,
+            int quizId,
             DateTimeOffset created)
         {
             var newChatQuiz = new ChatQuiz()
             {
                 ChatId = chatId,
-                QuizeId = quizeId,
-                State = (byte)ChatQuizeState.IsActive,
+                QuizeId = quizId,
+                State = (byte)ChatQuizState.IsActive,
                 Created = created,
             };
 
@@ -87,19 +87,19 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
-        /// Get quize by id.
+        /// Get quiz by id.
         /// </summary>
-        /// <param name="quizeId">Id of the requested quize.</param>
-        /// <returns>Quize model if it found in database.</returns>
-        public Quize? GetQuize(int quizeId)
+        /// <param name="quizId">Id of the requested quiz.</param>
+        /// <returns>Quiz model if it found in database.</returns>
+        public ObjectModels.Quiz? GetQuiz(int quizId)
         {
-            var quizeEntity = this.dbContext.Quizzes
+            var quizEntity = this.dbContext.Quizzes
                 .Include(_ => _.QuizeAnswerOptions)
                 .Include(_ => _.QuizeExamples)
                     .ThenInclude(_ => _.WordUsage)
-                .FirstOrDefault(_ => _.Id == quizeId);
-            var quizeModel = this.mapper.Map<Quize?>(quizeEntity);
-            return quizeModel;
+                .FirstOrDefault(_ => _.Id == quizId);
+            var quizModel = this.mapper.Map<ObjectModels.Quiz?>(quizEntity);
+            return quizModel;
         }
 
         /// <summary>
@@ -108,8 +108,8 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="fromDate">Date from which quiz was created.</param>
         /// <param name="toDate">Date before which quiz was created.</param>
         /// <param name="isActive">Indicate that quiz is active.</param>
-        /// <returns>Quize model if it found in database.</returns>
-        public IEnumerable<Quize> GetQuizzes(
+        /// <returns>Quiz model if it found in database.</returns>
+        public IEnumerable<ObjectModels.Quiz> GetQuizzes(
             DateTimeOffset fromDate,
             DateTimeOffset toDate,
             bool? isActive)
@@ -124,7 +124,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
                 quizzesEntity = quizzesEntity.Where(_ => _.IsActive == isActive.Value);
             }
 
-            var quizzesModel = this.mapper.Map<IEnumerable<Quize>>(quizzesEntity);
+            var quizzesModel = this.mapper.Map<IEnumerable<ObjectModels.Quiz>>(quizzesEntity);
             return quizzesModel;
         }
     }

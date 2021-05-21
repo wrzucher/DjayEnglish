@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ChatQuizeState.cs" company="DjayEnglish">
+// <copyright file="ChatQuizState.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,22 +7,22 @@
 namespace DjayEnglish.Server.ObjectModels
 {
     /// <summary>
-    /// Descibe states in which chat quize could be.
+    /// Descibe states in which chat quiz could be.
     /// </summary>
-    public enum ChatQuizeState
+    public enum ChatQuizState
     {
         /// <summary>
-        /// The user is studying this quize at this moment.
+        /// The user is studying this quiz at this moment.
         /// </summary>
         IsActive = 0,
 
         /// <summary>
-        /// The user is finished studying this quize.
+        /// The user is finished studying this quiz.
         /// </summary>
         IsCompleted = 1,
 
         /// <summary>
-        /// The quize was terminated for this chat.
+        /// The quiz was terminated for this chat.
         /// </summary>
         IsTerminate = 255,
     }

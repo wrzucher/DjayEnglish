@@ -14,7 +14,7 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Initializes a new instance of the <see cref="OnUserAnswerResultEventArgs"/> class.
         /// </summary>
-        /// <param name="chatId">Id of the chat where user answer on quize.</param>
+        /// <param name="chatId">Id of the chat where user answer on quiz.</param>
         /// <param name="isAnswerRight">Indicate that user answer is right.</param>
         public OnUserAnswerResultEventArgs(
             long chatId,
@@ -25,7 +25,7 @@ namespace DjayEnglish.Server.ObjectModels
         }
 
         /// <summary>
-        /// Gets id of the chat where user answer on quize.
+        /// Gets id of the chat where user answer on quiz.
         /// </summary>
         public long ChatId { get; }
 

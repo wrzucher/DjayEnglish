@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="QuizeAnswerOption.cs" company="DjayEnglish">
+// <copyright file="QuizExample.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,28 +10,28 @@ namespace DjayEnglish.Server.ObjectModels
     using System.Collections.Generic;
 
     /// <summary>
-    /// Object model which contain information about answer option for quize.
+    /// Object model which contain infromation about using and examples for quiz.
     /// </summary>
-    public partial class QuizeAnswerOption
+    public partial class QuizExample
     {
         /// <summary>
-        /// Gets or sets id of the answer option.
+        /// Gets or sets id of quiz example.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets id of quize to which answer option related.
+        /// Gets or sets id of quiz to which example related.
         /// </summary>
         public int QuizeId { get; set; }
 
         /// <summary>
-        /// Gets or sets text of answer option.
+        /// Gets or sets id of word example.
         /// </summary>
-        public string Text { get; set; } = null!;
+        public int WordExampleId { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether answer option is right.
+        /// Gets or sets model of word usage.
         /// </summary>
-        public bool IsRightAnswer { get; set; }
+        public WordUsage WordUsage { get; set; } = null!;
     }
 }

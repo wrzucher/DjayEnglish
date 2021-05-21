@@ -1,18 +1,18 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="QuizeAnswerOption.cs" company="DjayEnglish">
+// <copyright file="QuizAnswerOption.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Administration.Models
+namespace DjayEnglish.Server.ObjectModels
 {
     using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// Object model which contain information about answer option for quize.
+    /// Object model which contain information about answer option for quiz.
     /// </summary>
-    public partial class QuizeAnswerOption
+    public partial class QuizAnswerOption
     {
         /// <summary>
         /// Gets or sets id of the answer option.
@@ -20,7 +20,7 @@ namespace DjayEnglish.Administration.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets id of quize to which answer option related.
+        /// Gets or sets id of quiz to which answer option related.
         /// </summary>
         public int QuizeId { get; set; }
 

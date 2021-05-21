@@ -14,7 +14,7 @@ namespace DjayEnglish.Integration.TelegramApi.ObjectModels
         /// <summary>
         /// Initializes a new instance of the <see cref="OnUserAnswerRecivedEventArgs"/> class.
         /// </summary>
-        /// <param name="chatId">Id of the chat where quize should be started.</param>
+        /// <param name="chatId">Id of the chat where quiz should be started.</param>
         /// <param name="answer">Text of recived user answer.</param>
         public OnUserAnswerRecivedEventArgs(
             long chatId,
@@ -25,7 +25,7 @@ namespace DjayEnglish.Integration.TelegramApi.ObjectModels
         }
 
         /// <summary>
-        /// Gets id of the chat where quize should be started.
+        /// Gets id of the chat where quiz should be started.
         /// </summary>
         public long ChatId { get; }
 

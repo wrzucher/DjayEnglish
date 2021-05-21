@@ -19,10 +19,10 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// </summary>
         public EntityFrameworkMappingProfile()
         {
-            this.CreateMap<EntityFramework.QuizeAnswerOption, QuizeAnswerOption>();
-            this.CreateMap<EntityFramework.QuizeExample, QuizeExample>()
+            this.CreateMap<EntityFramework.QuizeAnswerOption, QuizAnswerOption>();
+            this.CreateMap<EntityFramework.QuizeExample, QuizExample>()
                 .ForMember(dest => dest.WordUsage, opts => opts.MapFrom(_ => _.WordUsage));
-            this.CreateMap<EntityFramework.Quiz, Quize>();
+            this.CreateMap<EntityFramework.Quiz, Quiz>();
             this.CreateMap<EntityFramework.WordUsage, WordUsage>();
         }
     }

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="QuizeExample.cs" company="DjayEnglish">
+// <copyright file="QuizExample.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,17 +10,17 @@ namespace DjayEnglish.Administration.Models
     using System.Collections.Generic;
 
     /// <summary>
-    /// Object model which contain infromation about using and examples for quize.
+    /// Object model which contain infromation about using and examples for quiz.
     /// </summary>
-    public partial class QuizeExample
+    public partial class QuizExample
     {
         /// <summary>
-        /// Gets or sets id of quize example.
+        /// Gets or sets id of quiz example.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets id of quize to which example related.
+        /// Gets or sets id of quiz to which example related.
         /// </summary>
         public int QuizeId { get; set; }
 

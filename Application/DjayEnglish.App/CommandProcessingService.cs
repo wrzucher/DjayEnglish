@@ -26,7 +26,7 @@ namespace DjayEnglish.App
         private readonly ILogger<CommandProcessingService> logger;
 
         /// <summary>
-        /// Timer which process start quize start command.
+        /// Timer which process start quiz start command.
         /// </summary>
         private Timer? processStartQuizeQueueTimer;
 
@@ -36,7 +36,7 @@ namespace DjayEnglish.App
         private Timer? processAnswerRecivedQueueTimer;
 
         /// <summary>
-        /// Timer which process quize started command.
+        /// Timer which process quiz started command.
         /// </summary>
         private Timer? processQuizeStartedQueueTimer;
 
@@ -145,10 +145,10 @@ namespace DjayEnglish.App
             {
                 do
                 {
-                    var betPeek = CommandQueueService.QuizeStartedQueue.TryDequeue(out var quizeStartedEventArgs);
-                    if (betPeek && quizeStartedEventArgs != null)
+                    var betPeek = CommandQueueService.QuizeStartedQueue.TryDequeue(out var quizStartedEventArgs);
+                    if (betPeek && quizStartedEventArgs != null)
                     {
-                        await this.ProcessQuizeStarted(quizeStartedEventArgs);
+                        await this.ProcessQuizeStarted(quizStartedEventArgs);
                     }
                 }
                 while (!CommandQueueService.QuizeStartedQueue.IsEmpty);
@@ -182,24 +182,24 @@ namespace DjayEnglish.App
         private Task ProcessStartQuize(OnUserStartQuizeEventArgs eventArgs)
         {
             using var scope = this.scopeFactory.CreateScope();
-            var quizeManager = scope.ServiceProvider.GetRequiredService<QuizeManager>();
-            quizeManager.StartQuize(eventArgs.ChatId, DateTimeOffset.UtcNow);
+            var quizManager = scope.ServiceProvider.GetRequiredService<QuizManager>();
+            quizManager.StartQuiz(eventArgs.ChatId, DateTimeOffset.UtcNow);
             return Task.CompletedTask;
         }
 
         private Task ProcessAnswerRecived(OnUserAnswerRecivedEventArgs eventArgs)
         {
             using var scope = this.scopeFactory.CreateScope();
-            var quizeManager = scope.ServiceProvider.GetRequiredService<QuizeManager>();
-            quizeManager.RegisterUserAnswer(eventArgs.ChatId, eventArgs.Answer);
+            var quizManager = scope.ServiceProvider.GetRequiredService<QuizManager>();
+            quizManager.RegisterUserAnswer(eventArgs.ChatId, eventArgs.Answer);
             return Task.CompletedTask;
         }
 
-        private async Task ProcessQuizeStarted(OnQuizeStartedEventArgs eventArgs)
+        private async Task ProcessQuizeStarted(OnQuizStartedEventArgs eventArgs)
         {
             using var scope = this.scopeFactory.CreateScope();
             var telegramHubSender = scope.ServiceProvider.GetRequiredService<TelegramHubSender>();
-            await telegramHubSender.SendQuizeAsync(eventArgs.ChatId, eventArgs.Quize).ConfigureAwait(false);
+            await telegramHubSender.SendQuizeAsync(eventArgs.ChatId, eventArgs.Quiz).ConfigureAwait(false);
         }
 
         private async Task ProcessAnswerResult(OnUserAnswerResultEventArgs eventArgs)
