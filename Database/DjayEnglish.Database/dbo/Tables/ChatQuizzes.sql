@@ -6,6 +6,6 @@
     [Closed]        DATETIMEOFFSET  NULL,
     [State]    TINYINT         NOT NULL,
     CONSTRAINT [FK_ChatQuizzesQuizId_ToQuizzes] FOREIGN KEY (QuizId) REFERENCES [dbo].Quizzes ([Id]),
-    CONSTRAINT [FK_ChatQuizzesChatId_ToChats]   FOREIGN KEY (ChatId)  REFERENCES [dbo].Chats ([Id])
+    CONSTRAINT [FK_ChatQuizzesChatId_ToChats]   FOREIGN KEY (ChatId) REFERENCES [dbo].Chats ([Id])
 );
 
