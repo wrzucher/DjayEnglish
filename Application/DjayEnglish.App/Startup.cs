@@ -45,6 +45,7 @@ namespace DjayEnglish.App
         /// <param name="services">Service collection to use.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Profile, MappingProfile>();
             services.AddSingleton<Profile, EntityFrameworkMappingProfile>();
 
             services.AddSingleton<AutoMapper.IConfigurationProvider>(serviceProvider =>

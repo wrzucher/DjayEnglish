@@ -71,5 +71,23 @@ namespace DjayEnglish.Server.Core
         {
             return this.dbQuizePersistence.GetQuize(quizeId);
         }
+
+        /// <summary>
+        /// Get quizzes by requested parameters.
+        /// </summary>
+        /// <param name="fromDate">Date from which quiz was created.</param>
+        /// <param name="toDate">Date before which quiz was created.</param>
+        /// <param name="isActive">Indicate that quiz is active.</param>
+        /// <returns>Collection of Quiz modeles from database.</returns>
+        public IEnumerable<Quize> GetQuizzes(
+            DateTimeOffset fromDate,
+            DateTimeOffset toDate,
+            bool? isActive)
+        {
+            return this.dbQuizePersistence.GetQuizzes(
+                fromDate,
+                toDate,
+                isActive);
+        }
     }
 }

@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVervion)" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
   </ItemGroup>

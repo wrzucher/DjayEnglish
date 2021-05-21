@@ -101,5 +101,31 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var quizeModel = this.mapper.Map<Quize?>(quizeEntity);
             return quizeModel;
         }
+
+        /// <summary>
+        /// Get quizzes by requested parameters.
+        /// </summary>
+        /// <param name="fromDate">Date from which quiz was created.</param>
+        /// <param name="toDate">Date before which quiz was created.</param>
+        /// <param name="isActive">Indicate that quiz is active.</param>
+        /// <returns>Quize model if it found in database.</returns>
+        public IEnumerable<Quize> GetQuizzes(
+            DateTimeOffset fromDate,
+            DateTimeOffset toDate,
+            bool? isActive)
+        {
+            var quizzesEntity = this.dbContext.Quizzes
+                .Include(_ => _.QuizeAnswerOptions)
+                .Include(_ => _.QuizeExamples)
+                    .ThenInclude(_ => _.WordUsage)
+                .Where(_ => _.Created >= fromDate && _.Created <= toDate);
+            if (isActive != null)
+            {
+                quizzesEntity = quizzesEntity.Where(_ => _.IsActive == isActive.Value);
+            }
+
+            var quizzesModel = this.mapper.Map<IEnumerable<Quize>>(quizzesEntity);
+            return quizzesModel;
+        }
     }
 }
