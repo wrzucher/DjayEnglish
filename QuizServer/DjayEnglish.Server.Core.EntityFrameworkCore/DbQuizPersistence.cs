@@ -87,6 +87,40 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
+        /// Get active chat quize.
+        /// </summary>
+        /// <param name="chatId">Id of the chat for which return quiz.</param>
+        /// <returns>Model of chat quiz.</returns>
+        public ChatQuiz? GetActiveChatQuiz(long chatId)
+        {
+            var entityChatQuiz = this.dbContext.ChatQuizzes
+                .Where(_ => _.ChatId == chatId && _.State == (byte)ChatQuizState.IsActive)
+                .OrderByDescending(_ => _.Created)
+                .FirstOrDefault();
+            this.dbContext.SaveChanges();
+            return entityChatQuiz;
+        }
+
+        /// <summary>
+        /// Register user answer on quiz.
+        /// </summary>
+        /// <param name="chatQuizId">Id of the chat quize where user give answer.</param>
+        /// <param name="answerId">Id of the quiz answer.</param>
+        public void RegisterQuizAnswer(
+            int chatQuizId,
+            int answerId)
+        {
+            var newChatQuizAnswer = new ChatQuizAnswer()
+            {
+                ChatQuizId = chatQuizId,
+                AnswerId = answerId,
+            };
+
+            this.dbContext.ChatQuizAnswers.Add(newChatQuizAnswer);
+            this.dbContext.SaveChanges();
+        }
+
+        /// <summary>
         /// Get quiz by id.
         /// </summary>
         /// <param name="quizId">Id of the requested quiz.</param>

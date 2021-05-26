@@ -40,12 +40,13 @@ namespace DjayEnglish.Server.Core
         /// <returns>New quiz for user.</returns>
         public Quiz StartQuiz(long chatId, DateTimeOffset startedAt)
         {
-            if (this.dbQuizPersistence.IsChatExist(chatId))
+            if (!this.dbQuizPersistence.IsChatExist(chatId))
             {
                 this.dbQuizPersistence.RegisterNewChat(chatId);
             }
 
             var startedQuize = this.GetQuiz(1) ?? throw new InvalidOperationException();
+            this.dbQuizPersistence.AddQuizToChat(chatId, startedQuize.Id, startedAt);
             this.quizManagerEvents.NotifyQuizStarted(chatId, startedQuize);
             return startedQuize;
         }
@@ -57,9 +58,28 @@ namespace DjayEnglish.Server.Core
         /// <param name="userAnswerkey">User answer key.</param>
         public void RegisterUserAnswer(long chatId, string userAnswerkey)
         {
-            var quiz = this.GetQuiz(1) ?? throw new InvalidOperationException();
-            var isRightAnswer = quiz.IsRightAnswer(userAnswerkey);
-            this.quizManagerEvents.NotifyUserAnswerResultRecived(chatId, isRightAnswer);
+            var chatQuize = this.dbQuizPersistence.GetActiveChatQuiz(chatId);
+            if (chatQuize == null)
+            {
+                throw new InvalidOperationException(
+                    $"Chat {chatId} doesn't have active quize. User answer could'nt be registered.");
+            }
+
+            var quiz = this.GetQuiz(chatQuize.QuizId);
+            if (quiz == null)
+            {
+                throw new InvalidOperationException(
+                    $"User answer couldn't be registered in chat {chatId} because quize {chatQuize.QuizId} is null.");
+            }
+
+            var answerOption = quiz.GetAnswerOption(userAnswerkey);
+            if (answerOption == null)
+            {
+                return;
+            }
+
+            this.dbQuizPersistence.RegisterQuizAnswer(chatQuize.Id, answerOption.Id);
+            this.quizManagerEvents.NotifyUserAnswerResultRecived(chatId, answerOption.IsRightAnswer);
         }
 
         /// <summary>

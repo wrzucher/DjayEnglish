@@ -26,7 +26,6 @@ namespace DjayEnglish.EntityFramework
         public virtual DbSet<Word> Words { get; set; }
         public virtual DbSet<WordAntonym> WordAntonyms { get; set; }
         public virtual DbSet<WordDefinition> WordDefinitions { get; set; }
-        public virtual DbSet<WordMeaningExamples4> WordMeaningExamples4s { get; set; }
         public virtual DbSet<WordSynonym> WordSynonyms { get; set; }
         public virtual DbSet<WordUsage> WordUsages { get; set; }
 

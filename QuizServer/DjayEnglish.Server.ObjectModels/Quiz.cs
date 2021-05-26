@@ -117,20 +117,20 @@ namespace DjayEnglish.Server.ObjectModels
         }
 
         /// <summary>
-        /// Indicate that user answer is right.
+        /// Get answer option by user answer key.
         /// </summary>
         /// <param name="userAnswerKey">User answer key.</param>
-        /// <returns>Result of user answer.</returns>
-        public bool IsRightAnswer(string userAnswerKey)
+        /// <returns>Quiz answer option if key is correct.</returns>
+        public QuizAnswerOption? GetAnswerOption(string userAnswerKey)
         {
             if (!int.TryParse(userAnswerKey, out var answerKey))
             {
-                return false;
+                return null;
             }
 
             if (answerKey < 1 && answerKey > this.QuizAnswerOptions.Count())
             {
-                return false;
+                return null;
             }
 
             var answerOption = this.QuizAnswerOptions.ElementAt(answerKey - 1);
@@ -139,7 +139,7 @@ namespace DjayEnglish.Server.ObjectModels
                 throw new InvalidOperationException($"Answer option couldn't be null. Quiz id {this.Id}, UserAnswerKey {userAnswerKey}");
             }
 
-            return answerOption.IsRightAnswer;
+            return answerOption;
         }
     }
 }
