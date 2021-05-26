@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98939550
 		Shared.props = Shared.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Server.Core", "QuizeServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Server.Core", "QuizServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj", "{8F92E4F2-40B5-40B5-B6D8-0337741C6AB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Integration.TelegramApi", "Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj", "{59420068-9CED-4F44-A893-A7573E2AAD96}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DjayEnglish.Database", "Database\DjayEnglish.Database\DjayEnglish.Database.sqlproj", "{A4847981-BAB2-4FDC-982B-A181D6A5952D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizeServer", "QuizeServer", "{49479D79-BED1-44F2-8FFF-E37A6BFB31AC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuizServer", "QuizServer", "{49479D79-BED1-44F2-8FFF-E37A6BFB31AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{D63E727C-79FD-4C3B-A83C-A3CB211AD2D1}"
 EndProject
@@ -27,11 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.App", "Application\DjayEnglish.App\DjayEnglish.App.csproj", "{26ACD8D5-F182-4066-9BFE-BC1AC3DDE3D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.EntityFramework", "QuizeServer\DjayEnglish.EntityFramework\DjayEnglish.EntityFramework.csproj", "{9F39DDA0-1788-443C-BCDA-6E86082C2533}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.EntityFramework", "QuizServer\DjayEnglish.EntityFramework\DjayEnglish.EntityFramework.csproj", "{9F39DDA0-1788-443C-BCDA-6E86082C2533}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Server.ObjectModels", "QuizeServer\DjayEnglish.Server.ObjectModels\DjayEnglish.Server.ObjectModels.csproj", "{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DjayEnglish.Server.ObjectModels", "QuizServer\DjayEnglish.Server.ObjectModels\DjayEnglish.Server.ObjectModels.csproj", "{96365E5B-66D7-4928-87F3-4B9F8ECC57AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Server.Core.EntityFrameworkCore", "QuizeServer\DjayEnglish.Server.Core.EntityFrameworkCore\DjayEnglish.Server.Core.EntityFrameworkCore.csproj", "{418B5F4A-3008-4BD7-956A-858C3E3C6CED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjayEnglish.Server.Core.EntityFrameworkCore", "QuizServer\DjayEnglish.Server.Core.EntityFrameworkCore\DjayEnglish.Server.Core.EntityFrameworkCore.csproj", "{418B5F4A-3008-4BD7-956A-858C3E3C6CED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

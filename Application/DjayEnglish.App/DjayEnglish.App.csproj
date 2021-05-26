@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Integration\DjayEnglish.Integration.TelegramApi\DjayEnglish.Integration.TelegramApi.csproj" />
-    <ProjectReference Include="..\..\QuizeServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj" />
+    <ProjectReference Include="..\..\QuizServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
