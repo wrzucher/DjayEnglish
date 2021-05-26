@@ -70,6 +70,7 @@
     <Build Include="dbo\Tables\QuizAnswerOptions.sql" />
     <Build Include="dbo\Tables\ChatQuizzes.sql" />
     <Build Include="dbo\Tables\Chats.sql" />
+    <Build Include="dbo\Tables\ChatQuizAnswers.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.publish.xml" />

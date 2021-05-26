@@ -19,12 +19,14 @@ namespace DjayEnglish.EntityFramework
 
         public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<ChatQuiz> ChatQuizzes { get; set; }
+        public virtual DbSet<ChatQuizAnswer> ChatQuizAnswers { get; set; }
         public virtual DbSet<Quiz> Quizzes { get; set; }
         public virtual DbSet<QuizAnswerOption> QuizAnswerOptions { get; set; }
         public virtual DbSet<QuizExample> QuizExamples { get; set; }
         public virtual DbSet<Word> Words { get; set; }
         public virtual DbSet<WordAntonym> WordAntonyms { get; set; }
         public virtual DbSet<WordDefinition> WordDefinitions { get; set; }
+        public virtual DbSet<WordMeaningExamples4> WordMeaningExamples4s { get; set; }
         public virtual DbSet<WordSynonym> WordSynonyms { get; set; }
         public virtual DbSet<WordUsage> WordUsages { get; set; }
 
@@ -50,6 +52,14 @@ namespace DjayEnglish.EntityFramework
                     .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ChatQuizzesQuizId_ToQuizzes");
+            });
+
+            modelBuilder.Entity<ChatQuizAnswer>(entity =>
+            {
+                entity.HasOne(d => d.Answer)
+                    .WithMany(p => p.ChatQuizAnswers)
+                    .HasForeignKey(d => d.AnswerId)
+                    .HasConstraintName("FK_ChatQuizAnswersAnswerId_ToQuizAnswerOptions");
             });
 
             modelBuilder.Entity<Quiz>(entity =>
