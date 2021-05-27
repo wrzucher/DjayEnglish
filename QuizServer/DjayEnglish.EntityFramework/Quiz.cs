@@ -20,6 +20,7 @@ namespace DjayEnglish.EntityFramework
         public bool IsActive { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Closed { get; set; }
+        public string FileName { get; set; }
 
         public virtual WordDefinition WordDefinition { get; set; }
         public virtual ICollection<ChatQuiz> ChatQuizzes { get; set; }
