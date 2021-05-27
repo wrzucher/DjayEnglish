@@ -137,6 +137,58 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
+        /// Get new quiz for chat.
+        /// </summary>
+        /// <param name="chatId">Id of the chat which identify user.</param>
+        /// <returns>Quiz model for user.</returns>
+        public ObjectModels.Quiz? GetNewForChatActiveQuiz(long chatId)
+        {
+            var firstQuiz = this.dbContext.Quizzes
+                .Include(_ => _.ChatQuizzes)
+                .Include(_ => _.QuizAnswerOptions)
+                .Include(_ => _.QuizExamples)
+                    .ThenInclude(_ => _.WordUsage)
+                .FirstOrDefault(_ =>
+                    _.ChatQuizzes.Where(_ => _.ChatId == chatId).Count() == 0
+                 && _.IsActive);
+            var firstQuizModel = this.mapper.Map<ObjectModels.Quiz?>(firstQuiz);
+            return firstQuizModel;
+        }
+
+        /// <summary>
+        /// Get oldest quiz id for user chat.
+        /// </summary>
+        /// <param name="chatId">Id of the chat which identify user.</param>
+        /// <returns>Oldest for chat quiz id.</returns>
+        public int? GetOldestActiveQuizId(long chatId)
+        {
+            var oldestChatQuiz = this.dbContext.ChatQuizzes
+                .Include(_ => _.Quiz)
+                .Where(_ => _.ChatId == chatId && _.Quiz.IsActive)
+                .OrderByDescending(_ => _.Created)
+                .FirstOrDefault();
+            return oldestChatQuiz?.QuizId;
+        }
+
+        /// <summary>
+        /// Get random quiz.
+        /// </summary>
+        /// <returns>Random quiz.</returns>
+        public ObjectModels.Quiz? GetRandomActiveQuizId()
+        {
+            var activeQuizzes = this.dbContext.Quizzes.Where(_ => _.IsActive);
+            var skip = (int)(new Random().NextDouble() * activeQuizzes.Count());
+            var randomQuiz = activeQuizzes
+                .Include(_ => _.ChatQuizzes)
+                .Include(_ => _.QuizAnswerOptions)
+                .Include(_ => _.QuizExamples)
+                    .ThenInclude(_ => _.WordUsage)
+                .OrderBy(o => o.Id).Skip(skip).Take(1).FirstOrDefault();
+            var randomQuizModel = this.mapper.Map<ObjectModels.Quiz?>(randomQuiz);
+            return randomQuizModel;
+        }
+
+        /// <summary>
         /// Get quizzes by requested parameters.
         /// </summary>
         /// <param name="fromDate">Date from which quiz was created.</param>

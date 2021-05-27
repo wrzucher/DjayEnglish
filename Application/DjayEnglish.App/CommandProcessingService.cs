@@ -191,7 +191,7 @@ namespace DjayEnglish.App
         {
             using var scope = this.scopeFactory.CreateScope();
             var quizManager = scope.ServiceProvider.GetRequiredService<QuizManager>();
-            quizManager.RegisterUserAnswer(eventArgs.ChatId, eventArgs.Answer);
+            quizManager.RegisterUserAnswer(eventArgs.ChatId, eventArgs.Answer, DateTimeOffset.UtcNow);
             return Task.CompletedTask;
         }
 

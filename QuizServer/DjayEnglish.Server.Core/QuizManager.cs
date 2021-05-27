@@ -45,7 +45,7 @@ namespace DjayEnglish.Server.Core
                 this.dbQuizPersistence.RegisterNewChat(chatId);
             }
 
-            var startedQuize = this.GetQuiz(1) ?? throw new InvalidOperationException();
+            var startedQuize = this.GetNextQuizForUser(chatId);
             this.dbQuizPersistence.AddQuizToChat(chatId, startedQuize.Id, startedAt);
             this.quizManagerEvents.NotifyQuizStarted(chatId, startedQuize);
             return startedQuize;
@@ -56,7 +56,11 @@ namespace DjayEnglish.Server.Core
         /// </summary>
         /// <param name="chatId">Chat Id.</param>
         /// <param name="userAnswerkey">User answer key.</param>
-        public void RegisterUserAnswer(long chatId, string userAnswerkey)
+        /// <param name="answerDate">Date time when user answer on quiz.</param>
+        public void RegisterUserAnswer(
+            long chatId,
+            string userAnswerkey,
+            DateTimeOffset answerDate)
         {
             var chatQuize = this.dbQuizPersistence.GetActiveChatQuiz(chatId);
             if (chatQuize == null)
@@ -80,6 +84,45 @@ namespace DjayEnglish.Server.Core
 
             this.dbQuizPersistence.RegisterQuizAnswer(chatQuize.Id, answerOption.Id);
             this.quizManagerEvents.NotifyUserAnswerResultRecived(chatId, answerOption.IsRightAnswer);
+
+            if (answerOption.IsRightAnswer)
+            {
+                this.StartQuiz(chatId, answerDate);
+            }
+        }
+
+        /// <summary>
+        /// Get next quiz for user.
+        /// </summary>
+        /// <param name="chatId">Id of the chat which identify user.</param>
+        /// <returns>Quiz model for user.</returns>
+        public Quiz GetNextQuizForUser(long chatId)
+        {
+            var newForChatQuiz = this.dbQuizPersistence.GetNewForChatActiveQuiz(chatId);
+            if (newForChatQuiz != null)
+            {
+                return newForChatQuiz;
+            }
+
+            var oldestQuizId = this.dbQuizPersistence.GetOldestActiveQuizId(chatId);
+            if (oldestQuizId != null)
+            {
+                var oldestQuize = this.GetQuiz(oldestQuizId.Value);
+                if (oldestQuize == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Oldest quiz model with id {oldestQuizId.Value} couldn't be null for chat {chatId}");
+                }
+            }
+
+            var randomQuize = this.dbQuizPersistence.GetRandomActiveQuizId();
+            if (randomQuize == null)
+            {
+                throw new InvalidOperationException(
+                        $"Random quiz couldn't be null for chat {chatId}");
+            }
+
+            return randomQuize;
         }
 
         /// <summary>
