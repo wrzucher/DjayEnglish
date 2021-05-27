@@ -5,6 +5,9 @@
     [IsActive]          BIT                NOT NULL,
     [Created]           DATETIMEOFFSET (7) NOT NULL,
     [Closed]            DATETIMEOFFSET (7) NULL,
-    [FileName]          NVARCHAR (50)      NULL,
+    [QuestionShowType]  TINYINT            NOT NULL DEFAULT(0),
+    [ExampleShowType]   TINYINT            NOT NULL DEFAULT(0),
+    [AnswerShowType]    TINYINT            NOT NULL DEFAULT(0),
+    [HasAudioFiles]     BIT                NOT NULL DEFAULT(0),
     CONSTRAINT [FK_QuizzesWordDefinitionId_ToWordDefinitions] FOREIGN KEY (WordDefinitionId) REFERENCES [dbo].WordDefinitions ([Id])
 );

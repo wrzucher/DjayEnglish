@@ -46,6 +46,26 @@ namespace DjayEnglish.Server.ObjectModels
         public string Question { get; set; } = null!;
 
         /// <summary>
+        /// Gets or sets show type of question.
+        /// </summary>
+        public ShowType QuestionShowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets show type of examples and usage.
+        /// </summary>
+        public ShowType ExampleShowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets show type of answers.
+        /// </summary>
+        public ShowType AnswerShowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether quiz has audio files.
+        /// </summary>
+        public bool HasAudioFiles { get; set; }
+
+        /// <summary>
         /// Gets answer options.
         /// </summary>
         public string[] Examples => this.QuizExamples.Select(_ => _.WordUsage.Example).ToArray();
@@ -80,7 +100,7 @@ namespace DjayEnglish.Server.ObjectModels
             var index = 1;
             foreach (var answerOption in this.QuizAnswerOptions)
             {
-                result += $"{index}: {answerOption.Text} \r\n";
+                result += $"{index}. {answerOption.Text}. \r\n";
                 index++;
             }
 

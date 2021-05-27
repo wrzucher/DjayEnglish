@@ -36,6 +36,43 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
+        /// Get quizzes without audio files.
+        /// </summary>
+        /// <returns>Quiz collection which does not have audio.</returns>
+        public IEnumerable<ObjectModels.Quiz> GetQuizzesWithoutAudio()
+        {
+            var quizzesEntity = this.dbContext.Quizzes
+                .Include(_ => _.QuizAnswerOptions)
+                .Include(_ => _.QuizExamples)
+                    .ThenInclude(_ => _.WordUsage)
+                .Where(_ =>
+                    !_.HasAudioFiles
+                  && (_.ExampleShowType == (byte)ShowType.Audio
+                   || _.QuestionShowType == (byte)ShowType.Audio
+                   || _.AnswerShowType == (byte)ShowType.Audio));
+            var quizzesModel = this.mapper.Map<IEnumerable<ObjectModels.Quiz>>(quizzesEntity);
+            return quizzesModel;
+        }
+
+        /// <summary>
+        /// Set quiz audio Enable.
+        /// </summary>
+        /// /<param name="quizId">Id of quiz for which set enable.</param>
+        /// /<param name="hasAudio">Indicate that quiz has audio.</param>
+        public void SetQuizAudioEnable(int quizId, bool hasAudio)
+        {
+            var quiz = this.dbContext.Quizzes.FirstOrDefault(_ => _.Id == quizId);
+            if (quiz == null)
+            {
+                throw new InvalidOperationException(
+                    $"Quiz {quizId} does not exist in database and audio flag couldn't ne set");
+            }
+
+            quiz.HasAudioFiles = hasAudio;
+            this.dbContext.SaveChanges();
+        }
+
+        /// <summary>
         /// Check if chat with id exist.
         /// </summary>
         /// <param name="chatId">Id of the chat.</param>

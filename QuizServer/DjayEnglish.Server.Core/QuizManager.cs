@@ -33,6 +33,26 @@ namespace DjayEnglish.Server.Core
         }
 
         /// <summary>
+        /// Get quizzes without audio files.
+        /// </summary>
+        /// <returns>Quiz collection which does not have audio.</returns>
+        public IEnumerable<Quiz> GetQuizzesWithoutAudio()
+        {
+            var result = this.dbQuizPersistence.GetQuizzesWithoutAudio();
+            return result;
+        }
+
+        /// <summary>
+        /// Set quiz audio enable.
+        /// </summary>
+        /// /<param name="quizId">Id of quiz for which set enable.</param>
+        /// /<param name="hasAudio">Indicate that quiz has audio.</param>
+        public void SetQuizAudioEnable(int quizId, bool hasAudio)
+        {
+            this.dbQuizPersistence.SetQuizAudioEnable(quizId, hasAudio);
+        }
+
+        /// <summary>
         /// Start new quiz for user.
         /// </summary>
         /// <param name="chatId">Id of the chat.</param>

@@ -8,6 +8,7 @@ namespace DjayEnglish.Integration.TelegramApi
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading.Tasks;
     using DjayEnglish.Server.Core;
     using DjayEnglish.Server.ObjectModels;
@@ -74,22 +75,59 @@ namespace DjayEnglish.Integration.TelegramApi
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task SendQuizAsync(long chatId, Quiz quiz)
         {
-            var question = quiz.GetQuizText();
-            var examples = quiz.GetExamplesText();
-            var answerOptions = quiz.GetAnswerOptionsText();
-            var showedAnswerOptions = quiz.GetShowedQuizAnswerOptions();
+            if (quiz.QuestionShowType == ShowType.Audio)
+            {
+                using var questionAudioFile = await this.audioProvider.GetAudio(quiz.Id, QuizePartType.Question).ConfigureAwait(false);
+                await this.SendAudioFileAsync(chatId, "Question", questionAudioFile).ConfigureAwait(false);
+            }
 
-            await this.SendAudioFileAsync(chatId, question, "Question").ConfigureAwait(false);
-            await this.SendAudioFileAsync(chatId, examples, "Examples").ConfigureAwait(false);
-            await this.SendAudioFileAsync(chatId, answerOptions, "Answer options").ConfigureAwait(false);
+            if (quiz.ExampleShowType == ShowType.Audio)
+            {
+                using var usageAudioFile = await this.audioProvider.GetAudio(quiz.Id, QuizePartType.Usage).ConfigureAwait(false);
+                await this.SendAudioFileAsync(chatId, "Usage", usageAudioFile).ConfigureAwait(false);
+            }
+
+            if (quiz.AnswerShowType == ShowType.Audio)
+            {
+                using var answersAudioFile = await this.audioProvider.GetAudio(quiz.Id, QuizePartType.AnswerOptions).ConfigureAwait(false);
+                await this.SendAudioFileAsync(chatId, "Answer options", answersAudioFile).ConfigureAwait(false);
+            }
+
+            if (quiz.QuestionShowType == ShowType.Text)
+            {
+                var question = quiz.GetQuizText();
+                await this.bot.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: $"Question: {question}");
+            }
+
+            if (quiz.ExampleShowType == ShowType.Text)
+            {
+                var usage = quiz.GetExamplesText();
+                await this.bot.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: $"Usage: {usage}");
+            }
+
+            if (quiz.AnswerShowType == ShowType.Text)
+            {
+                var usage = quiz.GetAnswerOptionsText();
+                await this.bot.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: $"Answer options: \r\n{usage}");
+            }
+
+            var showedAnswerOptions = quiz.GetShowedQuizAnswerOptions();
             await this.SendReplyKeyboard(chatId, showedAnswerOptions).ConfigureAwait(false);
         }
 
-        private async Task SendAudioFileAsync(long chatId, string text, string caption)
+        private async Task SendAudioFileAsync(
+            long chatId,
+            string caption,
+            MemoryStream audioFile)
         {
             await this.bot.SendChatActionAsync(chatId, ChatAction.UploadAudio);
-            using var audioFile = await this.audioProvider.GetAudio(text).ConfigureAwait(false);
-            var inputOnlineFile = new InputOnlineFile(audioFile, "caption.mp3");
+            var inputOnlineFile = new InputOnlineFile(audioFile, $"audio.wav");
             await this.bot.SendVoiceAsync(
                 chatId,
                 voice: inputOnlineFile,

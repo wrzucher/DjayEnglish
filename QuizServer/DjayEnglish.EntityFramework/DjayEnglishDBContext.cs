@@ -63,8 +63,6 @@ namespace DjayEnglish.EntityFramework
 
             modelBuilder.Entity<Quiz>(entity =>
             {
-                entity.Property(e => e.FileName).HasMaxLength(50);
-
                 entity.Property(e => e.Question)
                     .IsRequired()
                     .HasMaxLength(250);

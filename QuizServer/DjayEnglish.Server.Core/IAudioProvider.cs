@@ -8,6 +8,7 @@ namespace DjayEnglish.Server.Core
 {
     using System.IO;
     using System.Threading.Tasks;
+    using DjayEnglish.Server.ObjectModels;
 
     /// <summary>
     /// Interface which provide audio information.
@@ -15,10 +16,11 @@ namespace DjayEnglish.Server.Core
     public interface IAudioProvider
     {
         /// <summary>
-        /// Get audio using test.
+        /// Get audio for quize part.
         /// </summary>
-        /// <param name="text">Test which should be getting in audio format.</param>
+        /// <param name="quizeId">Quize id for which should be getting audio.</param>
+        /// <param name="quizePartType">Quize part type for which should be getting audio.</param>
         /// <returns>A <see cref="MemoryStream"/> which contain audio file.</returns>
-        Task<MemoryStream> GetAudio(string text);
+        Task<MemoryStream> GetAudio(int quizeId, QuizePartType quizePartType);
     }
 }

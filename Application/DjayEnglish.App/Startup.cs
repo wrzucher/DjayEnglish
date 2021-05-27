@@ -70,9 +70,11 @@ namespace DjayEnglish.App
             services.AddSingleton<QuizManagerEvents>();
             services.AddScoped<DbQuizPersistence>();
             services.AddScoped<TelegramHubSender>();
-            services.AddScoped<IAudioProvider, RemoteServiceAudioProvider>();
+            services.AddScoped<RemoteServiceAudioBuilder>();
+            services.AddScoped<IAudioProvider, LocalAudioProvider>();
             services.AddScoped<QuizManager>();
 
+            services.AddHostedService<AudioBuilderService>();
             services.AddHostedService<CommandQueueService>();
             services.AddHostedService<TelegramHubInitializerService>();
             services.AddHostedService<CommandProcessingService>();
