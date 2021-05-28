@@ -3,19 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Администрирование DjayEnglish</title>
+    <title>@ViewData["Title"] - DjayEnglish Admin Panel</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="~/dist/bootstrap.css" />
-    <link rel="stylesheet" href="~/dist/footballbet.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/dist/djayEnglish.css" />
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a asp-area="" asp-controller="Admin" asp-action="Index" class="navbar-brand">
-                <div class="d-none d-md-inline">Администратор</div>
+                <div class="d-none d-md-inline">Admin</div>
                 <div class="d-inline">DjayEnglish</div>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,21 +21,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Игры
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a asp-page="/Matches" class="dropdown-item">Список игр</a>
-                            <a asp-page="/Matches"
-                               asp-route-gameStates="Started"
-                               class="dropdown-item">
-                                Список идущих игр
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a asp-action="Create" asp-controller="Games" class="dropdown-item text-primary">Создать новую</a>
-                        </div>
-                    </li>
+                    <a asp-page="/Quizzes" class=""nav-link">Quizzes</a>
                 </ul>
             </div>
         </div>
