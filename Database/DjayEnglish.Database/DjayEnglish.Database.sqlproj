@@ -62,8 +62,8 @@
   <ItemGroup>
     <Build Include="dbo\Tables\WordDefinitions.sql" />
     <Build Include="dbo\Tables\TranslationUnits.sql" />
-    <Build Include="dbo\Tables\WordSynonyms.sql" />
-    <Build Include="dbo\Tables\WordAntonyms.sql" />
+    <Build Include="dbo\Tables\TranslationUnitSynonyms.sql" />
+    <Build Include="dbo\Tables\TranslationUnitAntonyms.sql" />
     <Build Include="dbo\Tables\WordUsages.sql" />
     <Build Include="dbo\Tables\Quizzes.sql" />
     <Build Include="dbo\Tables\QuizExamples.sql" />
