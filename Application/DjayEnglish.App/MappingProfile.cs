@@ -23,6 +23,8 @@ namespace DjayEnglish.App
             this.CreateMap<Server.ObjectModels.QuizExample, QuizExample>();
             this.CreateMap<Server.ObjectModels.Quiz, Quiz>();
             this.CreateMap<Server.ObjectModels.TranslationUnitUsage, TranslationUnitUsage>();
+            this.CreateMap<Server.ObjectModels.TranslationUnit, TranslationUnit>();
+            this.CreateMap<Server.ObjectModels.TranslationUnitDefinition, TranslationUnitDefinition>();
         }
     }
 }

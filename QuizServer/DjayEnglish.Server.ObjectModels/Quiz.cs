@@ -21,9 +21,14 @@ namespace DjayEnglish.Server.ObjectModels
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets id of word definition which used in quiz.
+        /// Gets or sets id of translation unit definition which used in quiz.
         /// </summary>
-        public int WordDefinitionId { get; set; }
+        public int TranslationUnitDefinitionId { get; set; }
+
+        /// <summary>
+        /// Gets or sets id of translation unit definition which used in quiz.
+        /// </summary>
+        public TranslationUnitDefinition? TranslationUnitDefinition { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether quiz is active.

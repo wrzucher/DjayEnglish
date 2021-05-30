@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Server.ObjectModels
+namespace DjayEnglish.Administration.Models
 {
     /// <summary>
     /// Object model which contain information about word or phrase definition.
