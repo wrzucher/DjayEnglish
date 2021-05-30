@@ -3,6 +3,8 @@
     [WordDefinitionId] INT NOT NULL,
     [Example]          NVARCHAR(700) NOT NULL,
     [IsActive]         BIT NOT NULL,
-    CONSTRAINT [FK_WordUsagesWordDefinitionId_ToWordDefinitions] FOREIGN KEY (WordDefinitionId) REFERENCES [dbo].WordDefinitions ([Id])
+    CONSTRAINT [FK_WordUsagesWordDefinitionId_ToWordDefinitions]
+        FOREIGN KEY (WordDefinitionId)
+        REFERENCES [dbo].WordDefinitions ([Id])
 );
 
