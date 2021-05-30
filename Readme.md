@@ -9,4 +9,4 @@ Before you run project you have to run docker container with TTS server
 ## Generate entityFramework from database
 
     cd QuizeServer\DjayEnglish.EntityFramework
-    dotnet ef dbcontext scaffold "Data Source=(localdb)\MSSQLLocalDB;Database=DjayEnglishDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer
+    dotnet ef dbcontext scaffold "Data Source=(localdb)\MSSQLLocalDB;Database=DjayEnglishDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -f
