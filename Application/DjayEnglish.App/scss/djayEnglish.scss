@@ -1,0 +1,36 @@
+﻿// Bootstrap variables override
+$body-bg: #fff;
+$table-accent-bg: rgba(0, 0, 0, .03);
+$input-disabled-bg: #f7f8fa;
+
+$grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1441px ) !default;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.btn i {
+    padding-right: $btn-padding-x;
+}
+
+.btn-sm i {
+    padding-right: $btn-padding-x-sm;
+}
+
+.btn-lg i {
+    padding-right: $btn-padding-x-lg;
+}
+
+.table-fixed {
+    height: 600px;
+}
+
+.table-fixed table {
+    position: relative;
+    border-collapse: collapse;
+}
+
+.table-fixed th {
+    background: white;
+    position: sticky;
+    top: 0;
+    border: none;
+}
