@@ -65,7 +65,7 @@ namespace DjayEnglish.Administration.Pages
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task OnGet()
         {
-            var fromDate = this.FromDate ?? DateTimeOffset.UtcNow.AddDays(-1);
+            var fromDate = this.FromDate ?? DateTimeOffset.UtcNow.AddYears(-1);
             var toDate = this.ToDate ?? DateTimeOffset.UtcNow;
             var quizzes = this.quizManager.GetQuizzes(
                 fromDate,
