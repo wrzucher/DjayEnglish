@@ -18,7 +18,7 @@ namespace DjayEnglish.Administration.Pages
     /// <summary>
     /// Quizzes page model.
     /// </summary>
-    internal partial class QuizzesModel : PageModel
+    public partial class QuizzesModel : PageModel
     {
         private readonly QuizManager quizManager;
         private readonly IMapper mapper;
@@ -57,7 +57,7 @@ namespace DjayEnglish.Administration.Pages
         /// <summary>
         /// Gets quizzes.
         /// </summary>
-        internal IEnumerable<Quiz> Quizzes { get; private set; } = Array.Empty<Quiz>();
+        public IEnumerable<Quiz> Quizzes { get; private set; } = Array.Empty<Quiz>();
 
         /// <summary>
         /// Displays list of the games.

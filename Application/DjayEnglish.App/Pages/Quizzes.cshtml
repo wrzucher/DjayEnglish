@@ -1,6 +1,7 @@
 ﻿@page
+@model DjayEnglish.Administration.Pages.QuizzesModel
 @{
-    ViewData["Title"] = "Список игр";
+    ViewData["Title"] = "List of the Quizzes";
 }
 
 <div class="row">
@@ -9,7 +10,7 @@
             <thead>
                 <tr>
                     <th class="align-middle text-center">
-                        #
+                        Id
                     </th>
                     <th class="align-middle text-center">
                         Команды
@@ -34,6 +35,17 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach (var quiz in this.Model.Quizzes)
+                {
+                <tr>
+                    <td class="text-center">
+                        @quiz.Id
+                    </td>
+                    <td class="text-center">
+                        @quiz.WordDefinitionId
+                    </td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>
