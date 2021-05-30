@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 namespace DjayEnglish.EntityFramework
 {
-    public partial class WordUsage
+    public partial class TranslationUnitUsage
     {
-        public WordUsage()
+        public TranslationUnitUsage()
         {
             QuizExamples = new HashSet<QuizExample>();
         }
 
         public int Id { get; set; }
-        public int WordDefinitionId { get; set; }
+        public int TranslationUnitDefinitionId { get; set; }
         public string Example { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual WordDefinition WordDefinition { get; set; }
+        public virtual TranslationUnitDefinition TranslationUnitDefinition { get; set; }
         public virtual ICollection<QuizExample> QuizExamples { get; set; }
     }
 }

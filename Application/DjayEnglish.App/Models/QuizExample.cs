@@ -32,6 +32,6 @@ namespace DjayEnglish.Administration.Models
         /// <summary>
         /// Gets or sets model of word usage.
         /// </summary>
-        public WordUsage WordUsage { get; set; } = null!;
+        public TranslationUnitUsage WordUsage { get; set; } = null!;
     }
 }

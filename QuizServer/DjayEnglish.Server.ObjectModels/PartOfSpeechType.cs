@@ -7,7 +7,7 @@
 namespace DjayEnglish.Server.ObjectModels
 {
     /// <summary>
-    /// Descibe part of speecg type.
+    /// Descibe part of speech type.
     /// </summary>
     public enum PartOfSpeechType
     {

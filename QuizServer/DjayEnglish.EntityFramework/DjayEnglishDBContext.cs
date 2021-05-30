@@ -23,11 +23,11 @@ namespace DjayEnglish.EntityFramework
         public virtual DbSet<Quiz> Quizzes { get; set; }
         public virtual DbSet<QuizAnswerOption> QuizAnswerOptions { get; set; }
         public virtual DbSet<QuizExample> QuizExamples { get; set; }
-        public virtual DbSet<Word> Words { get; set; }
-        public virtual DbSet<WordAntonym> WordAntonyms { get; set; }
-        public virtual DbSet<WordDefinition> WordDefinitions { get; set; }
-        public virtual DbSet<WordSynonym> WordSynonyms { get; set; }
-        public virtual DbSet<WordUsage> WordUsages { get; set; }
+        public virtual DbSet<TranslationUnit> TranslationUnits { get; set; }
+        public virtual DbSet<TranslationUnitAntonym> TranslationUnitAntonyms { get; set; }
+        public virtual DbSet<TranslationUnitDefinition> TranslationUnitDefinitions { get; set; }
+        public virtual DbSet<TranslationUnitSynonym> TranslationUnitSynonyms { get; set; }
+        public virtual DbSet<TranslationUnitUsage> TranslationUnitUsages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,11 +67,11 @@ namespace DjayEnglish.EntityFramework
                     .IsRequired()
                     .HasMaxLength(250);
 
-                entity.HasOne(d => d.WordDefinition)
+                entity.HasOne(d => d.TranslationUnitDefinition)
                     .WithMany(p => p.Quizzes)
-                    .HasForeignKey(d => d.WordDefinitionId)
+                    .HasForeignKey(d => d.TranslationUnitDefinitionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizzesWordDefinitionId_ToWordDefinitions");
+                    .HasConstraintName("FK_QuizzesTranslationUnitDefinitionId_ToTranslationUnitDefinitions");
             });
 
             modelBuilder.Entity<QuizAnswerOption>(entity =>
@@ -95,31 +95,36 @@ namespace DjayEnglish.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuizExamplesQuizId_ToQuizes");
 
-                entity.HasOne(d => d.WordUsage)
+                entity.HasOne(d => d.TranslationUnitUsage)
                     .WithMany(p => p.QuizExamples)
-                    .HasForeignKey(d => d.WordUsageId)
+                    .HasForeignKey(d => d.TranslationUnitUsageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_QuizExamplesWordUsageId_ToWordUsages");
+                    .HasConstraintName("FK_QuizExamplesTranslationUnitUsageId_ToTranslationUnitUsages");
             });
 
-            modelBuilder.Entity<Word>(entity =>
+            modelBuilder.Entity<TranslationUnit>(entity =>
             {
-                entity.Property(e => e.Word1)
+                entity.Property(e => e.Spelling)
                     .IsRequired()
-                    .HasMaxLength(40)
-                    .HasColumnName("Word");
+                    .HasMaxLength(40);
             });
 
-            modelBuilder.Entity<WordAntonym>(entity =>
+            modelBuilder.Entity<TranslationUnitAntonym>(entity =>
             {
-                entity.HasOne(d => d.Word)
-                    .WithMany(p => p.WordAntonyms)
-                    .HasForeignKey(d => d.WordId)
+                entity.HasOne(d => d.AntonymTranslationUnit)
+                    .WithMany(p => p.TranslationUnitAntonymAntonymTranslationUnits)
+                    .HasForeignKey(d => d.AntonymTranslationUnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WordAntonymsWordId_ToWords");
+                    .HasConstraintName("FK_TranslationUnitAntonymsAntonymTranslationUnitId_ToTranslationUnits");
+
+                entity.HasOne(d => d.TranslationUnit)
+                    .WithMany(p => p.TranslationUnitAntonymTranslationUnits)
+                    .HasForeignKey(d => d.TranslationUnitId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TranslationUnitAntonymsTranslationUnitId_ToTranslationUnits");
             });
 
-            modelBuilder.Entity<WordDefinition>(entity =>
+            modelBuilder.Entity<TranslationUnitDefinition>(entity =>
             {
                 entity.Property(e => e.Definition)
                     .IsRequired()
@@ -127,42 +132,41 @@ namespace DjayEnglish.EntityFramework
 
                 entity.Property(e => e.SourceName)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .HasDefaultValueSql("('UNKNOWN 1')");
+                    .HasMaxLength(50);
 
-                entity.HasOne(d => d.Word)
-                    .WithMany(p => p.WordDefinitions)
-                    .HasForeignKey(d => d.WordId)
+                entity.HasOne(d => d.TranslationUnit)
+                    .WithMany(p => p.TranslationUnitDefinitions)
+                    .HasForeignKey(d => d.TranslationUnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WordDefinitionsWordId_ToWords");
+                    .HasConstraintName("FK_TranslationUnitDefinitionsTranslationUnitId_ToTranslationUnits");
             });
 
-            modelBuilder.Entity<WordSynonym>(entity =>
+            modelBuilder.Entity<TranslationUnitSynonym>(entity =>
             {
-                entity.HasOne(d => d.SynonymWord)
-                    .WithMany(p => p.WordSynonymSynonymWords)
-                    .HasForeignKey(d => d.SynonymWordId)
+                entity.HasOne(d => d.SynonymTranslationUnit)
+                    .WithMany(p => p.TranslationUnitSynonymSynonymTranslationUnits)
+                    .HasForeignKey(d => d.SynonymTranslationUnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WordSynonymsSynonymWordId_ToWords");
+                    .HasConstraintName("FK_TranslationUnitSynonymsSynonymTranslationUnitId_ToTranslationUnits");
 
-                entity.HasOne(d => d.Word)
-                    .WithMany(p => p.WordSynonymWords)
-                    .HasForeignKey(d => d.WordId)
+                entity.HasOne(d => d.TranslationUnit)
+                    .WithMany(p => p.TranslationUnitSynonymTranslationUnits)
+                    .HasForeignKey(d => d.TranslationUnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WordSynonymsWordId_ToWords");
+                    .HasConstraintName("FK_TranslationUnitSynonymsTranslationUnitId_ToTranslationUnits");
             });
 
-            modelBuilder.Entity<WordUsage>(entity =>
+            modelBuilder.Entity<TranslationUnitUsage>(entity =>
             {
                 entity.Property(e => e.Example)
                     .IsRequired()
                     .HasMaxLength(700);
 
-                entity.HasOne(d => d.WordDefinition)
-                    .WithMany(p => p.WordUsages)
-                    .HasForeignKey(d => d.WordDefinitionId)
+                entity.HasOne(d => d.TranslationUnitDefinition)
+                    .WithMany(p => p.TranslationUnitUsages)
+                    .HasForeignKey(d => d.TranslationUnitDefinitionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WordUsagesWordDefinitionId_ToWordDefinitions");
+                    .HasConstraintName("FK_TranslationUnitUsagesTranslationUnitDefinitionId_ToTranslationUnitDefinitions");
             });
 
             OnModelCreatingPartial(modelBuilder);

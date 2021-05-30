@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace DjayEnglish.EntityFramework
 {
-    public partial class WordDefinition
+    public partial class TranslationUnitDefinition
     {
-        public WordDefinition()
+        public TranslationUnitDefinition()
         {
             Quizzes = new HashSet<Quiz>();
-            WordUsages = new HashSet<WordUsage>();
+            TranslationUnitUsages = new HashSet<TranslationUnitUsage>();
         }
 
         public int Id { get; set; }
-        public int WordId { get; set; }
+        public int TranslationUnitId { get; set; }
         public string Definition { get; set; }
         public bool IsActive { get; set; }
         public int SourceId { get; set; }
         public string SourceName { get; set; }
 
-        public virtual Word Word { get; set; }
+        public virtual TranslationUnit TranslationUnit { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
-        public virtual ICollection<WordUsage> WordUsages { get; set; }
+        public virtual ICollection<TranslationUnitUsage> TranslationUnitUsages { get; set; }
     }
 }

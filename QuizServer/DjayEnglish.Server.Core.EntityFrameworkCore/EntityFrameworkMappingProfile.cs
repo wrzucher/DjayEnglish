@@ -20,13 +20,16 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         public EntityFrameworkMappingProfile()
         {
             this.CreateMap<EntityFramework.QuizAnswerOption, QuizAnswerOption>();
-            this.CreateMap<EntityFramework.QuizExample, QuizExample>()
-                .ForMember(dest => dest.WordUsage, opts => opts.MapFrom(_ => _.WordUsage));
+            this.CreateMap<EntityFramework.QuizExample, QuizExample>();
             this.CreateMap<EntityFramework.Quiz, Quiz>()
                 .ForMember(dest => dest.AnswerShowType, opts => opts.MapFrom(_ => (ShowType)_.AnswerShowType))
                 .ForMember(dest => dest.ExampleShowType, opts => opts.MapFrom(_ => (ShowType)_.ExampleShowType))
                 .ForMember(dest => dest.QuestionShowType, opts => opts.MapFrom(_ => (ShowType)_.QuestionShowType));
-            this.CreateMap<EntityFramework.WordUsage, WordUsage>();
+            this.CreateMap<EntityFramework.TranslationUnitUsage, TranslationUnitUsage>();
+            this.CreateMap<EntityFramework.TranslationUnitDefinition, TranslationUnitDefinition>();
+            this.CreateMap<EntityFramework.TranslationUnit, TranslationUnit>()
+                .ForMember(dest => dest.PartOfSpeech, opts => opts.MapFrom(_ => (PartOfSpeechType)_.PartOfSpeech))
+                .ForMember(dest => dest.Language, opts => opts.MapFrom(_ => (LanguageType)_.Language));
         }
     }
 }

@@ -68,7 +68,7 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Gets answer options.
         /// </summary>
-        public string[] Examples => this.QuizExamples.Select(_ => _.WordUsage.Example).ToArray();
+        public string[] Examples => this.QuizExamples.Select(_ => _.TranslationUnitUsage.Example).ToArray();
 
         /// <summary>
         /// Gets or sets answer options for quiz.

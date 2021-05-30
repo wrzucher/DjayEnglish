@@ -15,7 +15,7 @@ namespace DjayEnglish.EntityFramework
         }
 
         public int Id { get; set; }
-        public int WordDefinitionId { get; set; }
+        public int TranslationUnitDefinitionId { get; set; }
         public string Question { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset Created { get; set; }
@@ -25,7 +25,7 @@ namespace DjayEnglish.EntityFramework
         public byte AnswerShowType { get; set; }
         public bool HasAudioFiles { get; set; }
 
-        public virtual WordDefinition WordDefinition { get; set; }
+        public virtual TranslationUnitDefinition TranslationUnitDefinition { get; set; }
         public virtual ICollection<ChatQuiz> ChatQuizzes { get; set; }
         public virtual ICollection<QuizAnswerOption> QuizAnswerOptions { get; set; }
         public virtual ICollection<QuizExample> QuizExamples { get; set; }

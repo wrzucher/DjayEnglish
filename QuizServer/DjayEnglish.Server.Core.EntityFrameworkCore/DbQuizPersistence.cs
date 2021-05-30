@@ -44,7 +44,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var quizzesEntity = this.dbContext.Quizzes
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
-                    .ThenInclude(_ => _.WordUsage)
+                    .ThenInclude(_ => _.TranslationUnitUsage)
                 .Where(_ =>
                     !_.HasAudioFiles
                   && (_.ExampleShowType == (byte)ShowType.Audio
@@ -167,7 +167,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var quizEntity = this.dbContext.Quizzes
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
-                    .ThenInclude(_ => _.WordUsage)
+                    .ThenInclude(_ => _.TranslationUnitUsage)
                 .FirstOrDefault(_ => _.Id == quizId);
             var quizModel = this.mapper.Map<ObjectModels.Quiz?>(quizEntity);
             return quizModel;
@@ -184,7 +184,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
                 .Include(_ => _.ChatQuizzes)
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
-                    .ThenInclude(_ => _.WordUsage)
+                    .ThenInclude(_ => _.TranslationUnitUsage)
                 .FirstOrDefault(_ =>
                     _.ChatQuizzes.Where(_ => _.ChatId == chatId).Count() == 0
                  && _.IsActive);
@@ -219,7 +219,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
                 .Include(_ => _.ChatQuizzes)
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
-                    .ThenInclude(_ => _.WordUsage)
+                    .ThenInclude(_ => _.TranslationUnitUsage)
                 .OrderBy(o => o.Id).Skip(skip).Take(1).FirstOrDefault();
             var randomQuizModel = this.mapper.Map<ObjectModels.Quiz?>(randomQuiz);
             return randomQuizModel;
@@ -238,9 +238,11 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             bool? isActive)
         {
             var quizzesEntity = this.dbContext.Quizzes
+                .Include(_ => _.TranslationUnitDefinition)
+                    .ThenInclude(_ => _.TranslationUnit)
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
-                    .ThenInclude(_ => _.WordUsage)
+                    .ThenInclude(_ => _.TranslationUnitUsage)
                 .Where(_ => _.Created >= fromDate && _.Created <= toDate);
             if (isActive != null)
             {

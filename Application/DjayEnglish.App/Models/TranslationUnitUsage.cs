@@ -1,15 +1,15 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="WordUsage.cs" company="DjayEnglish">
+// <copyright file="TranslationUnitUsage.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Server.ObjectModels
+namespace DjayEnglish.Administration.Models
 {
     /// <summary>
-    /// Object model which contain infromation about word usage.
+    /// Object model which contain infromation about translation unit usage.
     /// </summary>
-    public partial class WordUsage
+    public partial class TranslationUnitUsage
     {
         /// <summary>
         /// Gets or sets id of word example.
@@ -17,9 +17,9 @@ namespace DjayEnglish.Server.ObjectModels
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets id of word definition.
+        /// Gets or sets id of translation unit definition.
         /// </summary>
-        public int WordDefinitionId { get; set; }
+        public int TranslationUnitDefinitionId { get; set; }
 
         /// <summary>
         /// Gets or sets text of word example.

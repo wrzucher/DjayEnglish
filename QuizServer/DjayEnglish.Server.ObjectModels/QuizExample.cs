@@ -25,13 +25,13 @@ namespace DjayEnglish.Server.ObjectModels
         public int QuizeId { get; set; }
 
         /// <summary>
-        /// Gets or sets id of word example.
+        /// Gets or sets id of translation unit usage.
         /// </summary>
-        public int WordExampleId { get; set; }
+        public int TranslationUnitUsageId { get; set; }
 
         /// <summary>
-        /// Gets or sets model of word usage.
+        /// Gets or sets model of translation unit usage.
         /// </summary>
-        public WordUsage WordUsage { get; set; } = null!;
+        public TranslationUnitUsage TranslationUnitUsage { get; set; } = null!;
     }
 }
