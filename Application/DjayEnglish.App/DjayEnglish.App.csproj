@@ -19,9 +19,4 @@
     <ProjectReference Include="..\..\QuizServer\DjayEnglish.Server.Core\DjayEnglish.Server.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Shared\DisplayTemplates\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
-  </ItemGroup>
-
 </Project>
