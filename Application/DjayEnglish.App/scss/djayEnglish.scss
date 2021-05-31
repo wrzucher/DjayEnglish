@@ -34,3 +34,16 @@ $grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 14
     top: 0;
     border: none;
 }
+
+body {
+    padding-top: 65px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 65px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
