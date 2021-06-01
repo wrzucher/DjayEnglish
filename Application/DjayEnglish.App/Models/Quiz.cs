@@ -53,11 +53,11 @@ namespace DjayEnglish.Administration.Models
         /// <summary>
         /// Gets or sets answer options for quiz.
         /// </summary>
-        public IEnumerable<QuizAnswerOption> QuizeAnswerOptions { get; set; } = null!;
+        public IEnumerable<QuizAnswerOption> QuizAnswerOptions { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets using and examples for quiz.
         /// </summary>
-        public IEnumerable<QuizExample> QuizeExamples { get; set; } = null!;
+        public IEnumerable<QuizExample> QuizExamples { get; set; } = null!;
     }
 }

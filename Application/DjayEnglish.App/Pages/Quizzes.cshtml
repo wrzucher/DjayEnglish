@@ -14,17 +14,129 @@
                 <th class="align-middle text-center">
                     Spelling
                 </th>
+                <th class="align-middle text-center">
+                    Question
+                </th>
+                <th class="align-middle text-center">
+                    Is active
+                </th>
+                <th>
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var quiz in this.Model.Quizzes)
             {
-            <tr>
+            <tr data-bs-toggle='collapse' data-bs-target='#pos_@quiz.Id'>
                 <td class="text-center">
                     @quiz.Id
                 </td>
                 <td class="text-center">
                     @quiz.TranslationUnitDefinition?.TranslationUnit?.Spelling
+                </td>
+                <td class="text-center">
+                    @quiz.Question
+                </td>
+                <td>
+                    @Html.DisplayFor(_ => quiz.IsActive)
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr class='hidden-row collapse' id='pos_@quiz.Id'>
+                <td colspan="5">
+                    <div>
+                        @if (quiz.QuizAnswerOptions != null)
+                        {
+                            <div class="text-primary">Answer options:</div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="align-middle text-center">
+                                            Id
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Answer
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Is right
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var answerOption in quiz.QuizAnswerOptions)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @answerOption.Id
+                                            </td>
+                                            <td>
+                                                @answerOption.Text
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(_ => answerOption.IsRightAnswer)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="text-danger">There are not answer options for this quiz.</div>
+                        }
+                    </div>
+                    <div>
+                        @if (quiz.QuizExamples != null)
+                        {
+                            <div class="text-primary">Usage:</div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="align-middle text-center">
+                                            Id
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Usage
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Is active
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var examples in quiz.QuizExamples)
+                                    {
+                                    <tr>
+                                        @if (examples.TranslationUnitUsage != null)
+                                        {
+                                            <td>
+                                                @examples.TranslationUnitUsage.Id
+                                            </td>
+                                            <td>
+                                                @examples.TranslationUnitUsage.Example
+                                            </td>
+                                            <td>
+                                                @{ var usageIsActive = examples.TranslationUnitUsage.IsActive; }
+                                                @Html.DisplayFor(_ => usageIsActive)
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td colspan="3">
+                                                <div class="text-danger">Translation unit is empty!</div>
+                                            </td>
+                                        }
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="text-danger">There are not usage for this quiz.</div>
+                        }
+                    </div>
                 </td>
             </tr>
             }

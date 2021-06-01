@@ -22,7 +22,7 @@ namespace DjayEnglish.Administration.Models
         /// <summary>
         /// Gets or sets id of quiz to which answer option related.
         /// </summary>
-        public int QuizeId { get; set; }
+        public int QuizId { get; set; }
 
         /// <summary>
         /// Gets or sets text of answer option.

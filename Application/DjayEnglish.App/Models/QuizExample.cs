@@ -22,16 +22,16 @@ namespace DjayEnglish.Administration.Models
         /// <summary>
         /// Gets or sets id of quiz to which example related.
         /// </summary>
-        public int QuizeId { get; set; }
+        public int QuizId { get; set; }
 
         /// <summary>
         /// Gets or sets id of word example.
         /// </summary>
-        public int WordExampleId { get; set; }
+        public int TranslationUnitUsageId { get; set; }
 
         /// <summary>
         /// Gets or sets model of word usage.
         /// </summary>
-        public TranslationUnitUsage WordUsage { get; set; } = null!;
+        public TranslationUnitUsage TranslationUnitUsage { get; set; } = null!;
     }
 }
