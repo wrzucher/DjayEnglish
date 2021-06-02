@@ -5,8 +5,8 @@
 }
 
 <div class="table-responsive">
-    <table class="table table-striped table-bordered table-hover">
-        <thead>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
                 <th class="align-middle text-center">
                     Id
@@ -27,7 +27,7 @@
         <tbody>
             @foreach (var quiz in this.Model.Quizzes)
             {
-            <tr data-bs-toggle='collapse' data-bs-target='#pos_@quiz.Id'>
+            <tr data-bs-toggle='collapse' data-bs-target='#pos_@quiz.Id' role="button">
                 <td class="text-center">
                     @quiz.Id
                 </td>
@@ -49,8 +49,8 @@
                         @if (quiz.QuizAnswerOptions != null)
                         {
                             <div class="text-primary">Answer options:</div>
-                            <table class="table table-striped table-bordered table-hover">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
                                     <tr>
                                         <th class="align-middle text-center">
                                             Id
@@ -90,8 +90,8 @@
                         @if (quiz.QuizExamples != null)
                         {
                             <div class="text-primary">Usage:</div>
-                            <table class="table table-striped table-bordered table-hover">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
                                     <tr>
                                         <th class="align-middle text-center">
                                             Id
