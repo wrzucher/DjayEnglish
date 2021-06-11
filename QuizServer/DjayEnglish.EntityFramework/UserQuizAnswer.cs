@@ -8,10 +8,10 @@ namespace DjayEnglish.EntityFramework
     public partial class UserQuizAnswer
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public int UserQuizeId { get; set; }
         public int? AnswerId { get; set; }
 
         public virtual QuizAnswerOption Answer { get; set; }
-        public virtual User User { get; set; }
+        public virtual UserQuiz UserQuize { get; set; }
     }
 }

@@ -19,6 +19,10 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// </summary>
         public EntityFrameworkMappingProfile()
         {
+            this.CreateMap<EntityFramework.User, User>();
+            this.CreateMap<EntityFramework.UserQuiz, UserQuiz>()
+                .ForMember(dest => dest.State, opts => opts.MapFrom(_ => (QuizState)_.State));
+            this.CreateMap<EntityFramework.UserQuizAnswer, UserQuizAnswer>();
             this.CreateMap<EntityFramework.QuizAnswerOption, QuizAnswerOption>();
             this.CreateMap<EntityFramework.QuizExample, QuizExample>();
             this.CreateMap<EntityFramework.Quiz, Quiz>()

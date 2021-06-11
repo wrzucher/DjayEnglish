@@ -169,20 +169,16 @@ namespace DjayEnglish.EntityFramework
 
             modelBuilder.Entity<UserQuizAnswer>(entity =>
             {
-                entity.Property(e => e.UserId)
-                    .IsRequired()
-                    .HasMaxLength(42);
-
                 entity.HasOne(d => d.Answer)
                     .WithMany(p => p.UserQuizAnswers)
                     .HasForeignKey(d => d.AnswerId)
                     .HasConstraintName("FK_UserQuizAnswersAnswerId_ToQuizAnswerOptions");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.UserQuize)
                     .WithMany(p => p.UserQuizAnswers)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.UserQuizeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserQuizAnswersUserId_ToUsers");
+                    .HasConstraintName("FK_UserQuizAnswersUserId_ToUserQuizzes");
             });
 
             OnModelCreatingPartial(modelBuilder);
