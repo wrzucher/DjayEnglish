@@ -27,11 +27,16 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Gets or sets id of translation unit usage.
         /// </summary>
-        public int TranslationUnitUsageId { get; set; }
+        public int? TranslationUnitUsageId { get; set; }
+
+        /// <summary>
+        /// Gets or sets test of translation unit usage.
+        /// </summary>
+        public string Text { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets model of translation unit usage.
         /// </summary>
-        public TranslationUnitUsage TranslationUnitUsage { get; set; } = null!;
+        public TranslationUnitUsage? TranslationUnitUsage { get; set; }
     }
 }

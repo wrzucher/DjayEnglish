@@ -22,6 +22,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             this.CreateMap<EntityFramework.QuizAnswerOption, QuizAnswerOption>();
             this.CreateMap<EntityFramework.QuizExample, QuizExample>();
             this.CreateMap<EntityFramework.Quiz, Quiz>()
+                .ForMember(dest => dest.QuestionType, opts => opts.MapFrom(_ => (QuestionType)_.QuestionType))
                 .ForMember(dest => dest.AnswerShowType, opts => opts.MapFrom(_ => (ShowType)_.AnswerShowType))
                 .ForMember(dest => dest.ExampleShowType, opts => opts.MapFrom(_ => (ShowType)_.ExampleShowType))
                 .ForMember(dest => dest.QuestionShowType, opts => opts.MapFrom(_ => (ShowType)_.QuestionShowType));

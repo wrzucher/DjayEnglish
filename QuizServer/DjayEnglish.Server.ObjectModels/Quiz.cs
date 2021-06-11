@@ -23,7 +23,7 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Gets or sets id of translation unit definition which used in quiz.
         /// </summary>
-        public int TranslationUnitDefinitionId { get; set; }
+        public int? TranslationUnitDefinitionId { get; set; }
 
         /// <summary>
         /// Gets or sets id of translation unit definition which used in quiz.
@@ -51,6 +51,11 @@ namespace DjayEnglish.Server.ObjectModels
         public string Question { get; set; } = null!;
 
         /// <summary>
+        /// Gets or sets type of question.
+        /// </summary>
+        public QuestionType QuestionType { get; set; }
+
+        /// <summary>
         /// Gets or sets show type of question.
         /// </summary>
         public ShowType QuestionShowType { get; set; }
@@ -71,9 +76,9 @@ namespace DjayEnglish.Server.ObjectModels
         public bool HasAudioFiles { get; set; }
 
         /// <summary>
-        /// Gets answer options.
+        /// Gets examples and usage related to quiz.
         /// </summary>
-        public string[] Examples => this.QuizExamples.Select(_ => _.TranslationUnitUsage.Example).ToArray();
+        public string[] Examples => this.QuizExamples.Select(_ => _.Text).ToArray();
 
         /// <summary>
         /// Gets or sets answer options for quiz.

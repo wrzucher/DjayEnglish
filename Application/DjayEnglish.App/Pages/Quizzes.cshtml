@@ -46,7 +46,7 @@
             <tr class='hidden-row collapse' id='pos_@quiz.Id'>
                 <td colspan="5">
                     <div>
-                        @if (quiz.QuizAnswerOptions != null)
+                        @if (quiz.QuizAnswerOptions.Any())
                         {
                             <div class="text-primary">Answer options:</div>
                             <table class="table table-bordered">
@@ -87,7 +87,7 @@
                         }
                     </div>
                     <div>
-                        @if (quiz.QuizExamples != null)
+                        @if (quiz.QuizExamples.Any())
                         {
                             <div class="text-primary">Usage:</div>
                             <table class="table table-bordered">

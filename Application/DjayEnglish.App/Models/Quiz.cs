@@ -8,7 +8,7 @@ namespace DjayEnglish.Administration.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using DjayEnglish.Server.ObjectModels;
 
     /// <summary>
     /// Object model which contain information about quiz.
@@ -23,7 +23,7 @@ namespace DjayEnglish.Administration.Models
         /// <summary>
         /// Gets or sets id of translation unit definition which used in quiz.
         /// </summary>
-        public int TranslationUnitDefinitionId { get; set; }
+        public int? TranslationUnitDefinitionId { get; set; }
 
         /// <summary>
         /// Gets or sets id of translation unit definition which used in quiz.
@@ -49,6 +49,31 @@ namespace DjayEnglish.Administration.Models
         /// Gets or sets text of question.
         /// </summary>
         public string Question { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets type of question.
+        /// </summary>
+        public QuestionType QuestionType { get; set; }
+
+        /// <summary>
+        /// Gets or sets show type of question.
+        /// </summary>
+        public ShowType QuestionShowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets show type of examples and usage.
+        /// </summary>
+        public ShowType ExampleShowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets show type of answers.
+        /// </summary>
+        public ShowType AnswerShowType { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether quiz has audio files.
+        /// </summary>
+        public bool HasAudioFiles { get; set; }
 
         /// <summary>
         /// Gets or sets answer options for quiz.

@@ -70,7 +70,6 @@ namespace DjayEnglish.EntityFramework
                 entity.HasOne(d => d.TranslationUnitDefinition)
                     .WithMany(p => p.Quizzes)
                     .HasForeignKey(d => d.TranslationUnitDefinitionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuizzesTranslationUnitDefinitionId_ToTranslationUnitDefinitions");
             });
 
@@ -89,6 +88,10 @@ namespace DjayEnglish.EntityFramework
 
             modelBuilder.Entity<QuizExample>(entity =>
             {
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .HasMaxLength(700);
+
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.QuizExamples)
                     .HasForeignKey(d => d.QuizId)
@@ -98,7 +101,6 @@ namespace DjayEnglish.EntityFramework
                 entity.HasOne(d => d.TranslationUnitUsage)
                     .WithMany(p => p.QuizExamples)
                     .HasForeignKey(d => d.TranslationUnitUsageId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_QuizExamplesTranslationUnitUsageId_ToTranslationUnitUsages");
             });
 

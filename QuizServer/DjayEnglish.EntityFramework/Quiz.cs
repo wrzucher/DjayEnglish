@@ -15,11 +15,12 @@ namespace DjayEnglish.EntityFramework
         }
 
         public int Id { get; set; }
-        public int TranslationUnitDefinitionId { get; set; }
+        public int? TranslationUnitDefinitionId { get; set; }
         public string Question { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Closed { get; set; }
+        public byte QuestionType { get; set; }
         public byte QuestionShowType { get; set; }
         public byte ExampleShowType { get; set; }
         public byte AnswerShowType { get; set; }
