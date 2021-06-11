@@ -12,6 +12,7 @@ namespace DjayEnglish.EntityFramework
             ChatQuizzes = new HashSet<ChatQuiz>();
             QuizAnswerOptions = new HashSet<QuizAnswerOption>();
             QuizExamples = new HashSet<QuizExample>();
+            UserQuizzes = new HashSet<UserQuiz>();
         }
 
         public int Id { get; set; }
@@ -30,5 +31,6 @@ namespace DjayEnglish.EntityFramework
         public virtual ICollection<ChatQuiz> ChatQuizzes { get; set; }
         public virtual ICollection<QuizAnswerOption> QuizAnswerOptions { get; set; }
         public virtual ICollection<QuizExample> QuizExamples { get; set; }
+        public virtual ICollection<UserQuiz> UserQuizzes { get; set; }
     }
 }

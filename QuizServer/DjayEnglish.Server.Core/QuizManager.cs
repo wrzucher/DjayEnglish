@@ -66,7 +66,7 @@ namespace DjayEnglish.Server.Core
             }
 
             var startedQuize = this.GetNextQuizForUser(chatId);
-            this.dbQuizPersistence.AddQuizToChat(chatId, startedQuize.Id, startedAt);
+            this.dbQuizPersistence.AddQuizToUser(chatId, startedQuize.Id, startedAt);
             this.quizManagerEvents.NotifyQuizStarted(chatId, startedQuize);
             return startedQuize;
         }

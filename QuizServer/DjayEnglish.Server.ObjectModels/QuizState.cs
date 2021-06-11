@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ChatQuizState.cs" company="DjayEnglish">
+// <copyright file="QuizState.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,9 +7,9 @@
 namespace DjayEnglish.Server.ObjectModels
 {
     /// <summary>
-    /// Descibe states in which chat quiz could be.
+    /// Descibe states in which quiz could be for user.
     /// </summary>
-    public enum ChatQuizState
+    public enum QuizState
     {
         /// <summary>
         /// The user is studying this quiz at this moment.

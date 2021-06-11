@@ -79,7 +79,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <returns>Indicate that chat with requested id exist.</returns>
         public bool IsChatExist(long chatId)
         {
-            var chat = this.dbContext.Chats.FirstOrDefault(_ => _.Id == chatId);
+            var chat = this.dbContext.Users.FirstOrDefault(_ => _.ChatId == chatId);
             return chat != null;
         }
 
@@ -89,12 +89,13 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="chatId">Id of the new chat.</param>
         public void RegisterNewChat(long chatId)
         {
-            var newChat = new Chat()
+            var newChat = new User()
             {
-                Id = chatId,
+                ChatId = chatId,
+                Id = Guid.NewGuid().ToString(),
             };
 
-            this.dbContext.Chats.Add(newChat);
+            this.dbContext.Users.Add(newChat);
             this.dbContext.SaveChanges();
         }
 
@@ -105,7 +106,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="quizId">Id of the quiz which will be added to chat.</param>
         /// <param name="created">Date when quiz added to chat.</param>
         /// <returns>Model of chat quiz.</returns>
-        public ChatQuiz AddQuizToChat(
+        public ChatQuiz AddQuizToUser(
             long chatId,
             int quizId,
             DateTimeOffset created)
@@ -114,7 +115,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             {
                 ChatId = chatId,
                 QuizId = quizId,
-                State = (byte)ChatQuizState.IsActive,
+                State = (byte)QuizState.IsActive,
                 Created = created,
             };
 
@@ -131,7 +132,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         public ChatQuiz? GetActiveChatQuiz(long chatId)
         {
             var entityChatQuiz = this.dbContext.ChatQuizzes
-                .Where(_ => _.ChatId == chatId && _.State == (byte)ChatQuizState.IsActive)
+                .Where(_ => _.ChatId == chatId && _.State == (byte)QuizState.IsActive)
                 .OrderByDescending(_ => _.Created)
                 .FirstOrDefault();
             this.dbContext.SaveChanges();
