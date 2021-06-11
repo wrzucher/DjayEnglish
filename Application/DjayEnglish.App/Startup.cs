@@ -68,6 +68,7 @@ namespace DjayEnglish.App
 
             services.AddSingleton<TelegramHubListener>();
             services.AddSingleton<QuizManagerEvents>();
+            services.AddScoped<DbTranslationUnitPersistence>();
             services.AddScoped<DbQuizPersistence>();
             services.AddScoped<TelegramHubSender>();
             services.AddScoped<RemoteServiceAudioBuilder>();

@@ -4,10 +4,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace DjayEnglish.Server.ObjectModels
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Object model which contain information about word or phrase.
     /// </summary>
@@ -41,6 +41,16 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Gets or sets definitions for translation unit.
         /// </summary>
-        public IEnumerable<TranslationUnitDefinition> TranslationUnitDefinitions { get; set; } = null!;
+        public IEnumerable<TranslationUnitDefinition> Definitions { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets synonyms for translation unit.
+        /// </summary>
+        public IEnumerable<TranslationUnitSynonym> Sysnonyms { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets antonyms for translation unit.
+        /// </summary>
+        public IEnumerable<TranslationUnitAntonym> Antonyms { get; set; } = null!;
     }
 }

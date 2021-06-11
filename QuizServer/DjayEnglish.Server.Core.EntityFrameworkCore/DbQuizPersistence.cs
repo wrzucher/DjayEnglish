@@ -244,6 +244,67 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
+        /// Create new quiz.
+        /// </summary>
+        /// <param name="question">Text of quiz question.</param>
+        /// <param name="questionType">Type of question.</param>
+        /// <param name="translationUnitDefinitionId">Id of translation unit related to quiz.</param>
+        /// <param name="questionShowType">Question show type.</param>
+        /// <param name="exampleShowType">Example show type.</param>
+        /// <param name="answerShowType">Answer show type.</param>
+        /// <param name="created">Date of quiz creating.</param>
+        /// <param name="isActive">Indicate that new quiz will be active or not.</param>
+        /// <returns>Id of created quiz.</returns>
+        public int CreateQuiz(
+            string question,
+            QuestionType questionType,
+            int translationUnitDefinitionId,
+            ShowType questionShowType,
+            ShowType exampleShowType,
+            ShowType answerShowType,
+            DateTimeOffset created,
+            bool isActive)
+        {
+            var newQuiz = new EntityFramework.Quiz()
+            {
+                Question = question,
+                QuestionType = (byte)questionType,
+                TranslationUnitDefinitionId = translationUnitDefinitionId,
+                QuestionShowType = (byte)questionShowType,
+                ExampleShowType = (byte)exampleShowType,
+                AnswerShowType = (byte)answerShowType,
+                Created = created,
+                IsActive = isActive,
+            };
+            var quizeEntity = this.dbContext.Quizzes.Add(newQuiz);
+            this.dbContext.SaveChanges();
+            return quizeEntity.Entity.Id;
+        }
+
+        /// <summary>
+        /// Add new answer options to quiz.
+        /// </summary>
+        /// <param name="quizId">Id of related to answer quiz.</param>
+        /// <param name="text">Text of answer.</param>
+        /// <param name="isRightAnswer">Indicate that answer is right or not.</param>
+        /// <returns>Id of added answer option.</returns>
+        public int AddAnswerOptionToQuiz(
+            int quizId,
+            string text,
+            bool isRightAnswer)
+        {
+            var newAnswerOption = new EntityFramework.QuizAnswerOption()
+            {
+                IsRightAnswer = isRightAnswer,
+                Text = text,
+                QuizId = quizId,
+            };
+            var answerOptionEntity = this.dbContext.QuizAnswerOptions.Add(newAnswerOption);
+            this.dbContext.SaveChanges();
+            return answerOptionEntity.Entity.Id;
+        }
+
+        /// <summary>
         /// Get quizzes by requested parameters.
         /// </summary>
         /// <param name="fromDate">Date from which quiz was created.</param>

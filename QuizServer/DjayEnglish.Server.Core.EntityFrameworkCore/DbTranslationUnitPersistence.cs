@@ -62,5 +62,21 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var tuModel = this.mapper.Map<IEnumerable<ObjectModels.TranslationUnit>>(tuEntity);
             return tuModel;
         }
+
+        /// <summary>
+        /// Get translation unit by id.
+        /// </summary>
+        /// <param name="translationUnitId">Id of translation unit.</param>
+        /// <returns>Translation unit model.</returns>
+        public ObjectModels.TranslationUnit? GetTranslationUnit(int translationUnitId)
+        {
+            var tuEntity = this.dbContext.TranslationUnits
+                .Include(_ => _.TranslationUnitDefinitions)
+                .Include(_ => _.TranslationUnitSynonymTranslationUnits)
+                .Include(_ => _.TranslationUnitAntonymTranslationUnits)
+                .FirstOrDefault(_ => _.Id == translationUnitId);
+            var tuModel = this.mapper.Map<ObjectModels.TranslationUnit?>(tuEntity);
+            return tuModel;
+        }
     }
 }
