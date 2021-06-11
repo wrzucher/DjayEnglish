@@ -4,6 +4,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace DjayEnglish.Server.ObjectModels
 {
     /// <summary>
@@ -35,5 +37,10 @@ namespace DjayEnglish.Server.ObjectModels
         /// Gets or sets a value indicating whether translation unit is active.
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Gets or sets definitions for translation unit.
+        /// </summary>
+        public IEnumerable<TranslationUnitDefinition> TranslationUnitDefinitions { get; set; } = null!;
     }
 }
