@@ -60,13 +60,14 @@ namespace DjayEnglish.Server.Core
         /// <returns>New quiz for user.</returns>
         public Quiz StartQuiz(long chatId, DateTimeOffset startedAt)
         {
-            if (!this.dbQuizPersistence.IsChatExist(chatId))
+            var user = this.dbQuizPersistence.GetUser(chatId);
+            if (user == null)
             {
-                this.dbQuizPersistence.RegisterNewChat(chatId);
+                user = this.dbQuizPersistence.RegisterNewChat(chatId);
             }
 
-            var startedQuize = this.GetNextQuizForUser(chatId);
-            this.dbQuizPersistence.AddQuizToUser(chatId, startedQuize.Id, startedAt);
+            var startedQuize = this.GetNextQuizForUser(user.Id);
+            this.dbQuizPersistence.AddQuizToUser(user.Id, startedQuize.Id, startedAt);
             this.quizManagerEvents.NotifyQuizStarted(chatId, startedQuize);
             return startedQuize;
         }
@@ -82,18 +83,25 @@ namespace DjayEnglish.Server.Core
             string userAnswerkey,
             DateTimeOffset answerDate)
         {
-            var chatQuize = this.dbQuizPersistence.GetActiveChatQuiz(chatId);
-            if (chatQuize == null)
+            var user = this.dbQuizPersistence.GetUser(chatId);
+            if (user == null)
+            {
+                throw new InvalidOperationException(
+                    $"Chat {chatId} doesn't have user.");
+            }
+
+            var userQuize = this.dbQuizPersistence.GetActiveUserQuiz(user.Id);
+            if (userQuize == null)
             {
                 throw new InvalidOperationException(
                     $"Chat {chatId} doesn't have active quize. User answer could'nt be registered.");
             }
 
-            var quiz = this.GetQuiz(chatQuize.QuizId);
+            var quiz = this.GetQuiz(userQuize.QuizId);
             if (quiz == null)
             {
                 throw new InvalidOperationException(
-                    $"User answer couldn't be registered in chat {chatId} because quize {chatQuize.QuizId} is null.");
+                    $"User answer couldn't be registered in chat {chatId} because quize {userQuize.QuizId} is null.");
             }
 
             var answerOption = quiz.GetAnswerOption(userAnswerkey);
@@ -102,7 +110,7 @@ namespace DjayEnglish.Server.Core
                 return;
             }
 
-            this.dbQuizPersistence.RegisterQuizAnswer(chatQuize.Id, answerOption.Id);
+            this.dbQuizPersistence.RegisterQuizAnswer(userQuize.Id, answerOption.Id);
             this.quizManagerEvents.NotifyUserAnswerResultRecived(chatId, answerOption.IsRightAnswer);
 
             if (answerOption.IsRightAnswer)
@@ -114,24 +122,31 @@ namespace DjayEnglish.Server.Core
         /// <summary>
         /// Get next quiz for user.
         /// </summary>
-        /// <param name="chatId">Id of the chat which identify user.</param>
+        /// <param name="userId">Id which identify user.</param>
         /// <returns>Quiz model for user.</returns>
-        public Quiz GetNextQuizForUser(long chatId)
+        public Quiz GetNextQuizForUser(string userId)
         {
-            var newForChatQuiz = this.dbQuizPersistence.GetNewForChatActiveQuiz(chatId);
+            var user = this.dbQuizPersistence.GetUser(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException(
+                    $"User {userId} doesn't exist.");
+            }
+
+            var newForChatQuiz = this.dbQuizPersistence.GetNewQuiz(user.Id);
             if (newForChatQuiz != null)
             {
                 return newForChatQuiz;
             }
 
-            var oldestQuizId = this.dbQuizPersistence.GetOldestActiveQuizId(chatId);
+            var oldestQuizId = this.dbQuizPersistence.GetOldestActiveQuizId(user.Id);
             if (oldestQuizId != null)
             {
                 var oldestQuize = this.GetQuiz(oldestQuizId.Value);
                 if (oldestQuize == null)
                 {
                     throw new InvalidOperationException(
-                        $"Oldest quiz model with id {oldestQuizId.Value} couldn't be null for chat {chatId}");
+                        $"Oldest quiz model with id {oldestQuizId.Value} couldn't be null for user {userId}");
                 }
             }
 
@@ -139,7 +154,7 @@ namespace DjayEnglish.Server.Core
             if (randomQuize == null)
             {
                 throw new InvalidOperationException(
-                        $"Random quiz couldn't be null for chat {chatId}");
+                        $"Random quiz couldn't be null for {userId}");
             }
 
             return randomQuize;

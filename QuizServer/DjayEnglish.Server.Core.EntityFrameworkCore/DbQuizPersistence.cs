@@ -73,21 +73,33 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
-        /// Check if chat with id exist.
+        /// Get user by chat id.
         /// </summary>
         /// <param name="chatId">Id of the chat.</param>
-        /// <returns>Indicate that chat with requested id exist.</returns>
-        public bool IsChatExist(long chatId)
+        /// <returns>User model.</returns>
+        public User? GetUser(long chatId)
         {
-            var chat = this.dbContext.Users.FirstOrDefault(_ => _.ChatId == chatId);
-            return chat != null;
+            var user = this.dbContext.Users.FirstOrDefault(_ => _.ChatId == chatId);
+            return user;
+        }
+
+        /// <summary>
+        /// Get user by user id.
+        /// </summary>
+        /// <param name="userId">Id of the user.</param>
+        /// <returns>User model.</returns>
+        public User? GetUser(string userId)
+        {
+            var user = this.dbContext.Users.FirstOrDefault(_ => _.Id == userId);
+            return user;
         }
 
         /// <summary>
         /// Register new chat.
         /// </summary>
         /// <param name="chatId">Id of the new chat.</param>
-        public void RegisterNewChat(long chatId)
+        /// <returns>Model of created user.</returns>
+        public User RegisterNewChat(long chatId)
         {
             var newChat = new User()
             {
@@ -95,44 +107,45 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
                 Id = Guid.NewGuid().ToString(),
             };
 
-            this.dbContext.Users.Add(newChat);
+            var entityUser = this.dbContext.Users.Add(newChat);
             this.dbContext.SaveChanges();
+            return entityUser.Entity;
         }
 
         /// <summary>
-        /// Add new quiz to user chat.
+        /// Add new quiz to user.
         /// </summary>
-        /// <param name="chatId">Id of the chat for which quiz added.</param>
-        /// <param name="quizId">Id of the quiz which will be added to chat.</param>
-        /// <param name="created">Date when quiz added to chat.</param>
-        /// <returns>Model of chat quiz.</returns>
-        public ChatQuiz AddQuizToUser(
-            long chatId,
+        /// <param name="userId">Id of the user for which quiz added.</param>
+        /// <param name="quizId">Id of the quiz which will be added to user.</param>
+        /// <param name="created">Date when quiz added to user.</param>
+        /// <returns>Model of user quiz.</returns>
+        public UserQuiz AddQuizToUser(
+            string userId,
             int quizId,
             DateTimeOffset created)
         {
-            var newChatQuiz = new ChatQuiz()
+            var newChatQuiz = new UserQuiz()
             {
-                ChatId = chatId,
+                UserId = userId,
                 QuizId = quizId,
                 State = (byte)QuizState.IsActive,
                 Created = created,
             };
 
-            var entityChatQuiz = this.dbContext.ChatQuizzes.Add(newChatQuiz).Entity;
+            var entityChatQuiz = this.dbContext.UserQuizzes.Add(newChatQuiz).Entity;
             this.dbContext.SaveChanges();
             return entityChatQuiz;
         }
 
         /// <summary>
-        /// Get active chat quize.
+        /// Get active user quize.
         /// </summary>
-        /// <param name="chatId">Id of the chat for which return quiz.</param>
+        /// <param name="userId">Id of the user for which return quiz.</param>
         /// <returns>Model of chat quiz.</returns>
-        public ChatQuiz? GetActiveChatQuiz(long chatId)
+        public UserQuiz? GetActiveUserQuiz(string userId)
         {
-            var entityChatQuiz = this.dbContext.ChatQuizzes
-                .Where(_ => _.ChatId == chatId && _.State == (byte)QuizState.IsActive)
+            var entityChatQuiz = this.dbContext.UserQuizzes
+                .Where(_ => _.UserId == userId && _.State == (byte)QuizState.IsActive)
                 .OrderByDescending(_ => _.Created)
                 .FirstOrDefault();
             this.dbContext.SaveChanges();
@@ -148,13 +161,13 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             int chatQuizId,
             int answerId)
         {
-            var newChatQuizAnswer = new ChatQuizAnswer()
+            var newChatQuizAnswer = new UserQuizAnswer()
             {
-                ChatQuizId = chatQuizId,
+                // ChatQuizId = chatQuizId,
                 AnswerId = answerId,
             };
 
-            this.dbContext.ChatQuizAnswers.Add(newChatQuizAnswer);
+            this.dbContext.UserQuizAnswers.Add(newChatQuizAnswer);
             this.dbContext.SaveChanges();
         }
 
@@ -175,34 +188,34 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
-        /// Get new quiz for chat.
+        /// Get new quiz for user.
         /// </summary>
-        /// <param name="chatId">Id of the chat which identify user.</param>
+        /// <param name="userId">Id which identify user.</param>
         /// <returns>Quiz model for user.</returns>
-        public ObjectModels.Quiz? GetNewForChatActiveQuiz(long chatId)
+        public ObjectModels.Quiz? GetNewQuiz(string userId)
         {
             var firstQuiz = this.dbContext.Quizzes
-                .Include(_ => _.ChatQuizzes)
+                .Include(_ => _.UserQuizzes)
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
                     .ThenInclude(_ => _.TranslationUnitUsage)
                 .FirstOrDefault(_ =>
-                    _.ChatQuizzes.Where(_ => _.ChatId == chatId).Count() == 0
+                    !_.UserQuizzes.Where(_ => _.UserId == userId).Any()
                  && _.IsActive);
             var firstQuizModel = this.mapper.Map<ObjectModels.Quiz?>(firstQuiz);
             return firstQuizModel;
         }
 
         /// <summary>
-        /// Get oldest quiz id for user chat.
+        /// Get oldest quiz id for user.
         /// </summary>
-        /// <param name="chatId">Id of the chat which identify user.</param>
-        /// <returns>Oldest for chat quiz id.</returns>
-        public int? GetOldestActiveQuizId(long chatId)
+        /// <param name="userId">Id which identify user.</param>
+        /// <returns>Oldest for user quiz id.</returns>
+        public int? GetOldestActiveQuizId(string userId)
         {
-            var oldestChatQuiz = this.dbContext.ChatQuizzes
+            var oldestChatQuiz = this.dbContext.UserQuizzes
                 .Include(_ => _.Quiz)
-                .Where(_ => _.ChatId == chatId && _.Quiz.IsActive)
+                .Where(_ => _.UserId == userId && _.Quiz.IsActive)
                 .OrderByDescending(_ => _.Created)
                 .FirstOrDefault();
             return oldestChatQuiz?.QuizId;
@@ -217,7 +230,6 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var activeQuizzes = this.dbContext.Quizzes.Where(_ => _.IsActive);
             var skip = (int)(new Random().NextDouble() * activeQuizzes.Count());
             var randomQuiz = activeQuizzes
-                .Include(_ => _.ChatQuizzes)
                 .Include(_ => _.QuizAnswerOptions)
                 .Include(_ => _.QuizExamples)
                     .ThenInclude(_ => _.TranslationUnitUsage)

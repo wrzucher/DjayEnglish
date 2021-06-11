@@ -9,7 +9,6 @@ namespace DjayEnglish.EntityFramework
     {
         public Quiz()
         {
-            ChatQuizzes = new HashSet<ChatQuiz>();
             QuizAnswerOptions = new HashSet<QuizAnswerOption>();
             QuizExamples = new HashSet<QuizExample>();
             UserQuizzes = new HashSet<UserQuiz>();
@@ -28,7 +27,6 @@ namespace DjayEnglish.EntityFramework
         public bool HasAudioFiles { get; set; }
 
         public virtual TranslationUnitDefinition TranslationUnitDefinition { get; set; }
-        public virtual ICollection<ChatQuiz> ChatQuizzes { get; set; }
         public virtual ICollection<QuizAnswerOption> QuizAnswerOptions { get; set; }
         public virtual ICollection<QuizExample> QuizExamples { get; set; }
         public virtual ICollection<UserQuiz> UserQuizzes { get; set; }
