@@ -82,13 +82,19 @@ namespace DjayEnglish.Server.Core
             if (definitionAnswerOptions.Count() < neededAnswerOptionsCount)
             {
                 var remainder = neededAnswerOptionsCount - definitionAnswerOptions.Count();
-                var wordLength = translationUnit.Spelling.Split(" ").Length;
+                var wordLength = translationUnit.Spelling.Split(" ").First().Length;
+                var patternLength = wordLength / 4;
+                if (patternLength < 3)
+                {
+                    patternLength = 3;
+                }
+
                 var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
                     translationUnit.Language,
                     translationUnit.PartOfSpeech,
                     definitionAnswerOptions.Select(_ => _.TranslationUnitId).ToArray(),
                     remainder,
-                    translationUnit.Spelling.Substring(0, wordLength / 4) + "*");
+                    translationUnit.Spelling.Substring(0, patternLength) + "%");
                 var otherAnswerOptionsDefinitions = otherAnswerOptions
                     .SelectMany(_ => _.Definitions)
                     .ToList();
