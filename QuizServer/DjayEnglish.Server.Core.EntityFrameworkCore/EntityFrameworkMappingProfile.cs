@@ -37,7 +37,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             this.CreateMap<EntityFramework.TranslationUnit, TranslationUnit>()
                 .ForMember(dest => dest.Definitions, opts => opts.MapFrom(_ => _.TranslationUnitDefinitions))
                 .ForMember(dest => dest.Antonyms, opts => opts.MapFrom(_ => _.TranslationUnitAntonymTranslationUnits))
-                .ForMember(dest => dest.Sysnonyms, opts => opts.MapFrom(_ => _.TranslationUnitSynonymTranslationUnits))
+                .ForMember(dest => dest.Synonyms, opts => opts.MapFrom(_ => _.TranslationUnitSynonymTranslationUnits))
                 .ForMember(dest => dest.PartOfSpeech, opts => opts.MapFrom(_ => (PartOfSpeechType)_.PartOfSpeech))
                 .ForMember(dest => dest.Language, opts => opts.MapFrom(_ => (LanguageType)_.Language));
         }

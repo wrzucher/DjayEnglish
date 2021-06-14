@@ -78,5 +78,72 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var tuModel = this.mapper.Map<ObjectModels.TranslationUnit?>(tuEntity);
             return tuModel;
         }
+
+        /// <summary>
+        /// Get translation units by pattern.
+        /// </summary>
+        /// <param name="languageType">Type of language.</param>
+        /// <param name="partOfSpeech">Part of speach.</param>
+        /// <param name="exclusiveTranslationUnitIds">Id of translation units which will be exclude from query.</param>
+        /// <param name="unitsAmount">Amount of returned translation units.</param>
+        /// <param name="pattern">Pattern which will be used for search.</param>
+        /// <returns>Translation units collection.</returns>
+        public IEnumerable<ObjectModels.TranslationUnit> GetTranslationUnits(
+            LanguageType languageType,
+            PartOfSpeechType partOfSpeech,
+            int[] exclusiveTranslationUnitIds,
+            int unitsAmount,
+            string? pattern)
+        {
+            var tuEntity = this.dbContext.TranslationUnits
+                .Where(_ =>
+                   !exclusiveTranslationUnitIds.Contains(_.Id)
+                 && _.Language == (byte)languageType
+                 && _.PartOfSpeech == (byte)partOfSpeech);
+            if (pattern != null)
+            {
+                tuEntity = tuEntity.Where(_ => _.Spelling.Contains(pattern));
+            }
+
+            tuEntity = tuEntity.Take(unitsAmount);
+
+            var tuModel = this.mapper.Map<IEnumerable<ObjectModels.TranslationUnit>>(tuEntity);
+            return tuModel;
+        }
+
+        /// <summary>
+        /// Get translation unit usage.
+        /// </summary>
+        /// <param name="translationUnitDefinitionId">Id of translation units for which return usage.</param>
+        /// <param name="isActive">Indicate that return only active usage.</param>
+        /// <returns>Translation unit usage collection.</returns>
+        public IEnumerable<ObjectModels.TranslationUnitUsage> GetTranslationUnitUsage(
+            int translationUnitDefinitionId,
+            bool isActive)
+        {
+            var tuEntity = this.dbContext.TranslationUnitUsages
+                .Where(_ =>
+                _.IsActive == isActive
+             && _.TranslationUnitDefinitionId == translationUnitDefinitionId);
+            var tuModel = this.mapper.Map<IEnumerable<ObjectModels.TranslationUnitUsage>>(tuEntity);
+            return tuModel;
+        }
+
+        /// <summary>
+        /// Get translation units by Ids.
+        /// </summary>
+        /// <param name="translationUnitIds">Id of translation units which will be returned.</param>
+        /// <returns>Translation units collection.</returns>
+        public IEnumerable<ObjectModels.TranslationUnit> GetTranslationUnits(
+            int[] translationUnitIds)
+        {
+            var tuEntity = this.dbContext.TranslationUnits
+                .Include(_ => _.TranslationUnitDefinitions)
+                .Include(_ => _.TranslationUnitSynonymTranslationUnits)
+                .Include(_ => _.TranslationUnitAntonymTranslationUnits)
+                .Where(_ => translationUnitIds.Contains(_.Id));
+            var tuModel = this.mapper.Map<IEnumerable<ObjectModels.TranslationUnit>>(tuEntity);
+            return tuModel;
+        }
     }
 }

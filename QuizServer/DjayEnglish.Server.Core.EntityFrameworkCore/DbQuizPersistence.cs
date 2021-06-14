@@ -287,7 +287,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="quizId">Id of related to answer quiz.</param>
         /// <param name="text">Text of answer.</param>
         /// <param name="isRightAnswer">Indicate that answer is right or not.</param>
-        /// <returns>Id of added answer option.</returns>
+        /// <returns>Id of added quiz answer option.</returns>
         public int AddAnswerOptionToQuiz(
             int quizId,
             string text,
@@ -302,6 +302,29 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var answerOptionEntity = this.dbContext.QuizAnswerOptions.Add(newAnswerOption);
             this.dbContext.SaveChanges();
             return answerOptionEntity.Entity.Id;
+        }
+
+        /// <summary>
+        /// Add new translation unit usage to quiz.
+        /// </summary>
+        /// <param name="quizId">Id of related to usage quiz.</param>
+        /// <param name="text">Text of translation unit usage.</param>
+        /// <param name="translationUnitUsageId">Id of translation unit usage.</param>
+        /// <returns>Id of added quiz usage.</returns>
+        public int AddUsageToQuiz(
+            int quizId,
+            string text,
+            int translationUnitUsageId)
+        {
+            var newUsage = new EntityFramework.QuizExample()
+            {
+                TranslationUnitUsageId = translationUnitUsageId,
+                Text = text,
+                QuizId = quizId,
+            };
+            var usageEntity = this.dbContext.QuizExamples.Add(newUsage);
+            this.dbContext.SaveChanges();
+            return usageEntity.Entity.Id;
         }
 
         /// <summary>

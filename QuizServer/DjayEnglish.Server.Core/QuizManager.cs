@@ -8,6 +8,7 @@ namespace DjayEnglish.Server.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using DjayEnglish.Server.Core.EntityFrameworkCore;
     using DjayEnglish.Server.ObjectModels;
 
@@ -18,18 +19,22 @@ namespace DjayEnglish.Server.Core
     {
         private readonly QuizManagerEvents quizManagerEvents;
         private readonly DbQuizPersistence dbQuizPersistence;
+        private readonly DbTranslationUnitPersistence dbTranslationUnitPersistence;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QuizManager"/> class.
         /// </summary>
         /// <param name="quizManagerEvents">Global class with quiz manager events.</param>
         /// <param name="dbQuizPersistence">Database context for quizzes representation.</param>
+        /// <param name="dbTranslationUnitPersistence">Database context for translation units representation.</param>
         public QuizManager(
             QuizManagerEvents quizManagerEvents,
-            DbQuizPersistence dbQuizPersistence)
+            DbQuizPersistence dbQuizPersistence,
+            DbTranslationUnitPersistence dbTranslationUnitPersistence)
         {
             this.quizManagerEvents = quizManagerEvents ?? throw new ArgumentNullException(nameof(quizManagerEvents));
             this.dbQuizPersistence = dbQuizPersistence ?? throw new ArgumentNullException(nameof(dbQuizPersistence));
+            this.dbTranslationUnitPersistence = dbTranslationUnitPersistence ?? throw new ArgumentNullException(nameof(dbTranslationUnitPersistence));
         }
 
         /// <summary>
@@ -50,6 +55,100 @@ namespace DjayEnglish.Server.Core
         public void SetQuizAudioEnable(int quizId, bool hasAudio)
         {
             this.dbQuizPersistence.SetQuizAudioEnable(quizId, hasAudio);
+        }
+
+        /// <summary>
+        /// Generate new quiz for translation unit.
+        /// </summary>
+        /// <param name="trasnlationUnitId">Id of the translation unit.</param>
+        /// <param name="answerOptionsCount">Count of available for user answer options in quiz.</param>
+        /// <param name="createdAt">Time when new quiz created.</param>
+        public void GenerateQuiz(
+            int trasnlationUnitId,
+            int answerOptionsCount,
+            DateTimeOffset createdAt)
+        {
+            var translationUnit = this.dbTranslationUnitPersistence
+                .GetTranslationUnit(trasnlationUnitId);
+            if (translationUnit == null)
+            {
+                throw new InvalidOperationException(
+                    $"Translation unit with id {trasnlationUnitId} does not existed.");
+            }
+
+            var definitionAnswerOptions = this.GetAntonymsDefinitions(translationUnit);
+
+            var neededAnswerOptionsCount = (answerOptionsCount - 1) * translationUnit.Definitions.Count();
+            if (definitionAnswerOptions.Count() < neededAnswerOptionsCount)
+            {
+                var remainder = neededAnswerOptionsCount - definitionAnswerOptions.Count();
+                var wordLength = translationUnit.Spelling.Split(" ").Length;
+                var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
+                    translationUnit.Language,
+                    translationUnit.PartOfSpeech,
+                    definitionAnswerOptions.Select(_ => _.TranslationUnitId).ToArray(),
+                    remainder,
+                    translationUnit.Spelling.Substring(0, wordLength / 4) + "*");
+                var otherAnswerOptionsDefinitions = otherAnswerOptions
+                    .SelectMany(_ => _.Definitions)
+                    .ToList();
+
+                definitionAnswerOptions = definitionAnswerOptions.Union(otherAnswerOptionsDefinitions).ToList();
+            }
+
+            var random = new Random();
+            definitionAnswerOptions = definitionAnswerOptions
+                .OrderBy(x => random.Next())
+                .ToList();
+
+            if (definitionAnswerOptions == null)
+            {
+                throw new InvalidOperationException(
+                    $"Definitions couldn't be null for translation unit {trasnlationUnitId}");
+            }
+
+            foreach (var definition in translationUnit.Definitions)
+            {
+                var usage = this.dbTranslationUnitPersistence.GetTranslationUnitUsage(
+                    definition.Id,
+                    isActive: true);
+                var showUsage = usage.Any() ? ShowType.Audio : ShowType.None;
+
+                var question = $"What does {translationUnit.Spelling} mean.";
+
+                var quizId = this.dbQuizPersistence.CreateQuiz(
+                    question,
+                    QuestionType.TranslationUnitDefinition,
+                    definition.Id,
+                    ShowType.Audio,
+                    ShowType.Audio,
+                    showUsage,
+                    createdAt,
+                    isActive: false);
+                var quiz = this.dbQuizPersistence.GetQuiz(quizId);
+
+                this.dbQuizPersistence.AddAnswerOptionToQuiz(
+                    quizId,
+                    definition.Definition,
+                    isRightAnswer: true);
+
+                var options = definitionAnswerOptions.GetRange(0, answerOptionsCount - 1);
+                foreach (var answerOption in options)
+                {
+                    this.dbQuizPersistence.AddAnswerOptionToQuiz(
+                        quizId,
+                        answerOption.Definition,
+                        isRightAnswer: false);
+                }
+
+                foreach (var translationUnitUsage in usage)
+                {
+                    this.dbQuizPersistence.AddUsageToQuiz(
+                        quizId,
+                        translationUnitUsage.Example,
+                        translationUnitUsage.Id);
+                }
+            }
         }
 
         /// <summary>
@@ -186,6 +285,33 @@ namespace DjayEnglish.Server.Core
                 fromDate,
                 toDate,
                 isActive);
+        }
+
+        private List<TranslationUnitDefinition> GetAntonymsDefinitions(
+            TranslationUnit translationUnit)
+        {
+            var antonymsIds = translationUnit.Antonyms
+                .Select(_ => _.AntonymTranslationUnitId)
+                .Distinct()
+                .ToArray();
+            var antonyms = this.dbTranslationUnitPersistence
+                .GetTranslationUnits(antonymsIds);
+            var antonymSynonymsIds = antonyms
+                .SelectMany(_ => _.Synonyms.Select(s => s.SynonymTranslationUnitId).ToArray())
+                .Distinct()
+                .ToArray();
+            var antonymWithAntotymSynonymsIds = antonymsIds
+                .Union(antonymSynonymsIds)
+                .Distinct()
+                .ToArray();
+            var antonymAnswerOptions = this.dbTranslationUnitPersistence
+                .GetTranslationUnits(antonymWithAntotymSynonymsIds);
+            var definitionAnswerOptions = antonymAnswerOptions
+                .SelectMany(_ => _.Definitions)
+                .Distinct()
+                .ToList();
+
+            return definitionAnswerOptions;
         }
     }
 }

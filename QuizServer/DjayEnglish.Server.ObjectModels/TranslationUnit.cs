@@ -46,7 +46,7 @@ namespace DjayEnglish.Server.ObjectModels
         /// <summary>
         /// Gets or sets synonyms for translation unit.
         /// </summary>
-        public IEnumerable<TranslationUnitSynonym> Sysnonyms { get; set; } = null!;
+        public IEnumerable<TranslationUnitSynonym> Synonyms { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets antonyms for translation unit.
