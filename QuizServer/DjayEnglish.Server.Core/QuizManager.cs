@@ -177,6 +177,135 @@ namespace DjayEnglish.Server.Core
         }
 
         /// <summary>
+        /// Generate new quiz candidate for translation unit definition.
+        /// </summary>
+        /// <param name="trasnlationUnitDefinitionId">Id of the translation unit definition for which quiz genereting.</param>
+        /// <param name="answerOptionsCandidatesCount">Count of available for user answer options candidates in quiz.</param>
+        /// <param name="maxAnswerOptionLength">Max length of answer option.</param>
+        /// <param name="createdAt">Time when new quiz created.</param>
+        /// <returns>Generated Quiz model without saving in database.</returns>
+        public Quiz GenerateQuizCandidate(
+            int trasnlationUnitDefinitionId,
+            int answerOptionsCandidatesCount,
+            int maxAnswerOptionLength,
+            DateTimeOffset createdAt)
+        {
+            var definition = this.dbTranslationUnitPersistence
+                .GetTranslationUnitDefinition(trasnlationUnitDefinitionId);
+            if (definition == null)
+            {
+                throw new InvalidOperationException(
+                    $"Translation unit definition with id {trasnlationUnitDefinitionId} does not existed.");
+            }
+
+            var translationUnit = this.dbTranslationUnitPersistence
+                .GetTranslationUnit(definition.TranslationUnitId);
+            if (translationUnit == null)
+            {
+                throw new InvalidOperationException(
+                    $"Translation unit with id {trasnlationUnitDefinitionId} does not existed.");
+            }
+
+            if (definition.Definition.Length >= maxAnswerOptionLength)
+            {
+                throw new InvalidOperationException(
+                    $"Translation unit definition {trasnlationUnitDefinitionId} has too long definition {definition.Definition.Length}. Max length should be {maxAnswerOptionLength}");
+            }
+
+            var definitionAnswerOptions = this.GetAntonymsDefinitions(translationUnit)
+                .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                .ToList();
+
+            if (definitionAnswerOptions.Count() < answerOptionsCandidatesCount)
+            {
+                var remainder = answerOptionsCandidatesCount - definitionAnswerOptions.Count();
+                var wordLength = translationUnit.Spelling.Split(" ").First().Length;
+                var patternLength = wordLength / 4;
+                if (patternLength < 3)
+                {
+                    patternLength = 3;
+                }
+
+                var definitionAnswerOptionsIds = definitionAnswerOptions.Select(_ => _.TranslationUnitId).ToList();
+                definitionAnswerOptionsIds.Add(trasnlationUnitDefinitionId);
+                var excludedIds = definitionAnswerOptionsIds.ToArray();
+                var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
+                    translationUnit.Language,
+                    translationUnit.PartOfSpeech,
+                    excludedIds,
+                    remainder,
+                    maxAnswerOptionLength,
+                    translationUnit.Spelling.Substring(0, patternLength));
+                var otherAnswerOptionsDefinitions = otherAnswerOptions
+                    .SelectMany(_ => _.Definitions)
+                    .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                    .ToList();
+
+                definitionAnswerOptions = definitionAnswerOptions.Union(otherAnswerOptionsDefinitions).ToList();
+            }
+
+            var random = new Random();
+            definitionAnswerOptions = definitionAnswerOptions
+                .OrderBy(x => random.Next())
+                .ToList();
+
+            if (definitionAnswerOptions == null)
+            {
+                throw new InvalidOperationException(
+                    $"Definitions couldn't be null for translation unit definition {trasnlationUnitDefinitionId}");
+            }
+
+            var usage = this.dbTranslationUnitPersistence.GetTranslationUnitUsage(
+                definition.Id,
+                isActive: true);
+            var showUsage = usage.Any() ? ShowType.Audio : ShowType.None;
+
+            var question = $"What does {translationUnit.Spelling} mean.";
+
+            var answerOptions = new List<QuizAnswerOption>();
+            answerOptions.Add(new QuizAnswerOption()
+            {
+                IsRightAnswer = true,
+                Text = definition.Definition,
+            });
+            foreach (var answerOption in definitionAnswerOptions)
+            {
+                answerOptions.Add(new QuizAnswerOption()
+                {
+                    IsRightAnswer = false,
+                    Text = answerOption.Definition,
+                });
+            }
+
+            var usages = new List<QuizExample>();
+            foreach (var translationUnitUsage in usage)
+            {
+                usages.Add(new QuizExample()
+                {
+                    Text = translationUnitUsage.Example,
+                    TranslationUnitUsageId = translationUnitUsage.Id,
+                });
+            }
+
+            var newQuize = new Quiz()
+            {
+                Question = question,
+                QuestionType = QuestionType.TranslationUnitDefinition,
+                QuestionShowType = ShowType.Audio,
+                AnswerShowType = ShowType.Audio,
+                ExampleShowType = showUsage,
+                IsActive = false,
+                Created = createdAt,
+                TranslationUnitDefinitionId = trasnlationUnitDefinitionId,
+                TranslationUnitDefinition = definition,
+                QuizExamples = usages,
+                QuizAnswerOptions = answerOptions,
+            };
+
+            return newQuize;
+        }
+
+        /// <summary>
         /// Start new quiz for user.
         /// </summary>
         /// <param name="chatId">Id of the chat.</param>
