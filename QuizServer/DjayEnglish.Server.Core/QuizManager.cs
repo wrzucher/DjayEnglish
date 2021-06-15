@@ -62,10 +62,12 @@ namespace DjayEnglish.Server.Core
         /// </summary>
         /// <param name="trasnlationUnitId">Id of the translation unit.</param>
         /// <param name="answerOptionsCount">Count of available for user answer options in quiz.</param>
+        /// <param name="maxAnswerOptionLength">Max length of answer option.</param>
         /// <param name="createdAt">Time when new quiz created.</param>
         public void GenerateQuiz(
             int trasnlationUnitId,
             int answerOptionsCount,
+            int maxAnswerOptionLength,
             DateTimeOffset createdAt)
         {
             var translationUnit = this.dbTranslationUnitPersistence
@@ -76,7 +78,18 @@ namespace DjayEnglish.Server.Core
                     $"Translation unit with id {trasnlationUnitId} does not existed.");
             }
 
-            var definitionAnswerOptions = this.GetAntonymsDefinitions(translationUnit);
+            var translatioUnitDefinitions = translationUnit.Definitions
+                .Where(_ => _.Definition.Length < maxAnswerOptionLength);
+
+            if (!translatioUnitDefinitions.Any())
+            {
+                throw new InvalidOperationException(
+                    $"Translation unit with id {trasnlationUnitId} does not have any definition and couldn't be used for quiz generating.");
+            }
+
+            var definitionAnswerOptions = this.GetAntonymsDefinitions(translationUnit)
+                .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                .ToList();
 
             var neededAnswerOptionsCount = (answerOptionsCount - 1) * translationUnit.Definitions.Count();
             if (definitionAnswerOptions.Count() < neededAnswerOptionsCount)
@@ -89,14 +102,19 @@ namespace DjayEnglish.Server.Core
                     patternLength = 3;
                 }
 
+                var definitionAnswerOptionsIds = definitionAnswerOptions.Select(_ => _.TranslationUnitId).ToArray();
+                var translatioUnitDefinitionsIds = translatioUnitDefinitions.Select(_ => _.TranslationUnitId).ToArray();
+                var excludedIds = definitionAnswerOptionsIds.Union(translatioUnitDefinitionsIds).ToArray();
                 var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
                     translationUnit.Language,
                     translationUnit.PartOfSpeech,
-                    definitionAnswerOptions.Select(_ => _.TranslationUnitId).ToArray(),
+                    excludedIds,
                     remainder,
-                    translationUnit.Spelling.Substring(0, patternLength) + "%");
+                    maxAnswerOptionLength,
+                    translationUnit.Spelling.Substring(0, patternLength));
                 var otherAnswerOptionsDefinitions = otherAnswerOptions
                     .SelectMany(_ => _.Definitions)
+                    .Where(_ => _.Definition.Length < maxAnswerOptionLength)
                     .ToList();
 
                 definitionAnswerOptions = definitionAnswerOptions.Union(otherAnswerOptionsDefinitions).ToList();
@@ -113,7 +131,7 @@ namespace DjayEnglish.Server.Core
                     $"Definitions couldn't be null for translation unit {trasnlationUnitId}");
             }
 
-            foreach (var definition in translationUnit.Definitions)
+            foreach (var definition in translatioUnitDefinitions)
             {
                 var usage = this.dbTranslationUnitPersistence.GetTranslationUnitUsage(
                     definition.Id,
@@ -139,6 +157,7 @@ namespace DjayEnglish.Server.Core
                     isRightAnswer: true);
 
                 var options = definitionAnswerOptions.GetRange(0, answerOptionsCount - 1);
+                definitionAnswerOptions.RemoveRange(0, answerOptionsCount - 1);
                 foreach (var answerOption in options)
                 {
                     this.dbQuizPersistence.AddAnswerOptionToQuiz(
@@ -293,7 +312,7 @@ namespace DjayEnglish.Server.Core
                 isActive);
         }
 
-        private List<TranslationUnitDefinition> GetAntonymsDefinitions(
+        private IEnumerable<TranslationUnitDefinition> GetAntonymsDefinitions(
             TranslationUnit translationUnit)
         {
             var antonymsIds = translationUnit.Antonyms
@@ -306,16 +325,15 @@ namespace DjayEnglish.Server.Core
                 .SelectMany(_ => _.Synonyms.Select(s => s.SynonymTranslationUnitId).ToArray())
                 .Distinct()
                 .ToArray();
-            var antonymWithAntotymSynonymsIds = antonymsIds
+            var antonymWithAntonymSynonymsIds = antonymsIds
                 .Union(antonymSynonymsIds)
                 .Distinct()
                 .ToArray();
             var antonymAnswerOptions = this.dbTranslationUnitPersistence
-                .GetTranslationUnits(antonymWithAntotymSynonymsIds);
+                .GetTranslationUnits(antonymWithAntonymSynonymsIds);
             var definitionAnswerOptions = antonymAnswerOptions
                 .SelectMany(_ => _.Definitions)
-                .Distinct()
-                .ToList();
+                .Distinct();
 
             return definitionAnswerOptions;
         }

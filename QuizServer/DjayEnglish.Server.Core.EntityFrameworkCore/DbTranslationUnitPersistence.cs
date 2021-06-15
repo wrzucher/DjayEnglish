@@ -41,22 +41,30 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="languageType">Type of language.</param>
         /// <param name="partOfSpeech">Part of speach.</param>
         /// <param name="isActive">Indicate that translation unit is active.</param>
+        /// <param name="definitionsRequired">Indicate that translation unit should have definitions.</param>
         /// <param name="searchSpelling">The part of search spelling of translation unit.</param>
         /// <returns>Translation units collection.</returns>
         public IEnumerable<ObjectModels.TranslationUnit> GetTranslationUnits(
             LanguageType languageType,
             PartOfSpeechType partOfSpeech,
             bool isActive,
+            bool definitionsRequired,
             string? searchSpelling)
         {
             var tuEntity = this.dbContext.TranslationUnits
+                .Include(_ => _.TranslationUnitDefinitions)
                 .Where(_ =>
                     _.IsActive == isActive
                  && _.Language == (byte)languageType
                  && _.PartOfSpeech == (byte)partOfSpeech);
+            if (definitionsRequired)
+            {
+                tuEntity = tuEntity.Where(_ => _.TranslationUnitDefinitions.Any());
+            }
+
             if (searchSpelling != null)
             {
-                tuEntity = tuEntity.Where(_ => _.Spelling.Contains(searchSpelling));
+                tuEntity = tuEntity.Where(_ => _.Spelling.StartsWith(searchSpelling));
             }
 
             var tuModel = this.mapper.Map<IEnumerable<ObjectModels.TranslationUnit>>(tuEntity);
@@ -86,23 +94,30 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="partOfSpeech">Part of speach.</param>
         /// <param name="exclusiveTranslationUnitIds">Id of translation units which will be exclude from query.</param>
         /// <param name="unitsAmount">Amount of returned translation units.</param>
-        /// <param name="pattern">Pattern which will be used for search.</param>
+        /// <param name="maxDefinitionsLength">Max definition length for translation units.</param>
+        /// <param name="spellingStartWith">Pattern which will be used for search.</param>
         /// <returns>Translation units collection.</returns>
         public IEnumerable<ObjectModels.TranslationUnit> GetTranslationUnits(
             LanguageType languageType,
             PartOfSpeechType partOfSpeech,
             int[] exclusiveTranslationUnitIds,
             int unitsAmount,
-            string? pattern)
+            int maxDefinitionsLength,
+            string? spellingStartWith)
         {
             var tuEntity = this.dbContext.TranslationUnits
+                .Include(_ => _.TranslationUnitDefinitions)
                 .Where(_ =>
                    !exclusiveTranslationUnitIds.Contains(_.Id)
                  && _.Language == (byte)languageType
-                 && _.PartOfSpeech == (byte)partOfSpeech);
-            if (pattern != null)
+                 && _.PartOfSpeech == (byte)partOfSpeech
+                 && _.TranslationUnitDefinitions
+                    .Where(td => td.Definition.Length < maxDefinitionsLength)
+                    .Any());
+
+            if (spellingStartWith != null)
             {
-                tuEntity = tuEntity.Where(_ => _.Spelling.Contains(pattern));
+                tuEntity = tuEntity.Where(_ => _.Spelling.StartsWith(spellingStartWith));
             }
 
             tuEntity = tuEntity.Take(unitsAmount);
