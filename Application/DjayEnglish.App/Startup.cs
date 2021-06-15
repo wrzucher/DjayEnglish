@@ -74,6 +74,7 @@ namespace DjayEnglish.App
             services.AddScoped<RemoteServiceAudioBuilder>();
             services.AddScoped<IAudioProvider, LocalAudioProvider>();
             services.AddScoped<QuizManager>();
+            services.AddScoped<TranslationUnitManager>();
 
             services.AddHostedService<AudioBuilderService>();
             services.AddHostedService<CommandQueueService>();

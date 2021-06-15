@@ -41,6 +41,60 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// <param name="languageType">Type of language.</param>
         /// <param name="partOfSpeech">Part of speach.</param>
         /// <param name="isActive">Indicate that translation unit is active.</param>
+        /// <param name="withDefinitions">Indicate that translation unit should have definitions.</param>
+        /// <param name="searchText">The part of search spelling of translation unit.</param>
+        /// <param name="offset">Offset which will be used for skipping of returned collection.</param>
+        /// <param name="page">Page number which will be used for returned collection.</param>
+        /// <param name="pageSize">Page size which will be used for returned collection.</param>
+        /// <returns>Translation units collection.</returns>
+        public IEnumerable<ObjectModels.TranslationUnit> GetTranslationUnits(
+            LanguageType languageType,
+            PartOfSpeechType? partOfSpeech,
+            bool isActive,
+            bool? withDefinitions,
+            string? searchText,
+            int offset,
+            int page,
+            int pageSize)
+        {
+            var tuEntity = this.dbContext.TranslationUnits
+                .Include(_ => _.TranslationUnitDefinitions)
+                .Where(_ =>
+                    _.IsActive == isActive
+                 && _.Language == (byte)languageType);
+            if (withDefinitions != null)
+            {
+                if (withDefinitions.Value)
+                {
+                    tuEntity = tuEntity.Where(_ => _.TranslationUnitDefinitions.Any());
+                }
+                else
+                {
+                    tuEntity = tuEntity.Where(_ => !_.TranslationUnitDefinitions.Any());
+                }
+            }
+
+            if (partOfSpeech != null)
+            {
+                tuEntity = tuEntity.Where(_ => _.PartOfSpeech == (byte)partOfSpeech.Value);
+            }
+
+            if (searchText != null)
+            {
+                tuEntity = tuEntity.Where(_ => _.Spelling.Contains(searchText));
+            }
+
+            tuEntity = tuEntity.Page(offset, page, pageSize);
+            var tuModel = this.mapper.Map<IEnumerable<ObjectModels.TranslationUnit>>(tuEntity);
+            return tuModel;
+        }
+
+        /// <summary>
+        /// Get translation units with definitions.
+        /// </summary>
+        /// <param name="languageType">Type of language.</param>
+        /// <param name="partOfSpeech">Part of speach.</param>
+        /// <param name="isActive">Indicate that translation unit is active.</param>
         /// <param name="definitionsRequired">Indicate that translation unit should have definitions.</param>
         /// <param name="searchSpelling">The part of search spelling of translation unit.</param>
         /// <returns>Translation units collection.</returns>
@@ -84,6 +138,22 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
                 .Include(_ => _.TranslationUnitAntonymTranslationUnits)
                 .FirstOrDefault(_ => _.Id == translationUnitId);
             var tuModel = this.mapper.Map<ObjectModels.TranslationUnit?>(tuEntity);
+            return tuModel;
+        }
+
+        /// <summary>
+        /// Get translation unit definition by id.
+        /// </summary>
+        /// <param name="translationUnitDefinitionId">Id of translation unit definition.</param>
+        /// <returns>Translation unit definition model.</returns>
+        public ObjectModels.TranslationUnitDefinition? GetTranslationUnitDefinition(
+            int translationUnitDefinitionId)
+        {
+            var tuEntity = this.dbContext.TranslationUnitDefinitions
+                .Include(_ => _.TranslationUnit)
+                .Include(_ => _.TranslationUnitUsages)
+                .FirstOrDefault(_ => _.Id == translationUnitDefinitionId);
+            var tuModel = this.mapper.Map<ObjectModels.TranslationUnitDefinition?>(tuEntity);
             return tuModel;
         }
 

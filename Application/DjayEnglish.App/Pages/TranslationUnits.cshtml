@@ -1,0 +1,97 @@
+﻿@page
+@model DjayEnglish.Administration.Pages.TranslationUnitsModel
+@{
+    ViewData["Title"] = "Translation units list";
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th class="align-middle text-center">
+                    Id
+                </th>
+                <th class="align-middle text-center">
+                    Spelling
+                </th>
+                <th class="align-middle text-center">
+                    Part of speech
+                </th>
+                <th class="align-middle text-center">
+                    Is active
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var translationUnit in this.Model.TranslationUnits)
+            {
+            <tr data-bs-toggle='collapse' data-bs-target='#pos_@translationUnit.Id' role="button">
+                <td class="text-center">
+                    @translationUnit.Id
+                </td>
+                <td class="text-center">
+                    @translationUnit.Spelling
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(_ => translationUnit.PartOfSpeech)
+                </td>
+                <td>
+                    @Html.DisplayFor(_ => translationUnit.IsActive)
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr class='hidden-row collapse' id='pos_@translationUnit.Id'>
+                <td colspan="5">
+                        @if (translationUnit.Definitions.Any())
+                        {
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th class="align-middle text-center">
+                                            Id
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Definition
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Is active
+                                        </th>
+                                        <th class="align-middle text-center">
+                                            Source
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var definition in translationUnit.Definitions)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @definition.Id
+                                            </td>
+                                            <td>
+                                                @definition.Definition
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(_ => definition.IsActive)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(_ => definition.SourceName)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="text-danger">There are not definitions for translation unit.</div>
+                        }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

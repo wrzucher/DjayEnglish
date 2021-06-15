@@ -6,6 +6,7 @@
 
 namespace DjayEnglish.Administration.Models
 {
+    using System.Collections.Generic;
     using DjayEnglish.Server.ObjectModels;
 
     /// <summary>
@@ -37,5 +38,10 @@ namespace DjayEnglish.Administration.Models
         /// Gets or sets a value indicating whether translation unit is active.
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Gets or sets definitions for translation unit.
+        /// </summary>
+        public IEnumerable<TranslationUnitDefinition> Definitions { get; set; } = null!;
     }
 }
