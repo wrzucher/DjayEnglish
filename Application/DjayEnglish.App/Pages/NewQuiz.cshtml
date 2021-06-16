@@ -1,0 +1,97 @@
+﻿@page "{translationUnitDefinitionId:int}"
+@model DjayEnglish.Administration.Pages.NewQuizModel
+@{
+    ViewData["Title"] = "Quizzes list";
+}
+
+<div class="row">
+    <div class="mb-3">
+        <label for="questionInput" class="form-label">Question</label>
+        <input type="text" class="form-control" id="questionInput" asp-for="QuizCandidate.Question">
+    </div>
+</div>
+
+<form method="post">
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th class="align-middle text-center">
+                        Answer text
+                    </th>
+                    <th class="align-middle text-center">
+                        Source
+                    </th>
+                    <th class="align-middle text-center">
+                        Is Right
+                    </th>
+                    <th class="align-middle text-center">
+                        Is include to quiz?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int answerIndex = 0; answerIndex < this.Model.QuizCandidate.QuizAnswerOptions.Length; answerIndex++)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input type="text" class="form-control" asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].Text">
+                        </td>
+                        <td class="text-center">
+                            @this.Model.QuizCandidate.QuizAnswerOptions[answerIndex].SourceTranslationUnit
+                        </td>
+                        <td>
+                            @Html.DisplayFor(_ => this.Model.QuizCandidate.QuizAnswerOptions[answerIndex].IsRightAnswer)
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="form-check-input" asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsInclude">
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th class="align-middle text-center">
+                        Id
+                    </th>
+                    <th class="align-middle text-center">
+                        Example text
+                    </th>
+                    <th class="align-middle text-center">
+                        Is Active
+                    </th>
+                    <th class="align-middle text-center">
+                        Is include to quiz?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int exampleIndex = 0; exampleIndex < this.Model.QuizCandidate.QuizExamples.Length; exampleIndex++)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @this.Model.QuizCandidate.QuizExamples[exampleIndex].TranslationUnitUsageId
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="form-control" asp-for="QuizCandidate.QuizExamples[exampleIndex].Text">
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" class="form-check-input" asp-for="QuizCandidate.QuizExamples[exampleIndex].IsInclude">
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <input type="submit" value="Update application" class="btn btn-secondary" name="submit">
+</form>

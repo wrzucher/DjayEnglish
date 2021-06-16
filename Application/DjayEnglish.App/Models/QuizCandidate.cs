@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Quiz.cs" company="DjayEnglish">
+// <copyright file="QuizCandidate.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,15 +11,10 @@ namespace DjayEnglish.Administration.Models
     using DjayEnglish.Server.ObjectModels;
 
     /// <summary>
-    /// Object model which contain information about quiz.
+    /// Object model which contain information about quiz candidate.
     /// </summary>
-    public class Quiz
+    public class QuizCandidate
     {
-        /// <summary>
-        /// Gets or sets id of quiz.
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets id of translation unit definition which used in quiz.
         /// </summary>
@@ -39,11 +34,6 @@ namespace DjayEnglish.Administration.Models
         /// Gets or sets a date when quiz was created.
         /// </summary>
         public DateTimeOffset Created { get; set; }
-
-        /// <summary>
-        /// Gets or sets a date when quiz was closed.
-        /// </summary>
-        public DateTimeOffset? Closed { get; set; }
 
         /// <summary>
         /// Gets or sets text of question.
@@ -76,13 +66,13 @@ namespace DjayEnglish.Administration.Models
         public bool HasAudioFiles { get; set; }
 
         /// <summary>
-        /// Gets or sets answer options for quiz.
+        /// Gets or sets answer options for candidate quiz.
         /// </summary>
-        public QuizAnswerOption[] QuizAnswerOptions { get; set; } = null!;
+        public QuizAnswerOptionCandidate[] QuizAnswerOptions { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets using and examples for quiz.
+        /// Gets or sets using and examples for candidates quiz.
         /// </summary>
-        public IEnumerable<QuizExample> QuizExamples { get; set; } = null!;
+        public QuizExampleCandidate[] QuizExamples { get; set; } = null!;
     }
 }

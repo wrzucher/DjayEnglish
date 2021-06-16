@@ -1,25 +1,20 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="Quiz.cs" company="DjayEnglish">
+// <copyright file="QuizCandidate.cs" company="DjayEnglish">
 // Copyright (c) DjayEnglish. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace DjayEnglish.Administration.Models
+namespace DjayEnglish.Server.ObjectModels
 {
     using System;
     using System.Collections.Generic;
-    using DjayEnglish.Server.ObjectModels;
+    using System.Linq;
 
     /// <summary>
-    /// Object model which contain information about quiz.
+    /// Object model which contain information about quiz candidate.
     /// </summary>
-    public class Quiz
+    public class QuizCandidate
     {
-        /// <summary>
-        /// Gets or sets id of quiz.
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets id of translation unit definition which used in quiz.
         /// </summary>
@@ -39,11 +34,6 @@ namespace DjayEnglish.Administration.Models
         /// Gets or sets a date when quiz was created.
         /// </summary>
         public DateTimeOffset Created { get; set; }
-
-        /// <summary>
-        /// Gets or sets a date when quiz was closed.
-        /// </summary>
-        public DateTimeOffset? Closed { get; set; }
 
         /// <summary>
         /// Gets or sets text of question.
@@ -71,14 +61,9 @@ namespace DjayEnglish.Administration.Models
         public ShowType AnswerShowType { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether quiz has audio files.
-        /// </summary>
-        public bool HasAudioFiles { get; set; }
-
-        /// <summary>
         /// Gets or sets answer options for quiz.
         /// </summary>
-        public QuizAnswerOption[] QuizAnswerOptions { get; set; } = null!;
+        public IEnumerable<QuizAnswerOptionCandidate> QuizAnswerOptions { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets using and examples for quiz.
