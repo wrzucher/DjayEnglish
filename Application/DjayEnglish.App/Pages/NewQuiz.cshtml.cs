@@ -59,6 +59,8 @@ namespace DjayEnglish.Administration.Pages
                 this.TranslationUnitDefinitionId,
                 10,
                 150,
+                3,
+                3,
                 DateTimeOffset.UtcNow);
             this.QuizCandidate = this.mapper.Map<QuizCandidate>(quizCandidate);
             return Task.CompletedTask;

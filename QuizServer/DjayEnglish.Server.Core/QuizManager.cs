@@ -63,12 +63,16 @@ namespace DjayEnglish.Server.Core
         /// <param name="trasnlationUnitDefinitionId">Id of the translation unit definition for which quiz genereting.</param>
         /// <param name="answerOptionsCandidatesCount">Count of available for user answer options candidates in quiz.</param>
         /// <param name="maxAnswerOptionLength">Max length of answer option.</param>
+        /// <param name="emptyAnswerOptionCount">Empty answer option count for manual editing.</param>
+        /// <param name="emptyExampleOptionCount">Empty example count for manual editing.</param>
         /// <param name="createdAt">Time when new quiz created.</param>
         /// <returns>Generated Quiz Candidate model without saving in database.</returns>
         public QuizCandidate GenerateQuizCandidate(
             int trasnlationUnitDefinitionId,
             int answerOptionsCandidatesCount,
             int maxAnswerOptionLength,
+            int emptyAnswerOptionCount,
+            int emptyExampleOptionCount,
             DateTimeOffset createdAt)
         {
             var definition = this.dbTranslationUnitPersistence
@@ -163,8 +167,13 @@ namespace DjayEnglish.Server.Core
             var random = new Random();
             answerOptions = answerOptions
                 .OrderBy(x => random.Next())
+                .OrderByDescending(_ => _.IsRightAnswer)
                 .Take(answerOptionsCandidatesCount)
                 .ToList();
+            for (int i = 0; i < emptyAnswerOptionCount; i++)
+            {
+                answerOptions.Add(new QuizAnswerOptionCandidate());
+            }
 
             if (definitionAnswerOptions == null)
             {
@@ -187,6 +196,11 @@ namespace DjayEnglish.Server.Core
                     Text = translationUnitUsage.Example,
                     TranslationUnitUsageId = translationUnitUsage.Id,
                 });
+            }
+
+            for (int i = 0; i < emptyExampleOptionCount; i++)
+            {
+                usages.Add(new QuizExample());
             }
 
             var newQuize = new QuizCandidate()
