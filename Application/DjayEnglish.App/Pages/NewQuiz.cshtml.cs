@@ -8,6 +8,7 @@ namespace DjayEnglish.Administration.Pages
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using DjayEnglish.Administration.Models;
@@ -73,6 +74,15 @@ namespace DjayEnglish.Administration.Pages
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task OnPost(QuizCandidate quizCandidate)
         {
+            quizCandidate.QuizAnswerOptions = quizCandidate.QuizAnswerOptions
+                .Where(_ => _.IsInclude)
+                .ToArray();
+            quizCandidate.QuizExamples = quizCandidate.QuizExamples
+                .Where(_ => _.IsInclude)
+                .ToArray();
+            var quizCandidateModel = this.mapper.Map<Server.ObjectModels.QuizCandidate>(quizCandidate);
+            this.quizManager.CreateQuiz(quizCandidateModel);
+            this.RedirectToPage("TranslationUnits");
             return Task.CompletedTask;
         }
     }

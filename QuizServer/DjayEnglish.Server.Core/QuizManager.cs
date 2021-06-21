@@ -58,6 +58,15 @@ namespace DjayEnglish.Server.Core
         }
 
         /// <summary>
+        /// Create quiz using <see cref="QuizCandidate"/> class.
+        /// </summary>
+        /// <param name="quizCandidate">Class which contain all information about creating quiz.</param>
+        public void CreateQuiz(QuizCandidate quizCandidate)
+        {
+            this.dbQuizPersistence.CreateQuiz(quizCandidate);
+        }
+
+        /// <summary>
         /// Generate new quiz candidate for translation unit definition.
         /// </summary>
         /// <param name="trasnlationUnitDefinitionId">Id of the translation unit definition for which quiz genereting.</param>

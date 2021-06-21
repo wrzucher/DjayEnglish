@@ -73,6 +73,48 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         }
 
         /// <summary>
+        /// Create quiz using <see cref="QuizCandidate"/> class.
+        /// </summary>
+        /// <param name="quizCandidate">Class which contain all information about creating quiz.</param>
+        public void CreateQuiz(QuizCandidate quizCandidate)
+        {
+            var quiz = new EntityFramework.Quiz()
+            {
+                Created = quizCandidate.Created,
+                AnswerShowType = (byte)quizCandidate.AnswerShowType,
+                ExampleShowType = (byte)quizCandidate.ExampleShowType,
+                QuestionShowType = (byte)quizCandidate.QuestionShowType,
+                QuestionType = (byte)quizCandidate.QuestionType,
+                IsActive = quizCandidate.IsActive,
+                Question = quizCandidate.Question,
+                TranslationUnitDefinitionId = quizCandidate.TranslationUnitDefinitionId,
+            };
+
+            foreach (var example in quizCandidate.QuizExamples)
+            {
+                var quizExample = new EntityFramework.QuizExample()
+                {
+                    Text = example.Text,
+                    TranslationUnitUsageId = example.TranslationUnitUsageId,
+                };
+                quiz.QuizExamples.Add(quizExample);
+            }
+
+            foreach (var answerOptions in quizCandidate.QuizAnswerOptions)
+            {
+                var quizAnswerOptions = new EntityFramework.QuizAnswerOption()
+                {
+                    IsRightAnswer = answerOptions.IsRightAnswer,
+                    Text = answerOptions.Text,
+                };
+                quiz.QuizAnswerOptions.Add(quizAnswerOptions);
+            }
+
+            this.dbContext.Quizzes.Add(quiz);
+            this.dbContext.SaveChanges();
+        }
+
+        /// <summary>
         /// Get user by chat id.
         /// </summary>
         /// <param name="chatId">Id of the chat.</param>

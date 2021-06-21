@@ -4,14 +4,14 @@
     ViewData["Title"] = "Quizzes list";
 }
 
+<form method="post">
 <div class="row">
     <div class="mb-3">
         <label for="questionInput" class="form-label">Question</label>
-        <input type="text" class="form-control" id="questionInput" asp-for="QuizCandidate.Question">
+        <input type="text" class="form-control" asp-for="QuizCandidate.Question">
     </div>
 </div>
 
-<form method="post">
 <div class="row">
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
@@ -46,13 +46,13 @@
                         </td>
                         <td>
                             <input type="checkbox"
-                                   disabled="disabled"
+                                   readonly="readonly"
                                    class="form-check-input"
                                    asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsAntonym">
                         </td>
                         <td>
                             <input type="checkbox"
-                                   disabled="@(!this.Model.QuizCandidate.CanEditRigthAnswer)"
+                                   readonly="@(!this.Model.QuizCandidate.CanEditRigthAnswer)"
                                    class="form-check-input"
                                    asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsRightAnswer">
                         </td>
@@ -63,7 +63,7 @@
                                     && !this.Model.QuizCandidate.CanEditRigthAnswer;
                             }
                             <input type="checkbox"
-                                   disabled ="@isIncludEnable"
+                                   readonly ="@isIncludEnable"
                                    class="form-check-input"
                                    asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsInclude">
                         </td>
@@ -86,9 +86,6 @@
                         Example text
                     </th>
                     <th class="align-middle text-center">
-                        Is Active
-                    </th>
-                    <th class="align-middle text-center">
                         Is include to quiz?
                     </th>
                 </tr>
@@ -96,22 +93,21 @@
             <tbody>
                 @for (int exampleIndex = 0; exampleIndex < this.Model.QuizCandidate.QuizExamples.Length; exampleIndex++)
                 {
-                    <tr>
-                        <td class="text-center">
-                            @this.Model.QuizCandidate.QuizExamples[exampleIndex].TranslationUnitUsageId
-                        </td>
-                        <td class="text-center">
-                            <input type="text" class="form-control" asp-for="QuizCandidate.QuizExamples[exampleIndex].Text">
-                        </td>
-                        <td class="text-center">
-                            <input type="checkbox" class="form-check-input" asp-for="QuizCandidate.QuizExamples[exampleIndex].IsInclude">
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="text-center">
+                        @this.Model.QuizCandidate.QuizExamples[exampleIndex].TranslationUnitUsageId
+                    </td>
+                    <td class="text-center">
+                        <input type="text" class="form-control" asp-for="QuizCandidate.QuizExamples[exampleIndex].Text">
+                    </td>
+                    <td class="text-center">
+                        <input type="checkbox" class="form-check-input" asp-for="QuizCandidate.QuizExamples[exampleIndex].IsInclude">
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
-
-    <input type="submit" value="Update application" class="btn btn-secondary" name="submit">
+    <input type="submit" value="Create Quiz" class="btn btn-secondary" name="submit">
 </form>
