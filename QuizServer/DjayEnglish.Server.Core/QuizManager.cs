@@ -93,9 +93,32 @@ namespace DjayEnglish.Server.Core
                     $"Translation unit definition {trasnlationUnitDefinitionId} has too long definition {definition.Definition.Length}. Max length should be {maxAnswerOptionLength}");
             }
 
-            var definitionAnswerOptions = this.GetAntonymsDefinitions(translationUnit)
+            var definitionAnswerOptions = this.GetAntonymsDefinitions(
+                translationUnit,
+                maxDefinitionsOnOneUnit: 2)
                 .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                .Take(answerOptionsCandidatesCount)
                 .ToList();
+
+            var answerOptions = new List<QuizAnswerOptionCandidate>();
+            answerOptions.Add(new QuizAnswerOptionCandidate()
+            {
+                IsRightAnswer = true,
+                IsAntonym = false,
+                IsInclude = true,
+                Text = definition.Definition,
+                SourceTranslationUnit = translationUnit.Spelling,
+            });
+            foreach (var answerOption in definitionAnswerOptions)
+            {
+                answerOptions.Add(new QuizAnswerOptionCandidate()
+                {
+                    IsRightAnswer = false,
+                    IsAntonym = true,
+                    Text = answerOption.Definition,
+                    SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
+                });
+            }
 
             if (definitionAnswerOptions.Count() < answerOptionsCandidatesCount)
             {
@@ -107,8 +130,10 @@ namespace DjayEnglish.Server.Core
                     patternLength = 3;
                 }
 
-                var definitionAnswerOptionsIds = definitionAnswerOptions.Select(_ => _.TranslationUnitId).ToList();
-                definitionAnswerOptionsIds.Add(trasnlationUnitDefinitionId);
+                var definitionAnswerOptionsIds = definitionAnswerOptions
+                    .Select(_ => _.TranslationUnit?.Spelling ?? throw new ArgumentNullException($"Definition {_.Id} has to have spelling!"))
+                    .ToList();
+                definitionAnswerOptionsIds.Add(translationUnit.Spelling);
                 var excludedIds = definitionAnswerOptionsIds.ToArray();
                 var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
                     translationUnit.Language,
@@ -120,14 +145,25 @@ namespace DjayEnglish.Server.Core
                 var otherAnswerOptionsDefinitions = otherAnswerOptions
                     .SelectMany(_ => _.Definitions)
                     .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                    .Take(remainder)
                     .ToList();
 
-                definitionAnswerOptions = definitionAnswerOptions.Union(otherAnswerOptionsDefinitions).ToList();
+                foreach (var answerOption in otherAnswerOptionsDefinitions)
+                {
+                    answerOptions.Add(new QuizAnswerOptionCandidate()
+                    {
+                        IsRightAnswer = false,
+                        IsAntonym = false,
+                        Text = answerOption.Definition,
+                        SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
+                    });
+                }
             }
 
             var random = new Random();
-            definitionAnswerOptions = definitionAnswerOptions
+            answerOptions = answerOptions
                 .OrderBy(x => random.Next())
+                .Take(answerOptionsCandidatesCount)
                 .ToList();
 
             if (definitionAnswerOptions == null)
@@ -142,23 +178,6 @@ namespace DjayEnglish.Server.Core
             var showUsage = usage.Any() ? ShowType.Audio : ShowType.None;
 
             var question = $"What does {translationUnit.Spelling} mean.";
-
-            var answerOptions = new List<QuizAnswerOptionCandidate>();
-            answerOptions.Add(new QuizAnswerOptionCandidate()
-            {
-                IsRightAnswer = true,
-                Text = definition.Definition,
-                SourceTranslationUnit = translationUnit.Spelling,
-            });
-            foreach (var answerOption in definitionAnswerOptions)
-            {
-                answerOptions.Add(new QuizAnswerOptionCandidate()
-                {
-                    IsRightAnswer = false,
-                    Text = answerOption.Definition,
-                    SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
-                });
-            }
 
             var usages = new List<QuizExample>();
             foreach (var translationUnitUsage in usage)
@@ -183,6 +202,7 @@ namespace DjayEnglish.Server.Core
                 TranslationUnitDefinition = definition,
                 QuizExamples = usages,
                 QuizAnswerOptions = answerOptions,
+                CanEditRigthAnswer = false,
             };
 
             return newQuize;
@@ -325,7 +345,8 @@ namespace DjayEnglish.Server.Core
         }
 
         private IEnumerable<TranslationUnitDefinition> GetAntonymsDefinitions(
-            TranslationUnit translationUnit)
+            TranslationUnit translationUnit,
+            int maxDefinitionsOnOneUnit)
         {
             var antonymsIds = translationUnit.Antonyms
                 .Select(_ => _.AntonymTranslationUnitId)
@@ -335,6 +356,7 @@ namespace DjayEnglish.Server.Core
                 .GetTranslationUnits(antonymsIds);
             var antonymSynonymsIds = antonyms
                 .SelectMany(_ => _.Synonyms.Select(s => s.SynonymTranslationUnitId).ToArray())
+                .Where(_ => _ != translationUnit.Id)
                 .Distinct()
                 .ToArray();
             var antonymWithAntonymSynonymsIds = antonymsIds
@@ -344,7 +366,7 @@ namespace DjayEnglish.Server.Core
             var antonymAnswerOptions = this.dbTranslationUnitPersistence
                 .GetTranslationUnits(antonymWithAntonymSynonymsIds);
             var definitionAnswerOptions = antonymAnswerOptions
-                .SelectMany(_ => _.Definitions)
+                .SelectMany(_ => _.Definitions.Take(maxDefinitionsOnOneUnit))
                 .Distinct();
 
             return definitionAnswerOptions;

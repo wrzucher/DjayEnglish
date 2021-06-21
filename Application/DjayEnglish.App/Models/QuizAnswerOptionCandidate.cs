@@ -33,5 +33,11 @@ namespace DjayEnglish.Administration.Models
         /// Gets or sets spelling text of source translation unit.
         /// </summary>
         public string? SourceTranslationUnit { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether translation unit antonym
+        /// for translation unit used in quiz.
+        /// </summary>
+        public bool IsAntonym { get; set; }
     }
 }

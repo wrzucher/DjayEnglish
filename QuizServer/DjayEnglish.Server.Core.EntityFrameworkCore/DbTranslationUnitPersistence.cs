@@ -162,7 +162,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         /// </summary>
         /// <param name="languageType">Type of language.</param>
         /// <param name="partOfSpeech">Part of speach.</param>
-        /// <param name="exclusiveTranslationUnitIds">Id of translation units which will be exclude from query.</param>
+        /// <param name="exclusiveSpelling">Spelling of translation units which will be exclude from query.</param>
         /// <param name="unitsAmount">Amount of returned translation units.</param>
         /// <param name="maxDefinitionsLength">Max definition length for translation units.</param>
         /// <param name="spellingStartWith">Pattern which will be used for search.</param>
@@ -170,7 +170,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
         public IEnumerable<ObjectModels.TranslationUnit> GetTranslationUnits(
             LanguageType languageType,
             PartOfSpeechType partOfSpeech,
-            int[] exclusiveTranslationUnitIds,
+            string[] exclusiveSpelling,
             int unitsAmount,
             int maxDefinitionsLength,
             string? spellingStartWith)
@@ -178,7 +178,7 @@ namespace DjayEnglish.Server.Core.EntityFrameworkCore
             var tuEntity = this.dbContext.TranslationUnits
                 .Include(_ => _.TranslationUnitDefinitions)
                 .Where(_ =>
-                   !exclusiveTranslationUnitIds.Contains(_.Id)
+                    !exclusiveSpelling.Contains(_.Spelling)
                  && _.Language == (byte)languageType
                  && _.PartOfSpeech == (byte)partOfSpeech
                  && _.TranslationUnitDefinitions

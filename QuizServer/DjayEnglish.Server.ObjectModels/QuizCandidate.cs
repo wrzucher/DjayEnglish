@@ -61,6 +61,11 @@ namespace DjayEnglish.Server.ObjectModels
         public ShowType AnswerShowType { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether user could edit rigth answer indicator.
+        /// </summary>
+        public bool CanEditRigthAnswer { get; set; }
+
+        /// <summary>
         /// Gets or sets answer options for quiz.
         /// </summary>
         public IEnumerable<QuizAnswerOptionCandidate> QuizAnswerOptions { get; set; } = null!;

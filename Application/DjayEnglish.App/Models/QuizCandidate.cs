@@ -61,9 +61,9 @@ namespace DjayEnglish.Administration.Models
         public ShowType AnswerShowType { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether quiz has audio files.
+        /// Gets or sets a value indicating whether user could edit rigth answer indicator.
         /// </summary>
-        public bool HasAudioFiles { get; set; }
+        public bool CanEditRigthAnswer { get; set; }
 
         /// <summary>
         /// Gets or sets answer options for candidate quiz.

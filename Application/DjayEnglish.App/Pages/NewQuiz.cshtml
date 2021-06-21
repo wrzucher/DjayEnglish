@@ -24,6 +24,9 @@
                         Source
                     </th>
                     <th class="align-middle text-center">
+                        Is Antonym
+                    </th>
+                    <th class="align-middle text-center">
                         Is Right
                     </th>
                     <th class="align-middle text-center">
@@ -42,10 +45,27 @@
                             @this.Model.QuizCandidate.QuizAnswerOptions[answerIndex].SourceTranslationUnit
                         </td>
                         <td>
-                            @Html.DisplayFor(_ => this.Model.QuizCandidate.QuizAnswerOptions[answerIndex].IsRightAnswer)
+                            <input type="checkbox"
+                                   disabled="disabled"
+                                   class="form-check-input"
+                                   asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsAntonym">
+                        </td>
+                        <td>
+                            <input type="checkbox"
+                                   disabled="@(!this.Model.QuizCandidate.CanEditRigthAnswer)"
+                                   class="form-check-input"
+                                   asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsRightAnswer">
                         </td>
                         <td class="text-center">
-                            <input type="checkbox" class="form-check-input" asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsInclude">
+                            @{
+                                var isIncludEnable =
+                                       this.Model.QuizCandidate.QuizAnswerOptions[answerIndex].IsRightAnswer
+                                    && !this.Model.QuizCandidate.CanEditRigthAnswer;
+                            }
+                            <input type="checkbox"
+                                   disabled ="@isIncludEnable"
+                                   class="form-check-input"
+                                   asp-for="QuizCandidate.QuizAnswerOptions[answerIndex].IsInclude">
                         </td>
                     </tr>
                 }

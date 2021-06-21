@@ -28,5 +28,16 @@ namespace DjayEnglish.Server.ObjectModels
         /// Gets or sets a value indicating whether answer option is right.
         /// </summary>
         public bool IsRightAnswer { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether answer option is include to quiz.
+        /// </summary>
+        public bool IsInclude { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether translation unit antonym
+        /// for translation unit used in quiz.
+        /// </summary>
+        public bool IsAntonym { get; set; }
     }
 }
