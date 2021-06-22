@@ -72,7 +72,7 @@ namespace DjayEnglish.Administration.Pages
         /// </summary>
         /// <param name="quizCandidate">I am steel thinking about this param.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task OnPost(QuizCandidate quizCandidate)
+        public ActionResult OnPost(QuizCandidate quizCandidate)
         {
             quizCandidate.QuizAnswerOptions = quizCandidate.QuizAnswerOptions
                 .Where(_ => _.IsInclude)
@@ -82,8 +82,7 @@ namespace DjayEnglish.Administration.Pages
                 .ToArray();
             var quizCandidateModel = this.mapper.Map<Server.ObjectModels.QuizCandidate>(quizCandidate);
             this.quizManager.CreateQuiz(quizCandidateModel);
-            this.RedirectToPage("TranslationUnits");
-            return Task.CompletedTask;
+            return this.RedirectToPage("TranslationUnits");
         }
     }
 }
