@@ -106,14 +106,10 @@ namespace DjayEnglish.Server.Core
                     $"Translation unit definition {trasnlationUnitDefinitionId} has too long definition {definition.Definition.Length}. Max length should be {maxAnswerOptionLength}");
             }
 
-            var definitionAnswerOptions = this.GetAntonymsDefinitions(
+            var answerOptions = this.GetAdditionalAnswerOptionCandidates(
                 translationUnit,
-                maxDefinitionsOnOneUnit: 2)
-                .Where(_ => _.Definition.Length < maxAnswerOptionLength)
-                .Take(answerOptionsCandidatesCount)
-                .ToList();
-
-            var answerOptions = new List<QuizAnswerOptionCandidate>();
+                maxAnswerOptionLength,
+                answerOptionsCandidatesCount);
             answerOptions.Add(new QuizAnswerOptionCandidate()
             {
                 IsRightAnswer = true,
@@ -122,57 +118,6 @@ namespace DjayEnglish.Server.Core
                 Text = definition.Definition,
                 SourceTranslationUnit = translationUnit.Spelling,
             });
-            foreach (var answerOption in definitionAnswerOptions)
-            {
-                answerOptions.Add(new QuizAnswerOptionCandidate()
-                {
-                    IsRightAnswer = false,
-                    IsAntonym = true,
-                    Text = answerOption.Definition,
-                    SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
-                });
-            }
-
-            if (definitionAnswerOptions.Count() < answerOptionsCandidatesCount)
-            {
-                var remainder = answerOptionsCandidatesCount - definitionAnswerOptions.Count();
-                var wordLength = translationUnit.Spelling.Split(" ").First().Length;
-                var patternLength = wordLength / 4;
-                if (patternLength < 3)
-                {
-                    patternLength = 3;
-                }
-
-                var definitionAnswerOptionsIds = definitionAnswerOptions
-                    .Select(_ => _.TranslationUnit?.Spelling ?? throw new ArgumentNullException($"Definition {_.Id} has to have spelling!"))
-                    .ToList();
-                definitionAnswerOptionsIds.Add(translationUnit.Spelling);
-                var excludedIds = definitionAnswerOptionsIds.ToArray();
-                var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
-                    translationUnit.Language,
-                    translationUnit.PartOfSpeech,
-                    excludedIds,
-                    remainder,
-                    maxAnswerOptionLength,
-                    translationUnit.Spelling.Substring(0, patternLength));
-                var otherAnswerOptionsDefinitions = otherAnswerOptions
-                    .SelectMany(_ => _.Definitions)
-                    .Where(_ => _.Definition.Length < maxAnswerOptionLength)
-                    .Take(remainder)
-                    .ToList();
-
-                foreach (var answerOption in otherAnswerOptionsDefinitions)
-                {
-                    answerOptions.Add(new QuizAnswerOptionCandidate()
-                    {
-                        IsRightAnswer = false,
-                        IsAntonym = false,
-                        Text = answerOption.Definition,
-                        SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
-                    });
-                }
-            }
-
             var random = new Random();
             answerOptions = answerOptions
                 .OrderBy(x => random.Next())
@@ -182,12 +127,6 @@ namespace DjayEnglish.Server.Core
             for (int i = 0; i < emptyAnswerOptionCount; i++)
             {
                 answerOptions.Add(new QuizAnswerOptionCandidate());
-            }
-
-            if (definitionAnswerOptions == null)
-            {
-                throw new InvalidOperationException(
-                    $"Definitions couldn't be null for translation unit definition {trasnlationUnitDefinitionId}");
             }
 
             var usage = this.dbTranslationUnitPersistence.GetTranslationUnitUsage(
@@ -365,6 +304,73 @@ namespace DjayEnglish.Server.Core
                 fromDate,
                 toDate,
                 isActive);
+        }
+
+        private List<QuizAnswerOptionCandidate> GetAdditionalAnswerOptionCandidates(
+            TranslationUnit sourceTranslationUnit,
+            int maxAnswerOptionLength,
+            int answerOptionsCandidatesCount)
+        {
+            var definitionAnswerOptions = this.GetAntonymsDefinitions(
+                sourceTranslationUnit,
+                maxDefinitionsOnOneUnit: 2)
+                .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                .Take(answerOptionsCandidatesCount)
+                .ToList();
+
+            var answerOptions = new List<QuizAnswerOptionCandidate>();
+            foreach (var answerOption in definitionAnswerOptions)
+            {
+                answerOptions.Add(new QuizAnswerOptionCandidate()
+                {
+                    IsRightAnswer = false,
+                    IsAntonym = true,
+                    Text = answerOption.Definition,
+                    SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
+                });
+            }
+
+            if (definitionAnswerOptions.Count() < answerOptionsCandidatesCount)
+            {
+                var remainder = answerOptionsCandidatesCount - definitionAnswerOptions.Count();
+                var wordLength = sourceTranslationUnit.Spelling.Split(" ").First().Length;
+                var patternLength = wordLength / 4;
+                if (patternLength < 3)
+                {
+                    patternLength = 3;
+                }
+
+                var definitionAnswerOptionsIds = definitionAnswerOptions
+                    .Select(_ => _.TranslationUnit?.Spelling ?? throw new ArgumentNullException($"Definition {_.Id} has to have spelling!"))
+                    .ToList();
+                definitionAnswerOptionsIds.Add(sourceTranslationUnit.Spelling);
+                var excludedIds = definitionAnswerOptionsIds.ToArray();
+                var otherAnswerOptions = this.dbTranslationUnitPersistence.GetTranslationUnits(
+                    sourceTranslationUnit.Language,
+                    sourceTranslationUnit.PartOfSpeech,
+                    excludedIds,
+                    remainder,
+                    maxAnswerOptionLength,
+                    sourceTranslationUnit.Spelling.Substring(0, patternLength));
+                var otherAnswerOptionsDefinitions = otherAnswerOptions
+                    .SelectMany(_ => _.Definitions)
+                    .Where(_ => _.Definition.Length < maxAnswerOptionLength)
+                    .Take(remainder)
+                    .ToList();
+
+                foreach (var answerOption in otherAnswerOptionsDefinitions)
+                {
+                    answerOptions.Add(new QuizAnswerOptionCandidate()
+                    {
+                        IsRightAnswer = false,
+                        IsAntonym = false,
+                        Text = answerOption.Definition,
+                        SourceTranslationUnit = answerOption.TranslationUnit?.Spelling,
+                    });
+                }
+            }
+
+            return answerOptions;
         }
 
         private IEnumerable<TranslationUnitDefinition> GetAntonymsDefinitions(
