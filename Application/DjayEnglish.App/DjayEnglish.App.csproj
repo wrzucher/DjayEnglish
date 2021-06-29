@@ -3,7 +3,24 @@
   <PropertyGroup>
     <TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
     <UserSecretsId>6911cc0d-bb48-4db3-9ca1-4c9faeac958b</UserSecretsId>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="src\app.tsx" />
+    <None Remove="src\components\Hello.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="src\app.tsx">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="src\components\Hello.tsx">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVervion)" />

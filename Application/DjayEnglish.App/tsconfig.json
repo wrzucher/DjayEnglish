@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "removeComments": false,
+    "target": "es6",
+    "jsx": "react",
+    "strict": true,
+    "strictNullChecks": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true,
+    "noEmit": false,
+    "types": [ "node", "react" ],
+    "module": "commonjs",
+    "typeRoots": [ "node_modules/@types" ],
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "sourceRoot": ".",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "app/*": [ "src/*" ]
+    }
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "typings",
+    "tests"
+  ]
+}

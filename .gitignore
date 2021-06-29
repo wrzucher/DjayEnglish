@@ -359,7 +359,8 @@ MigrationBackup/
 .ionide/
 
 # Fody - auto-generated XML schema
-FodyWeavers.xsd
+*.map
 /Application/DjayEnglish.App/media
+/Application/DjayEnglish.App/src/**/*.js
 
 !Debug.publish.xml
